@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "variation=small": { "model": "rocks:block/small_birch_stick" },
+        "variation=medium": { "model": "rocks:block/medium_birch_stick" },
+        "variation=large": { "model": "rocks:block/large_birch_stick" }
+    }
+}

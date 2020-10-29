@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "variation=small": { "model": "rocks:block/small_dark_oak_stick" },
+        "variation=medium": { "model": "rocks:block/medium_dark_oak_stick" },
+        "variation=large": { "model": "rocks:block/large_dark_oak_stick" }
+    }
+}

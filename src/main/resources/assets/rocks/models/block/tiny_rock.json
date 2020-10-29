@@ -1,0 +1,24 @@
+{
+	"credit": "made by Motschen",
+	"parent": "block/block",
+	"ambientocclusion": false,
+	"textures": {
+		"0": "block/stone",
+		"particle": "block/stone"
+	},
+	"elements": [
+		{
+			"from": [4, 0, 6],
+			"to": [9, 1, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [12, 8, 14]},
+			"faces": {
+				"north": {"uv": [0, 0, 5, 1], "texture": "#0"},
+				"east": {"uv": [0, 0, 3, 1], "texture": "#0"},
+				"south": {"uv": [0, 0, 5, 1], "texture": "#0"},
+				"west": {"uv": [0, 0, 3, 1], "texture": "#0"},
+				"up": {"uv": [0, 0, 5, 3], "texture": "#0"},
+				"down": {"uv": [0, 0, 5, 3], "texture": "#0"}
+			}
+		}
+	]
+}

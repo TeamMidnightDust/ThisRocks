@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "rocks",
+  "version": "${version}",
+
+  "name": "This Rocks!",
+  "description": "Adds little rocks, sticks, pinecones and seashells to your world to make it feel more natural.",
+  "authors": [
+    "Motschen",
+    "TeamMidnightDust"
+  ],
+  "contact": {
+    "homepage": "https://www.midnightdust.eu/",
+    "issues": "https://github.com/TeamMidnightDust/ThisRocks/issues"
+  },
+
+  "license": "MIT",
+  "icon": "assets/rocks/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "eu.midnightdust.motschen.rocks.RocksMain"
+    ]
+  },
+
+  "mixins": [
+    "rocks.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.2",
+    "fabric": "*"
+  },
+  "suggests": {
+    "dishes": "*",
+    "decorative": "*",
+    "wildworld": "*"
+  }
+}

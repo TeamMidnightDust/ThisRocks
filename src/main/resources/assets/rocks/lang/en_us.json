@@ -1,0 +1,23 @@
+{
+	"itemGroup.rocks.rocks":"This Rocks!",
+	
+	"block.rocks.rock":"Rock",
+	"block.rocks.sand_rock":"Sand Rock",
+	"block.rocks.red_sand_rock":"Red Sand Rock",
+	"block.rocks.end_stone_rock":"End Stone Rock",
+	
+	"block.rocks.oak_stick":"Oak Stick",
+	"block.rocks.birch_stick":"Birch Stick",
+	"block.rocks.spruce_stick":"Spruce Stick",
+	"block.rocks.jungle_stick":"Jungle Stick",
+	"block.rocks.acacia_stick":"Acacia Stick",
+	"block.rocks.dark_oak_stick":"Dark Oak Stick",
+	
+	"block.rocks.pinecone":"Pinecone",
+	"block.rocks.seashell":"Seashell",
+	
+	"item.rocks.cobblestone_splitter":"Cobblestone Splitter",
+	"item.rocks.sandstone_splitter":"Sandstone Splitter",
+	"item.rocks.red_sandstone_splitter":"Red Sandstone Splitter",
+	"item.rocks.end_stone_splitter":"End Stone Splitter"
+}

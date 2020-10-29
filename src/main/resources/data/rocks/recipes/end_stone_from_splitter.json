@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "rocks:end_stone_splitter"
+        },
+        {
+            "item": "rocks:end_stone_splitter"
+        },
+        {
+            "item": "rocks:end_stone_splitter"
+        },
+        {
+            "item": "rocks:end_stone_splitter"
+        }
+    ],
+    "result": {
+        "item": "minecraft:end_stone",
+        "count": 1
+    }
+}

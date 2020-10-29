@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "variation=small": { "model": "rocks:block/small_jungle_stick" },
+        "variation=medium": { "model": "rocks:block/medium_jungle_stick" },
+        "variation=large": { "model": "rocks:block/large_jungle_stick" }
+    }
+}

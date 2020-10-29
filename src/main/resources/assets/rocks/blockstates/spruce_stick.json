@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "variation=small": { "model": "rocks:block/small_spruce_stick" },
+        "variation=medium": { "model": "rocks:block/medium_spruce_stick" },
+        "variation=large": { "model": "rocks:block/large_spruce_stick" }
+    }
+}

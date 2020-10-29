@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "variation=yellow": { "model": "rocks:block/seashell_yellow" },
+        "variation=pink": { "model": "rocks:block/seashell_pink" },
+        "variation=white": { "model": "rocks:block/seashell_white" }
+    }
+}

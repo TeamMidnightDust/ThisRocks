@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "variation=tiny": { "model": "rocks:block/tiny_sand_rock" },
+        "variation=small": { "model": "rocks:block/small_sand_rock" },
+        "variation=medium": { "model": "rocks:block/medium_sand_rock" },
+        "variation=large": { "model": "rocks:block/large_sand_rock" }
+    }
+}

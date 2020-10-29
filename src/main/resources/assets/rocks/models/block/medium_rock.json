@@ -1,0 +1,37 @@
+{
+	"credit": "made by Motschen",
+	"parent": "block/block",
+	"ambientocclusion": false,
+	"textures": {
+		"0": "block/stone",
+		"particle": "block/stone"
+	},
+	"elements": [
+		{
+			"from": [1, 0, 5],
+			"to": [8, 2, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 10]},
+			"faces": {
+				"north": {"uv": [0, 0, 7, 2], "texture": "#0"},
+				"east": {"uv": [0, 0, 4, 2], "texture": "#0"},
+				"south": {"uv": [0, 0, 7, 2], "texture": "#0"},
+				"west": {"uv": [0, 0, 4, 2], "texture": "#0"},
+				"up": {"uv": [0, 0, 7, 4], "texture": "#0"},
+				"down": {"uv": [0, 0, 7, 4], "texture": "#0"}
+			}
+		},
+		{
+			"from": [4, 0, 8.5],
+			"to": [7, 1, 10.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [10, 8, 13]},
+			"faces": {
+				"north": {"uv": [0, 0, 3, 1], "texture": "#0"},
+				"east": {"uv": [0, 0, 2, 1], "texture": "#0"},
+				"south": {"uv": [0, 0, 3, 1], "texture": "#0"},
+				"west": {"uv": [0, 0, 2, 1], "texture": "#0"},
+				"up": {"uv": [0, 0, 3, 2], "texture": "#0"},
+				"down": {"uv": [0, 0, 3, 2], "texture": "#0"}
+			}
+		}
+	]
+}

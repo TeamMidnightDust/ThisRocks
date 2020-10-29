@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "rocks:sandstone_splitter"
+        },
+        {
+            "item": "rocks:sandstone_splitter"
+        },
+        {
+            "item": "rocks:sandstone_splitter"
+        },
+        {
+            "item": "rocks:sandstone_splitter"
+        }
+    ],
+    "result": {
+        "item": "minecraft:sandstone",
+        "count": 1
+    }
+}
