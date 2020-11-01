@@ -1,18 +1,17 @@
 package eu.midnightdust.motschen.rocks.block;
 
 import eu.midnightdust.motschen.rocks.RocksMain;
+import eu.midnightdust.motschen.rocks.block.blockentity.StarfishBlockEntity;
 import eu.midnightdust.motschen.rocks.blockstates.SeashellVariation;
 import eu.midnightdust.motschen.rocks.blockstates.StarfishVariation;
-import eu.midnightdust.motschen.rocks.blockstates.StickVariation;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
@@ -27,15 +26,15 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 
-public class Seashell extends Block implements Waterloggable {
+public class Starfish extends Block implements BlockEntityProvider, Waterloggable {
 
     private static final VoxelShape SHAPE;
-    private static final EnumProperty<SeashellVariation> SEASHELL_VARIATION = RocksMain.SEASHELL_VARIATION;
+    private static final EnumProperty<StarfishVariation> STARFISH_VARIATION = RocksMain.STARFISH_VARIATION;
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
-    public Seashell() {
-        super(FabricBlockSettings.copy(Blocks.POPPY).nonOpaque().sounds(BlockSoundGroup.STONE));
-        this.setDefaultState(this.stateManager.getDefaultState().with(SEASHELL_VARIATION, SeashellVariation.PINK).with(WATERLOGGED, false));
+    public Starfish() {
+        super(FabricBlockSettings.copy(Blocks.POPPY).nonOpaque().sounds(BlockSoundGroup.CORAL));
+        this.setDefaultState(this.stateManager.getDefaultState().with(STARFISH_VARIATION, StarfishVariation.RED).with(WATERLOGGED, false));
     }
 
     @Override
@@ -44,22 +43,27 @@ public class Seashell extends Block implements Waterloggable {
     }
 
     @Override
+    public BlockEntity createBlockEntity(BlockView view) {
+        return new StarfishBlockEntity();
+    }
+
+    @Override
     public BlockState getPlacementState(ItemPlacementContext itemPlacementContext) {
         FluidState fluidState = itemPlacementContext.getWorld().getFluidState(itemPlacementContext.getBlockPos());
         return super.getPlacementState(itemPlacementContext)
-                .with(SEASHELL_VARIATION, SeashellVariation.PINK).with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
+                .with(STARFISH_VARIATION, StarfishVariation.RED).with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
     }
 
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (player.isCreative()) {
-            if (state.get(SEASHELL_VARIATION) == SeashellVariation.YELLOW) {
-                world.setBlockState(pos, state.with(SEASHELL_VARIATION, SeashellVariation.WHITE));
+            if (state.get(STARFISH_VARIATION) == StarfishVariation.RED) {
+                world.setBlockState(pos, state.with(STARFISH_VARIATION, StarfishVariation.PINK));
             }
-            if (state.get(SEASHELL_VARIATION) == SeashellVariation.WHITE) {
-                world.setBlockState(pos, state.with(SEASHELL_VARIATION, SeashellVariation.PINK));
+            if (state.get(STARFISH_VARIATION) == StarfishVariation.PINK) {
+                world.setBlockState(pos, state.with(STARFISH_VARIATION, StarfishVariation.ORANGE));
             }
-            if (state.get(SEASHELL_VARIATION) == SeashellVariation.PINK) {
-                world.setBlockState(pos, state.with(SEASHELL_VARIATION, SeashellVariation.YELLOW));
+            if (state.get(STARFISH_VARIATION) == StarfishVariation.ORANGE) {
+                world.setBlockState(pos, state.with(STARFISH_VARIATION, StarfishVariation.RED));
             }
             return ActionResult.SUCCESS;
         }
@@ -68,14 +72,14 @@ public class Seashell extends Block implements Waterloggable {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(SEASHELL_VARIATION, WATERLOGGED);
+        builder.add(STARFISH_VARIATION,WATERLOGGED);
     }
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
         return SHAPE;
     }
     static {
-        VoxelShape shape = createCuboidShape(0, 0, 0, 16, 3, 16);
+        VoxelShape shape = createCuboidShape(0, 0, 0, 16, 1, 16);
 
         SHAPE = shape;
     }

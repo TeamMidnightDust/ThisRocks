@@ -1,13 +1,12 @@
 package eu.midnightdust.motschen.rocks;
 
 import eu.midnightdust.motschen.rocks.block.*;
+import eu.midnightdust.motschen.rocks.block.blockentity.BlockEntityInit;
 import eu.midnightdust.motschen.rocks.blockstates.RockVariation;
 import eu.midnightdust.motschen.rocks.blockstates.SeashellVariation;
+import eu.midnightdust.motschen.rocks.blockstates.StarfishVariation;
 import eu.midnightdust.motschen.rocks.blockstates.StickVariation;
-import eu.midnightdust.motschen.rocks.world.FeatureInjector;
-import eu.midnightdust.motschen.rocks.world.MiscFeatures;
-import eu.midnightdust.motschen.rocks.world.RockFeatures;
-import eu.midnightdust.motschen.rocks.world.StickFeatures;
+import eu.midnightdust.motschen.rocks.world.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.block.Block;
@@ -25,6 +24,7 @@ public class RocksMain implements ModInitializer {
     public static final EnumProperty<RockVariation> ROCK_VARIATION = EnumProperty.of("variation", RockVariation.class);
     public static final EnumProperty<StickVariation> STICK_VARIATION = EnumProperty.of("variation", StickVariation.class);
     public static final EnumProperty<SeashellVariation> SEASHELL_VARIATION = EnumProperty.of("variation", SeashellVariation.class);
+    public static final EnumProperty<StarfishVariation> STARFISH_VARIATION = EnumProperty.of("variation", StarfishVariation.class);
 
     public static Block Rock = new Rock();
     public static Block SandRock = new Rock();
@@ -40,6 +40,7 @@ public class RocksMain implements ModInitializer {
 
     public static Block Pinecone = new Pinecone();
     public static Block Seashell = new Seashell();
+    public static Block Starfish = new Starfish();
 
     public static Item CobbleStoneSplitter = new Item(new Item.Settings().group(RocksMain.RocksGroup));
     public static Item SandStoneSplitter = new Item(new Item.Settings().group(RocksMain.RocksGroup));
@@ -74,15 +75,19 @@ public class RocksMain implements ModInitializer {
         Registry.register(Registry.ITEM, new Identifier(MOD_ID,"pinecone"), new BlockItem(Pinecone, new Item.Settings().group(RocksMain.RocksGroup)));
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID,"seashell"), Seashell);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID,"seashell"), new BlockItem(Seashell, new Item.Settings().group(RocksMain.RocksGroup)));
+        Registry.register(Registry.BLOCK, new Identifier(MOD_ID,"starfish"), Starfish);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID,"starfish"), new BlockItem(Starfish, new Item.Settings().group(RocksMain.RocksGroup)));
 
         Registry.register(Registry.ITEM, new Identifier(MOD_ID,"cobblestone_splitter"), CobbleStoneSplitter);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID,"sandstone_splitter"), SandStoneSplitter);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID,"red_sandstone_splitter"), RedSandStoneSplitter);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID,"end_stone_splitter"), EndStoneSplitter);
 
+        new FeatureRegistry();
         RockFeatures.init();
         StickFeatures.init();
         MiscFeatures.init();
         FeatureInjector.init();
+        BlockEntityInit.init();
     }
 }

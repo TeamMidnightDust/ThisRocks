@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "This Rocks!",
-  "description": "Adds little rocks, sticks, pinecones and seashells to your world to make it feel more natural.",
+  "description": "Adds little rocks, sticks, pinecones, seashells and starfish to your world to make it feel more natural.",
   "authors": [
     "Motschen",
     "TeamMidnightDust"
@@ -21,6 +21,9 @@
   "entrypoints": {
     "main": [
       "eu.midnightdust.motschen.rocks.RocksMain"
+    ],
+    "client": [
+      "eu.midnightdust.motschen.rocks.RocksClient"
     ]
   },
 

@@ -26,7 +26,7 @@ public class Stick extends Block {
     private static final EnumProperty<StickVariation> STICK_VARIATION = RocksMain.STICK_VARIATION;
 
     public Stick() {
-        super(FabricBlockSettings.copy(Blocks.POPPY).nonOpaque().sounds(BlockSoundGroup.STONE));
+        super(FabricBlockSettings.copy(Blocks.POPPY).nonOpaque().sounds(BlockSoundGroup.WOOD));
         this.setDefaultState(this.stateManager.getDefaultState().with(STICK_VARIATION, StickVariation.SMALL));
     }
 
@@ -60,7 +60,7 @@ public class Stick extends Block {
         return SHAPE;
     }
     static {
-        VoxelShape shape = createCuboidShape(0, 0, 0, 16, 3, 16);
+        VoxelShape shape = createCuboidShape(0, 0, 0, 16, 1, 16);
 
         SHAPE = shape;
     }

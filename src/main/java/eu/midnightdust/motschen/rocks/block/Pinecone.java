@@ -14,7 +14,7 @@ public class Pinecone extends Block {
     private static final VoxelShape SHAPE;
 
     public Pinecone() {
-        super(FabricBlockSettings.copy(Blocks.POPPY).nonOpaque().sounds(BlockSoundGroup.STONE));
+        super(FabricBlockSettings.copy(Blocks.POPPY).nonOpaque().sounds(BlockSoundGroup.WOOD));
         this.setDefaultState(this.stateManager.getDefaultState());
     }
 

@@ -1,0 +1,6 @@
+{
+	"parent": "block/air",
+	"textures": {
+		"particle": "rocks:block/starfish_orange"
+	}
+}

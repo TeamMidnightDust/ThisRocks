@@ -36,37 +36,35 @@ public class FeatureInjector {
         // Sticks
         if (biome.toString().contains("minecraft:forest") || biome.toString().contains("minecraft:wooded_hills") ||
                 biome.toString().contains("minecraft:wooded_mountains") || biome.toString().contains("minecraft:plains") ||
-                biome.toString().contains("minecraft:flower_forest") || biome.toString().contains("minecraft:swamp") ||
-                biome.toString().contains("minecraft:swamp_hills") || biome.toString().contains("minecraft:wooded_badlands_plateau") ||
-                biome.toString().contains("minecraft:modified_wooded_badlands_plateau")) {
+                biome.toString().contains("minecraft:flower_forest") || biome.toString().contains("minecraft:wooded_badlands_plateau") ||
+                biome.toString().contains("minecraft:modified_wooded_badlands_plateau") || biome.getCategory() == Biome.Category.SWAMP) {
             addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, StickFeatures.OAK_STICK_FEATURE);
         }
         if (biome.toString().contains("minecraft:forest") || biome.toString().contains("minecraft:birch_forest") ||
                 biome.toString().contains("minecraft:birch_forest_hills") || biome.toString().contains("minecraft:flower_forest")) {
             addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, StickFeatures.BIRCH_STICK_FEATURE);
         }
-        if (biome.toString().contains("minecraft:taiga") || biome.toString().contains("minecraft:taiga_mountains") ||
-                biome.toString().contains("minecraft:giant_spruce_taiga") || biome.toString().contains("minecraft:taiga_hills")||
-                biome.toString().contains("minecraft:giant_spruce_taiga_hills") || biome.toString().contains("minecraft:snowy_taiga_mountain") ||
-                biome.toString().contains("minecraft:snowy_taiga") || biome.toString().contains("minecraft:snowy_taiga_hills") ||
-                biome.toString().contains("minecraft:giant_tree_taiga") || biome.toString().contains("minecraft:giant_tree_taiga_hills") ||
-                biome.toString().contains("minecraft:wooded_mountains")) {
+        if (biome.toString().contains("minecraft:wooded_mountains") || biome.getCategory() == Biome.Category.TAIGA) {
             addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, StickFeatures.SPRUCE_STICK_FEATURE);
         }
-        if (biome.toString().contains("minecraft:savanna") || biome.toString().contains("minecraft:savanna_plateau") ||
-                biome.toString().contains("minecraft:shattered_savanna") || biome.toString().contains("minecraft:shattered_savanna_plateau")) {
+        if (biome.getCategory() == Biome.Category.SAVANNA) {
             addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, StickFeatures.ACACIA_STICK_FEATURE);
         }
         if (biome.getCategory() == Biome.Category.JUNGLE) {
             addFeature(biome, GenerationStep.Feature.UNDERGROUND_DECORATION, StickFeatures.JUNGLE_STICK_FEATURE);
         }
         if (biome.toString().contains("minecraft:dark_forest") || biome.toString().contains("minecraft:dark_forest_hills") ||
-                biome.toString().contains("minecraft:birch_forest_hills") || biome.toString().contains("minecraft:flower_forest")) {
+                biome.toString().contains("minecraft:dark_forest_mountains")) {
             addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, StickFeatures.DARK_OAK_STICK_FEATURE);
         }
         // Misc
-        if (biome.getCategory() == Biome.Category.BEACH) {
+        if (biome.getCategory() == Biome.Category.BEACH && !biome.toString().contains("minecraft:snowy_beach")) {
             addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, MiscFeatures.SEASHELL_FEATURE);
+            addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, MiscFeatures.STARFISH_FEATURE);
+        }
+        if (biome.getCategory() == Biome.Category.OCEAN) {
+            addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, MiscFeatures.UNDERWATER_STARFISH_FEATURE);
+            addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, MiscFeatures.UNDERWATER_SEASHELL_FEATURE);
         }
     }
 

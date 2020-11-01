@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "variation=red": { "model": "rocks:block/starfish_red" },
+        "variation=pink": { "model": "rocks:block/starfish_pink" },
+        "variation=orange": { "model": "rocks:block/starfish_orange" }
+    }
+}
