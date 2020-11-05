@@ -1,0 +1,24 @@
+{
+	"itemGroup.rocks.rocks":"This Rocks!",
+	
+	"block.rocks.rock":"Камушек из булыжника",
+	"block.rocks.sand_rock":"Камушек из песчаника",
+	"block.rocks.red_sand_rock":"Камушек из красного песчаника",
+	"block.rocks.end_stone_rock":"Камушек из эндерняка",
+	
+	"block.rocks.oak_stick":"Дубовая палка",
+	"block.rocks.birch_stick":"Берёзовая палка",
+	"block.rocks.spruce_stick":"Еловая палочка",
+	"block.rocks.jungle_stick":"Палка из тропического дерева",
+	"block.rocks.acacia_stick":"Палка из акации",
+	"block.rocks.dark_oak_stick":"Палка из тёмного дуба",
+	
+	"block.rocks.pinecone":"Шишка",
+	"block.rocks.seashell":"Морская ракушка",
+	"block.rocks.starfish":"Морская звезда",
+	
+	"item.rocks.cobblestone_splitter":"Кусочек булыжника",
+	"item.rocks.sandstone_splitter":"Кусочек песчаника",
+	"item.rocks.red_sandstone_splitter":"Кусочек красного песчаника",
+	"item.rocks.end_stone_splitter":"Кусочек эндерняка"
+}
