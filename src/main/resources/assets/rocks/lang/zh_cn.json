@@ -1,0 +1,24 @@
+{
+	"itemGroup.rocks.rocks":"这就是石粒！ §7（This Rocks!）",
+	
+	"block.rocks.rock":"石粒",
+	"block.rocks.sand_rock":"砂岩粒",
+	"block.rocks.red_sand_rock":"红砂岩粒",
+	"block.rocks.end_stone_rock":"末地石粒",
+	
+	"block.rocks.oak_stick":"橡木棍",
+	"block.rocks.birch_stick":"白桦木棍",
+	"block.rocks.spruce_stick":"云杉木棍",
+	"block.rocks.jungle_stick":"丛林木棍",
+	"block.rocks.acacia_stick":"金合欢木棍",
+	"block.rocks.dark_oak_stick":"深色橡木棍",
+	
+	"block.rocks.pinecone":"松果",
+	"block.rocks.seashell":"海贝",
+	"block.rocks.starfish":"海星",
+	
+	"item.rocks.cobblestone_splitter":"圆石碎块",
+	"item.rocks.sandstone_splitter":"砂石碎块",
+	"item.rocks.red_sandstone_splitter":"红砂石碎块",
+	"item.rocks.end_stone_splitter":"末地石碎块"
+}
