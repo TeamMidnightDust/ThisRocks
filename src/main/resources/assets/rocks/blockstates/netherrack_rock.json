@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "variation=tiny": { "model": "rocks:block/tiny_netherrack_rock" },
+        "variation=small": { "model": "rocks:block/small_netherrack_rock" },
+        "variation=medium": { "model": "rocks:block/medium_netherrack_rock" },
+        "variation=large": { "model": "rocks:block/large_netherrack_rock" }
+    }
+}

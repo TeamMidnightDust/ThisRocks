@@ -23,11 +23,14 @@ public class FeatureInjector {
         // Rocks
         if (biome.getCategory() != Biome.Category.NETHER && biome.getCategory() != Biome.Category.THEEND && biome.getCategory() != Biome.Category.BEACH && biome.getCategory() != Biome.Category.DESERT && biome.getCategory() != Biome.Category.MESA && biome.getCategory() != Biome.Category.ICY && biome.getCategory() != Biome.Category.OCEAN) {
             addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, RockFeatures.ROCK_FEATURE);
+            addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, RockFeatures.GRANITE_ROCK_FEATURE);
+            addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, RockFeatures.DIORITE_ROCK_FEATURE);
+            addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, RockFeatures.ANDESITE_ROCK_FEATURE);
         }
-        if ((biome.getCategory() == Biome.Category.BEACH) || (biome.getCategory() == Biome.Category.DESERT)) {
+        if ((biome.getCategory() == Biome.Category.BEACH) || (biome.getCategory() == Biome.Category.DESERT || biome.getCategory() == Biome.Category.MESA)) {
             addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, RockFeatures.SAND_ROCK_FEATURE);
         }
-        if (biome.getCategory() == Biome.Category.MESA) {
+        if (biome.getCategory() == Biome.Category.MESA || biome.getCategory() == Biome.Category.DESERT) {
             addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, RockFeatures.RED_SAND_ROCK_FEATURE);
         }
         if (biome.getCategory() == Biome.Category.THEEND) {
@@ -65,6 +68,18 @@ public class FeatureInjector {
         if (biome.getCategory() == Biome.Category.OCEAN) {
             addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, MiscFeatures.UNDERWATER_STARFISH_FEATURE);
             addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, MiscFeatures.UNDERWATER_SEASHELL_FEATURE);
+        }
+        if (biome.getCategory() == Biome.Category.NETHER) {
+            addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, NetherFeatures.NETHERRACK_ROCK_FEATURE);
+            addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, NetherFeatures.SOUL_SOIL_ROCK_FEATURE);
+            addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, NetherFeatures.NETHER_GRAVEL_ROCK_FEATURE);
+            addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, NetherFeatures.NETHER_GEYSER_FEATURE);
+        }
+        if (biome.getCategory() != Biome.Category.NETHER) {
+            addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, RockFeatures.GRAVEL_ROCK_FEATURE);
+        }
+        if (biome.getCategory() == Biome.Category.ICY) {
+            addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, MiscFeatures.SNOWY_GEYSER_FEATURE);
         }
     }
 

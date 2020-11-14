@@ -1,0 +1,9 @@
+{
+	"credit": "made by Motschen",
+	"parent": "rocks:block/geyser_off",
+	"textures": {
+		"0": "block/netherrack",
+		"2": "block/black_concrete",
+		"particle": "block/netherrack"
+	}
+}

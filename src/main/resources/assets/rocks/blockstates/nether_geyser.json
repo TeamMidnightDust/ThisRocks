@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "active=true": { "model": "rocks:block/nether_geyser_on" },
+        "active=false": { "model": "rocks:block/nether_geyser_off" }
+    }
+}

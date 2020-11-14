@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "active=true,snowy=false": { "model": "rocks:block/geyser_on" },
+        "active=false,snowy=false": { "model": "rocks:block/geyser_off" },
+		"active=true,snowy=true": { "model": "rocks:block/snowy_geyser_on" },
+        "active=false,snowy=true": { "model": "rocks:block/snowy_geyser_off" }
+    }
+}

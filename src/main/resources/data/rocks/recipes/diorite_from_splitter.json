@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "rocks:diorite_splitter"
+        },
+        {
+            "item": "rocks:diorite_splitter"
+        },
+        {
+            "item": "rocks:diorite_splitter"
+        },
+        {
+            "item": "rocks:diorite_splitter"
+        }
+    ],
+    "result": {
+        "item": "minecraft:diorite",
+        "count": 1
+    }
+}

@@ -1,8 +1,9 @@
 package eu.midnightdust.motschen.rocks.world;
 
+import com.google.common.collect.ImmutableSet;
 import eu.midnightdust.motschen.rocks.RocksMain;
-import eu.midnightdust.motschen.rocks.blockstates.RockVariation;
 import eu.midnightdust.motschen.rocks.blockstates.StickVariation;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
@@ -21,8 +22,8 @@ public class StickFeatures {
                             .addState(RocksMain.OakStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.MEDIUM), 5)
                             .addState(RocksMain.OakStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1),
                     SimpleBlockPlacer.INSTANCE))
-                    .tries(1).spreadX(0).spreadY(0).spreadZ(0)
-                    .build()).decorate(ConfiguredFeatures.Decorators.FIRE).applyChance(1);
+                    .tries(1).spreadX(0).spreadY(0).spreadZ(0).whitelist(ImmutableSet.of(Blocks.GRASS_BLOCK))
+                    .build()).decorate(ConfiguredFeatures.Decorators.FIRE);
     public static ConfiguredFeature<?, ?> SPRUCE_STICK_FEATURE = Feature.RANDOM_PATCH.configure(
             (new RandomPatchFeatureConfig.Builder(
                     new WeightedBlockStateProvider()
@@ -32,7 +33,7 @@ public class StickFeatures {
                             .addState(RocksMain.Pinecone.getDefaultState(), 1),
                     SimpleBlockPlacer.INSTANCE))
                     .tries(1).spreadX(0).spreadY(0).spreadZ(0)
-                    .build()).decorate(ConfiguredFeatures.Decorators.FIRE).applyChance(1);
+                    .build()).decorate(ConfiguredFeatures.Decorators.FIRE);
     public static ConfiguredFeature<?, ?> BIRCH_STICK_FEATURE = Feature.RANDOM_PATCH.configure(
             (new RandomPatchFeatureConfig.Builder(
                     new WeightedBlockStateProvider()
@@ -41,7 +42,7 @@ public class StickFeatures {
                             .addState(RocksMain.BirchStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1),
                     SimpleBlockPlacer.INSTANCE))
                     .tries(1).spreadX(0).spreadY(0).spreadZ(0)
-                    .build()).decorate(ConfiguredFeatures.Decorators.FIRE).applyChance(1);
+                    .build()).decorate(ConfiguredFeatures.Decorators.FIRE);
     public static ConfiguredFeature<?, ?> ACACIA_STICK_FEATURE = Feature.RANDOM_PATCH.configure(
             (new RandomPatchFeatureConfig.Builder(
                     new WeightedBlockStateProvider()
@@ -50,7 +51,7 @@ public class StickFeatures {
                             .addState(RocksMain.AcaciaStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1),
                     SimpleBlockPlacer.INSTANCE))
                     .tries(1).spreadX(0).spreadY(0).spreadZ(0)
-                    .build()).decorate(ConfiguredFeatures.Decorators.FIRE).applyChance(1);
+                    .build()).decorate(ConfiguredFeatures.Decorators.FIRE);
     public static ConfiguredFeature<?, ?> JUNGLE_STICK_FEATURE = Feature.RANDOM_PATCH.configure(
             (new RandomPatchFeatureConfig.Builder(
                     new WeightedBlockStateProvider()
@@ -59,7 +60,7 @@ public class StickFeatures {
                             .addState(RocksMain.JungleStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1),
                     SimpleBlockPlacer.INSTANCE))
                     .tries(1).spreadX(0).spreadY(0).spreadZ(0)
-                    .build()).decorate(ConfiguredFeatures.Decorators.FIRE).applyChance(1);
+                    .build()).decorate(ConfiguredFeatures.Decorators.FIRE);
     public static ConfiguredFeature<?, ?> DARK_OAK_STICK_FEATURE = Feature.RANDOM_PATCH.configure(
             (new RandomPatchFeatureConfig.Builder(
                     new WeightedBlockStateProvider()
@@ -68,7 +69,7 @@ public class StickFeatures {
                             .addState(RocksMain.DarkOakStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1),
                     SimpleBlockPlacer.INSTANCE))
                     .tries(1).spreadX(0).spreadY(0).spreadZ(0)
-                    .build()).decorate(ConfiguredFeatures.Decorators.FIRE).applyChance(1);
+                    .build()).decorate(ConfiguredFeatures.Decorators.FIRE);
 
     public static void init() {
         Registry<ConfiguredFeature<?, ?>> registry = BuiltinRegistries.CONFIGURED_FEATURE;

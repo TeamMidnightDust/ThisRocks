@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "rocks:netherrack_splitter"
+        },
+        {
+            "item": "rocks:netherrack_splitter"
+        },
+        {
+            "item": "rocks:netherrack_splitter"
+        },
+        {
+            "item": "rocks:netherrack_splitter"
+        }
+    ],
+    "result": {
+        "item": "minecraft:netherrack",
+        "count": 1
+    }
+}

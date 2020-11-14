@@ -1,0 +1,7 @@
+{
+	"parent": "rocks:block/small_rock",
+	"textures": {
+		"0": "block/gravel",
+		"particle": "block/gravel"
+	}
+}

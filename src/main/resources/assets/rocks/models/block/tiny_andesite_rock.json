@@ -1,0 +1,7 @@
+{
+	"parent": "rocks:block/tiny_rock",
+	"textures": {
+		"0": "block/andesite",
+		"particle": "block/andesite"
+	}
+}

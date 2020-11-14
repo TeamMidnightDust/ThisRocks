@@ -14,6 +14,7 @@ public class FeatureRegistry<FC extends FeatureConfig> {
 
     public static final UnderwaterFeature UNDERWATER_STARFISH_FEATURE;
     public static final UnderwaterFeature UNDERWATER_SEASHELL_FEATURE;
+    public static final SnowFeature SNOWY_GEYSER_FEATURE;
 
     private static <C extends FeatureConfig, F extends Feature<C>> F register(String name, F feature) {
         return Registry.register(Registry.FEATURE, name, feature);
@@ -29,8 +30,12 @@ public class FeatureRegistry<FC extends FeatureConfig> {
             .addState(RocksMain.Seashell.getDefaultState().with(RocksMain.SEASHELL_VARIATION,SeashellVariation.PINK).with(Properties.WATERLOGGED, true), 2)
             .addState(RocksMain.Seashell.getDefaultState().with(RocksMain.SEASHELL_VARIATION,SeashellVariation.WHITE).with(Properties.WATERLOGGED, true), 6);
 
+    private static final WeightedBlockStateProvider GeyserStates = new WeightedBlockStateProvider()
+            .addState(RocksMain.Geyser.getDefaultState().with(Properties.SNOWY, true), 1);
+
     static {
-        UNDERWATER_STARFISH_FEATURE = (UnderwaterFeature)register("underwater_starfish", new UnderwaterFeature(ProbabilityConfig.CODEC, StarfishStates));
-        UNDERWATER_SEASHELL_FEATURE = (UnderwaterFeature)register("underwater_seashell", new UnderwaterFeature(ProbabilityConfig.CODEC, SeashellStates));
+        UNDERWATER_STARFISH_FEATURE = register("underwater_starfish", new UnderwaterFeature(ProbabilityConfig.CODEC, StarfishStates));
+        UNDERWATER_SEASHELL_FEATURE = register("underwater_seashell", new UnderwaterFeature(ProbabilityConfig.CODEC, SeashellStates));
+        SNOWY_GEYSER_FEATURE = register("snowy_geyser", new SnowFeature(ProbabilityConfig.CODEC, GeyserStates));
     }
 }
