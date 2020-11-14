@@ -27,10 +27,10 @@ public class FeatureInjector {
             addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, RockFeatures.DIORITE_ROCK_FEATURE);
             addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, RockFeatures.ANDESITE_ROCK_FEATURE);
         }
-        if ((biome.getCategory() == Biome.Category.BEACH) || (biome.getCategory() == Biome.Category.DESERT || biome.getCategory() == Biome.Category.MESA)) {
+        if (biome.getCategory() == Biome.Category.BEACH || biome.getCategory() == Biome.Category.DESERT || biome.getCategory() == Biome.Category.MESA || biome.toString().contains("terrestria:lush_desert")) {
             addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, RockFeatures.SAND_ROCK_FEATURE);
         }
-        if (biome.getCategory() == Biome.Category.MESA || biome.getCategory() == Biome.Category.DESERT) {
+        if (biome.getCategory() == Biome.Category.MESA || biome.getCategory() == Biome.Category.DESERT || biome.toString().contains("terrestria:lush_desert")) {
             addFeature(biome, GenerationStep.Feature.TOP_LAYER_MODIFICATION, RockFeatures.RED_SAND_ROCK_FEATURE);
         }
         if (biome.getCategory() == Biome.Category.THEEND) {
