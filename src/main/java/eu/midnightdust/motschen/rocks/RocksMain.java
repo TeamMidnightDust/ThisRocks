@@ -7,6 +7,10 @@ import eu.midnightdust.motschen.rocks.blockstates.SeashellVariation;
 import eu.midnightdust.motschen.rocks.blockstates.StarfishVariation;
 import eu.midnightdust.motschen.rocks.blockstates.StickVariation;
 import eu.midnightdust.motschen.rocks.world.*;
+import eu.midnightdust.motschen.rocks.world.configured_feature.MiscFeatures;
+import eu.midnightdust.motschen.rocks.world.configured_feature.NetherFeatures;
+import eu.midnightdust.motschen.rocks.world.configured_feature.RockFeatures;
+import eu.midnightdust.motschen.rocks.world.configured_feature.StickFeatures;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.block.Block;
@@ -122,6 +126,8 @@ public class RocksMain implements ModInitializer {
         RockFeatures.init();
         StickFeatures.init();
         MiscFeatures.init();
+        NetherFeatures.init();
+
         FeatureInjector.init();
         BlockEntityInit.init();
     }

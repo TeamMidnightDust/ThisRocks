@@ -12,7 +12,6 @@ import net.minecraft.util.math.BlockPos;
 
 public class OverworldGeyserBlockEntity extends BlockEntity implements Tickable {
     private int countdown = 0;
-    private int pushUp = 0;
 
     public OverworldGeyserBlockEntity() {
         super(BlockEntityInit.OVERWORLD_GEYSER_BE);
@@ -33,7 +32,7 @@ public class OverworldGeyserBlockEntity extends BlockEntity implements Tickable 
         if (player != null) {
             world.setBlockState(pos, state.with(OverworldGeyser.ACTIVE, true));
             if (player3 != null) {
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 2, 12, true, false, false));
+                player3.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 2, 12, true, false, false));
             }
             countdown = 1000;
         }

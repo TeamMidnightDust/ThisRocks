@@ -1,9 +1,10 @@
-package eu.midnightdust.motschen.rocks.world;
+package eu.midnightdust.motschen.rocks.world.configured_feature;
 
 import com.google.common.collect.ImmutableSet;
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.blockstates.SeashellVariation;
 import eu.midnightdust.motschen.rocks.blockstates.StarfishVariation;
+import eu.midnightdust.motschen.rocks.world.FeatureRegistry;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;

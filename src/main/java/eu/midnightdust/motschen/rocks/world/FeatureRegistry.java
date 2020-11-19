@@ -3,6 +3,8 @@ package eu.midnightdust.motschen.rocks.world;
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.blockstates.SeashellVariation;
 import eu.midnightdust.motschen.rocks.blockstates.StarfishVariation;
+import eu.midnightdust.motschen.rocks.world.feature.SnowFeature;
+import eu.midnightdust.motschen.rocks.world.feature.UnderwaterFeature;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.ProbabilityConfig;

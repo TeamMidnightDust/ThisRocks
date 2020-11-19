@@ -1,4 +1,4 @@
-package eu.midnightdust.motschen.rocks.world;
+package eu.midnightdust.motschen.rocks.world.feature;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;

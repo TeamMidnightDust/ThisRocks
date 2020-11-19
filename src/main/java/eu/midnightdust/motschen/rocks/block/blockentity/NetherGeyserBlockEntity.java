@@ -25,7 +25,7 @@ public class NetherGeyserBlockEntity extends BlockEntity implements Tickable {
         BlockState state = this.world.getBlockState(pos);
 
         if (player != null) {
-            world.setBlockState(pos, RocksMain.NetherGeyser.getDefaultState().with(NetherGeyser.ACTIVE, true));
+            world.setBlockState(pos, state.with(NetherGeyser.ACTIVE, true));
             player.damage(DamageSource.ON_FIRE,1);
             if (player2 != null) {
                 player2.damage(DamageSource.ON_FIRE,4);
@@ -37,7 +37,7 @@ public class NetherGeyserBlockEntity extends BlockEntity implements Tickable {
                 countdown = countdown - 1;
             }
             if (countdown == 0) {
-                world.setBlockState(pos, RocksMain.NetherGeyser.getDefaultState().with(NetherGeyser.ACTIVE, false));
+                world.setBlockState(pos, state.with(NetherGeyser.ACTIVE, false));
             }
         }
 
