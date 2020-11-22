@@ -72,7 +72,7 @@ public class StarfishBlockEntityRenderer extends BlockEntityRenderer<StarfishBlo
 	}
 	@Override
 	public void render(StarfishBlockEntity blockEntity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-		if (blockEntity.getVariation() == String.valueOf(StarfishVariation.RED)) {
+		if (blockEntity.getVariation().equals(StarfishVariation.RED)) {
 			matrixStack.push();
 			VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(new Identifier("rocks:textures/block/starfish_red.png")));
 
@@ -85,7 +85,7 @@ public class StarfishBlockEntityRenderer extends BlockEntityRenderer<StarfishBlo
 			bb_main.render(matrixStack, vertexConsumer, light, overlay);
 			matrixStack.pop();
 		}
-		else if (blockEntity.getVariation() == String.valueOf(StarfishVariation.PINK)) {
+		else if (blockEntity.getVariation().equals(StarfishVariation.PINK)) {
 			matrixStack.push();
 			VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(new Identifier("rocks:textures/block/starfish_pink.png")));
 
