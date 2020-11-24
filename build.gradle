@@ -27,8 +27,8 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	
-	// modImplementation "eu.midnightdust:midnight-hats:${midnighthats_version}"
-    // include "eu.midnightdust:midnight-hats:${midnighthats_version}"
+	modImplementation "eu.midnightdust:midnight-hats:${midnighthats_version}"
+    include "eu.midnightdust:midnight-hats:${midnighthats_version}"
 }
 
 processResources {
