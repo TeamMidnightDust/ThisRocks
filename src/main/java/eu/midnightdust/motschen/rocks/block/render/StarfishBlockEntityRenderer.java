@@ -16,15 +16,14 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class StarfishBlockEntityRenderer extends BlockEntityRenderer<StarfishBlockEntity> {
-	private final ModelPart side1;
-	private final ModelPart side2;
-	private final ModelPart side3;
-	private final ModelPart side4;
-	private final ModelPart side5;
-	private final ModelPart bb_main;
+	private static final ModelPart side1;
+	private static final ModelPart side2;
+	private static final ModelPart side3;
+	private static final ModelPart side4;
+	private static final ModelPart side5;
+	private static final ModelPart bb_main;
 
-	public StarfishBlockEntityRenderer(BlockEntityRenderDispatcher blockEntityRenderDispatcher) {
-		super(blockEntityRenderDispatcher);
+	static {
 		side1 = new ModelPart(16, 16, 0, 0);
 		side1.setPivot(0.0F, 24.0F, 0.0F);
 		side1.setTextureOffset(0, 0).addCuboid(-0.5F, -1.0F, 1.0F, 1.0F, 1.0F, 4.0F, 0.0F, false);
@@ -70,9 +69,13 @@ public class StarfishBlockEntityRenderer extends BlockEntityRenderer<StarfishBlo
 		bb_main.setTextureOffset(1, 2).addCuboid(-0.8F, -1.0F, -1.25F, 2.0F, 1.0F, 2.0F, 0.0F, false);
 		bb_main.setTextureOffset(2, 2).addCuboid(-1.2F, -1.0F, -1.25F, 1.0F, 1.0F, 2.0F, 0.0F, false);
 	}
+
+	public StarfishBlockEntityRenderer(BlockEntityRenderDispatcher blockEntityRenderDispatcher) {
+		super(blockEntityRenderDispatcher);
+	}
 	@Override
 	public void render(StarfishBlockEntity blockEntity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-		if (blockEntity.getVariation() == String.valueOf(StarfishVariation.RED)) {
+		if (blockEntity.getVariation().equals(StarfishVariation.RED)) {
 			matrixStack.push();
 			VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(new Identifier("rocks:textures/block/starfish_red.png")));
 
@@ -85,7 +88,7 @@ public class StarfishBlockEntityRenderer extends BlockEntityRenderer<StarfishBlo
 			bb_main.render(matrixStack, vertexConsumer, light, overlay);
 			matrixStack.pop();
 		}
-		else if (blockEntity.getVariation() == String.valueOf(StarfishVariation.PINK)) {
+		else if (blockEntity.getVariation().equals(StarfishVariation.PINK)) {
 			matrixStack.push();
 			VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(new Identifier("rocks:textures/block/starfish_pink.png")));
 
@@ -114,7 +117,7 @@ public class StarfishBlockEntityRenderer extends BlockEntityRenderer<StarfishBlo
 			matrixStack.pop();
 		}
 	}
-	public void setRotationAngle(ModelPart bone, float x, float y, float z) {
+	public static void setRotationAngle(ModelPart bone, float x, float y, float z) {
 		bone.pitch = x;
 		bone.yaw = y;
 		bone.roll = z;

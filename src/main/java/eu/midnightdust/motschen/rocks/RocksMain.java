@@ -122,7 +122,6 @@ public class RocksMain implements ModInitializer {
         Registry.register(Registry.ITEM, new Identifier(MOD_ID,"netherrack_splitter"), NetherrackSplitter);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID,"soul_soil_splitter"), SoulSoilSplitter);
 
-        new FeatureRegistry();
         RockFeatures.init();
         StickFeatures.init();
         MiscFeatures.init();

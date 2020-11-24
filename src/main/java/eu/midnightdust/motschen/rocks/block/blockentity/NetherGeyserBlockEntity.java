@@ -1,6 +1,5 @@
 package eu.midnightdust.motschen.rocks.block.blockentity;
 
-import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.block.NetherGeyser;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -41,7 +40,7 @@ public class NetherGeyserBlockEntity extends BlockEntity implements Tickable {
             }
         }
 
-        if (world != null && state.get(NetherGeyser.ACTIVE) == true) {
+        if (Boolean.TRUE.equals(state.get(NetherGeyser.ACTIVE))) {
             world.addParticle(ParticleTypes.LAVA,pos.getX()+0.5,pos.getY()+0.1,pos.getZ()+0.5,1,1.5,1);
             world.addParticle(ParticleTypes.LAVA,pos.getX()+0.5,pos.getY()+1.0,pos.getZ()+0.5,1,1.5,1);
             world.addParticle(ParticleTypes.SMOKE,pos.getX()+0.5,pos.getY()+0.1,pos.getZ()+0.5,0,0.3,0);
