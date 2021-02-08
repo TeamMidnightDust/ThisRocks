@@ -2,9 +2,15 @@
 	"itemGroup.rocks.rocks":"This Rocks!",
 	
 	"block.rocks.rock":"Камушек из булыжника",
+	"block.rocks.granite_rock":"Камушек из гранита",
+	"block.rocks.diorite_rock":"Камушек из диорита",
+	"block.rocks.andesite_rock":"Камушек из андезита",
 	"block.rocks.sand_rock":"Камушек из песчаника",
 	"block.rocks.red_sand_rock":"Камушек из красного песчаника",
+	"block.rocks.gravel_rock":"Камушек из гравия",
 	"block.rocks.end_stone_rock":"Камушек из эндерняка",
+	"block.rocks.netherrack_rock":"Камушек из адского камня",
+	"block.rocks.soul_soil_rock":"Камушек из почвы душ",
 	
 	"block.rocks.oak_stick":"Дубовая палка",
 	"block.rocks.birch_stick":"Берёзовая палка",
@@ -13,12 +19,20 @@
 	"block.rocks.acacia_stick":"Палка из акации",
 	"block.rocks.dark_oak_stick":"Палка из тёмного дуба",
 	
+	"block.rocks.geyser":"Гейзер",
+	"block.rocks.nether_geyser":"Магмовый гейзер",
+	
 	"block.rocks.pinecone":"Шишка",
 	"block.rocks.seashell":"Морская ракушка",
 	"block.rocks.starfish":"Морская звезда",
 	
 	"item.rocks.cobblestone_splitter":"Кусочек булыжника",
+	"item.rocks.granite_splitter":"Кусочек гранита",
+	"item.rocks.diorite_splitter":"Кусочек диорита",
+	"item.rocks.andesite_splitter":"Кусочек андезита",
 	"item.rocks.sandstone_splitter":"Кусочек песчаника",
 	"item.rocks.red_sandstone_splitter":"Кусочек красного песчаника",
-	"item.rocks.end_stone_splitter":"Кусочек эндерняка"
+	"item.rocks.end_stone_splitter":"Кусочек эндерняка",
+	"item.rocks.netherrack_splitter":"Кусочек адского камня",
+	"item.rocks.soul_soil_splitter":"Кусочек почвы душ"
 }
