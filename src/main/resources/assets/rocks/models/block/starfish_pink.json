@@ -1,7 +1,8 @@
 {
 	"credit": "made by Motschen",
 	"textures": {
-		"0": "rocks:block/starfish_pink"
+		"0": "rocks:block/starfish_pink",
+		"particle": "rocks:block/starfish_pink"
 	},
 	"elements": [
 		{
