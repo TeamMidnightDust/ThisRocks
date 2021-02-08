@@ -5,6 +5,9 @@
   "mixins": [
     "GenerationSettingsAccessorMixin"
   ],
+  "client": [
+    "MixinModelElementDeserializer"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

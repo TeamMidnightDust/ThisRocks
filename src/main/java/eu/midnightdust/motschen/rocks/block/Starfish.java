@@ -1,11 +1,9 @@
 package eu.midnightdust.motschen.rocks.block;
 
 import eu.midnightdust.motschen.rocks.RocksMain;
-import eu.midnightdust.motschen.rocks.block.blockentity.StarfishBlockEntity;
 import eu.midnightdust.motschen.rocks.blockstates.StarfishVariation;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -23,9 +21,10 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
-public class Starfish extends Block implements BlockEntityProvider, Waterloggable {
+public class Starfish extends Block implements Waterloggable {
 
     private static final VoxelShape SHAPE;
     private static final EnumProperty<StarfishVariation> STARFISH_VARIATION = RocksMain.STARFISH_VARIATION;
@@ -39,11 +38,6 @@ public class Starfish extends Block implements BlockEntityProvider, Waterloggabl
     @Override
     public FluidState getFluidState(BlockState blockState_1) {
         return blockState_1.get(WATERLOGGED) ? Fluids.WATER.getStill(true) : super.getFluidState(blockState_1);
-    }
-
-    @Override
-    public BlockEntity createBlockEntity(BlockView view) {
-        return new StarfishBlockEntity();
     }
 
     @Override
@@ -85,5 +79,8 @@ public class Starfish extends Block implements BlockEntityProvider, Waterloggabl
 
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
         return world.getBlockState(pos.down()).isSideSolidFullSquare(world,pos,Direction.UP);
+    }
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos, BlockPos posFrom) {
+        return !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
     }
 }

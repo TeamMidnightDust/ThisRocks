@@ -1,7 +1,22 @@
 {
     "variants": {
-        "variation=yellow": { "model": "rocks:block/seashell_yellow" },
-        "variation=pink": { "model": "rocks:block/seashell_pink" },
-        "variation=white": { "model": "rocks:block/seashell_white" }
+		"variation=yellow": [
+			{"model": "rocks:block/seashell_yellow"},
+			{"model": "rocks:block/seashell_yellow", "y": 90},
+			{"model": "rocks:block/seashell_yellow", "y": 180},
+			{"model": "rocks:block/seashell_yellow", "y": 270}
+		],
+		"variation=pink": [
+			{"model": "rocks:block/seashell_pink"},
+			{"model": "rocks:block/seashell_pink", "y": 90},
+			{"model": "rocks:block/seashell_pink", "y": 180},
+			{"model": "rocks:block/seashell_pink", "y": 270}
+		],
+		"variation=white": [
+			{"model": "rocks:block/seashell_white"},
+			{"model": "rocks:block/seashell_white", "y": 90},
+			{"model": "rocks:block/seashell_white", "y": 180},
+			{"model": "rocks:block/seashell_white", "y": 270}
+		]
     }
 }

@@ -21,9 +21,6 @@
   "entrypoints": {
     "main": [
       "eu.midnightdust.motschen.rocks.RocksMain"
-    ],
-    "client": [
-      "eu.midnightdust.motschen.rocks.RocksClient"
     ]
   },
 
@@ -34,10 +31,5 @@
   "depends": {
     "fabricloader": ">=0.7.2",
     "fabric": "*"
-  },
-  "suggests": {
-    "dishes": "*",
-    "decorative": "*",
-    "wildworld": "*"
   }
 }

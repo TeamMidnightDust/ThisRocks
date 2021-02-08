@@ -1,8 +1,28 @@
 {
     "variants": {
-        "variation=tiny": { "model": "rocks:block/tiny_soul_soil_rock" },
-        "variation=small": { "model": "rocks:block/small_soul_soil_rock" },
-        "variation=medium": { "model": "rocks:block/medium_soul_soil_rock" },
-        "variation=large": { "model": "rocks:block/large_soul_soil_rock" }
+		"variation=tiny": [
+			{"model": "rocks:block/tiny_soul_soil_rock"},
+			{"model": "rocks:block/tiny_soul_soil_rock", "y": 90},
+			{"model": "rocks:block/tiny_soul_soil_rock", "y": 180},
+			{"model": "rocks:block/tiny_soul_soil_rock", "y": 270}
+		],
+		"variation=small": [
+			{"model": "rocks:block/small_soul_soil_rock"},
+			{"model": "rocks:block/small_soul_soil_rock", "y": 90},
+			{"model": "rocks:block/small_soul_soil_rock", "y": 180},
+			{"model": "rocks:block/small_soul_soil_rock", "y": 270}
+		],
+		"variation=medium": [
+			{"model": "rocks:block/medium_soul_soil_rock"},
+			{"model": "rocks:block/medium_soul_soil_rock", "y": 90},
+			{"model": "rocks:block/medium_soul_soil_rock", "y": 180},
+			{"model": "rocks:block/medium_soul_soil_rock", "y": 270}
+		],
+		"variation=large": [
+			{"model": "rocks:block/large_soul_soil_rock"},
+			{"model": "rocks:block/large_soul_soil_rock", "y": 90},
+			{"model": "rocks:block/large_soul_soil_rock", "y": 180},
+			{"model": "rocks:block/large_soul_soil_rock", "y": 270}
+		]
     }
 }

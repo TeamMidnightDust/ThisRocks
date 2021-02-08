@@ -1,5 +1,10 @@
 {
     "variants": {
-        "": { "model": "rocks:block/pinecone" }
+		"": [
+			{"model": "rocks:block/pinecone"},
+			{"model": "rocks:block/pinecone", "y": 90},
+			{"model": "rocks:block/pinecone", "y": 180},
+			{"model": "rocks:block/pinecone", "y": 270}
+		]
     }
 }

@@ -1,7 +1,23 @@
 {
     "variants": {
-        "variation=red": { "model": "rocks:block/starfish_red" },
-        "variation=pink": { "model": "rocks:block/starfish_pink" },
-        "variation=orange": { "model": "rocks:block/starfish_orange" }
+		"variation=red": [
+			{"model": "rocks:block/starfish_red", "y": 180},
+			{"model": "rocks:block/starfish_red", "y": 270},
+			{"model": "rocks:block/starfish_red", "y": 0},
+			{"model": "rocks:block/starfish_red", "y": 90}
+		],
+		"variation=pink": [
+			{"model": "rocks:block/starfish_pink"},
+			{"model": "rocks:block/starfish_pink", "y": 90},
+			{"model": "rocks:block/starfish_pink", "y": 180},
+			{"model": "rocks:block/starfish_pink", "y": 270}
+		],
+		"variation=orange": [
+			{"model": "rocks:block/starfish_orange", "y": 90},
+			{"model": "rocks:block/starfish_orange", "y": 180},
+			{"model": "rocks:block/starfish_orange", "y": 270},
+			{"model": "rocks:block/starfish_orange"}
+		]
     }
 }
+
