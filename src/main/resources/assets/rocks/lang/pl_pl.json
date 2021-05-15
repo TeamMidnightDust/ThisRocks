@@ -1,0 +1,38 @@
+{
+	"itemGroup.rocks.rocks":"This Rocks!",
+	
+	"block.rocks.rock":"Fragment kamienia",
+	"block.rocks.granite_rock":"Fragment granitu",
+	"block.rocks.diorite_rock":"Fragment diorytu",
+	"block.rocks.andesite_rock":"Fragment andezytu",
+	"block.rocks.sand_rock":"Fragment piaskowca",
+	"block.rocks.red_sand_rock":"Fragment czerwonego piaskowca",
+	"block.rocks.gravel_rock":"Fragment żwiru",
+	"block.rocks.end_stone_rock":"Fragment kamienia endu",
+	"block.rocks.netherrack_rock":"Fragment skały netheru",
+	"block.rocks.soul_soil_rock":"Fragment gleby dusz",
+	
+	"block.rocks.oak_stick":"Dębowy patyk",
+	"block.rocks.birch_stick":"Brzozowy patyk",
+	"block.rocks.spruce_stick":"Świerkowy patyk",
+	"block.rocks.jungle_stick":"Tropikalny patyk",
+	"block.rocks.acacia_stick":"Akacjowy patyk",
+	"block.rocks.dark_oak_stick":"Ciemnodębowy patyk",
+	
+	"block.rocks.geyser":"Gejzer",
+	"block.rocks.nether_geyser":"Gejzer Magmowy",
+	
+	"block.rocks.pinecone":"Szyszka",
+	"block.rocks.seashell":"Muszla",
+	"block.rocks.starfish":"Rozgwiazda",
+	
+	"item.rocks.cobblestone_splitter":"Fragment bruku",
+	"item.rocks.granite_splitter":"Fragment granitu",
+	"item.rocks.diorite_splitter":"Fragment diorytu",
+	"item.rocks.andesite_splitter":"Fragment andezytu",
+	"item.rocks.sandstone_splitter":"Fragment piaskowca",
+	"item.rocks.red_sandstone_splitter":"Fragment czerwonego piaskowca",
+	"item.rocks.end_stone_splitter":"Fragment kamienia endu",
+	"item.rocks.netherrack_splitter":"Fragment skały netheru",
+	"item.rocks.soul_soil_splitter":"Fragment gleby dusz"
+}
