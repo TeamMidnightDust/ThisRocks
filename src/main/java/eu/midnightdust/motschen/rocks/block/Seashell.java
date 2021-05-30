@@ -24,6 +24,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
+import java.util.Objects;
+
 public class Seashell extends Block implements Waterloggable {
 
     private static final VoxelShape SHAPE;
@@ -43,7 +45,7 @@ public class Seashell extends Block implements Waterloggable {
     @Override
     public BlockState getPlacementState(ItemPlacementContext itemPlacementContext) {
         FluidState fluidState = itemPlacementContext.getWorld().getFluidState(itemPlacementContext.getBlockPos());
-        return super.getPlacementState(itemPlacementContext)
+        return Objects.requireNonNull(super.getPlacementState(itemPlacementContext))
                 .with(SEASHELL_VARIATION, SeashellVariation.PINK).with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
     }
 
@@ -72,9 +74,7 @@ public class Seashell extends Block implements Waterloggable {
         return SHAPE;
     }
     static {
-        VoxelShape shape = createCuboidShape(0, 0, 0, 16, 3, 16);
-
-        SHAPE = shape;
+        SHAPE = createCuboidShape(0, 0, 0, 16, 3, 16);
     }
 
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {

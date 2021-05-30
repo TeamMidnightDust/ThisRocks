@@ -8,6 +8,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtString;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -23,6 +27,8 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
+
+import java.util.Objects;
 
 public class Starfish extends Block implements Waterloggable {
 
@@ -42,9 +48,22 @@ public class Starfish extends Block implements Waterloggable {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext itemPlacementContext) {
+        ItemStack stack = itemPlacementContext.getStack();
+        StarfishVariation variation = StarfishVariation.RED;
+        if (stack.getTag() != null) {
+            var optionalVariation = STARFISH_VARIATION.parse(stack.getTag().getString("variation"));
+            if (optionalVariation.isPresent()) variation = optionalVariation.get();
+        }
         FluidState fluidState = itemPlacementContext.getWorld().getFluidState(itemPlacementContext.getBlockPos());
-        return super.getPlacementState(itemPlacementContext)
-                .with(STARFISH_VARIATION, StarfishVariation.RED).with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
+        return Objects.requireNonNull(super.getPlacementState(itemPlacementContext))
+                .with(STARFISH_VARIATION, variation).with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
+    }
+    @Override
+    public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
+        ItemStack stack = new ItemStack(this);
+        stack.getOrCreateTag().putString("variation", state.get(STARFISH_VARIATION).asString());
+        LOGGER.info(state.get(STARFISH_VARIATION).asString());
+        return stack;
     }
 
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
@@ -72,9 +91,7 @@ public class Starfish extends Block implements Waterloggable {
         return SHAPE;
     }
     static {
-        VoxelShape shape = createCuboidShape(0, 0, 0, 16, 1, 16);
-
-        SHAPE = shape;
+        SHAPE = createCuboidShape(0, 0, 0, 16, 1, 16);
     }
 
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {

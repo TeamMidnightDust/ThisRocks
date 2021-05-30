@@ -21,9 +21,13 @@
   "entrypoints": {
     "main": [
       "eu.midnightdust.motschen.rocks.RocksMain"
+    ],
+    "client": [
+      "eu.midnightdust.motschen.rocks.RocksClient"
     ]
   },
 
+  "accessWidener" : "thisrocks.accesswidener",
   "mixins": [
     "rocks.mixins.json"
   ],

@@ -5,7 +5,9 @@ import eu.midnightdust.motschen.rocks.blockstates.SeashellVariation;
 import eu.midnightdust.motschen.rocks.blockstates.StarfishVariation;
 import eu.midnightdust.motschen.rocks.world.feature.SnowFeature;
 import eu.midnightdust.motschen.rocks.world.feature.UnderwaterFeature;
+import net.minecraft.block.BlockState;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.collection.DataPool;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.ProbabilityConfig;
 import net.minecraft.world.gen.feature.Feature;
@@ -22,18 +24,18 @@ public class FeatureRegistry<FC extends FeatureConfig> {
         return Registry.register(Registry.FEATURE, name, feature);
     }
 
-    private static final WeightedBlockStateProvider StarfishStates = new WeightedBlockStateProvider()
-            .addState(RocksMain.Starfish.getDefaultState().with(RocksMain.STARFISH_VARIATION, StarfishVariation.RED).with(Properties.WATERLOGGED, true), 6)
-            .addState(RocksMain.Starfish.getDefaultState().with(RocksMain.STARFISH_VARIATION,StarfishVariation.PINK).with(Properties.WATERLOGGED, true), 7)
-            .addState(RocksMain.Starfish.getDefaultState().with(RocksMain.STARFISH_VARIATION,StarfishVariation.ORANGE).with(Properties.WATERLOGGED, true), 2);
+    private static final WeightedBlockStateProvider StarfishStates = new WeightedBlockStateProvider(DataPool.<BlockState>builder()
+            .add(RocksMain.Starfish.getDefaultState().with(RocksMain.STARFISH_VARIATION, StarfishVariation.RED).with(Properties.WATERLOGGED, true), 6)
+            .add(RocksMain.Starfish.getDefaultState().with(RocksMain.STARFISH_VARIATION,StarfishVariation.PINK).with(Properties.WATERLOGGED, true), 7)
+            .add(RocksMain.Starfish.getDefaultState().with(RocksMain.STARFISH_VARIATION,StarfishVariation.ORANGE).with(Properties.WATERLOGGED, true), 2).build());
 
-    private static final WeightedBlockStateProvider SeashellStates = new WeightedBlockStateProvider()
-            .addState(RocksMain.Seashell.getDefaultState().with(RocksMain.SEASHELL_VARIATION, SeashellVariation.YELLOW).with(Properties.WATERLOGGED, true), 7)
-            .addState(RocksMain.Seashell.getDefaultState().with(RocksMain.SEASHELL_VARIATION,SeashellVariation.PINK).with(Properties.WATERLOGGED, true), 2)
-            .addState(RocksMain.Seashell.getDefaultState().with(RocksMain.SEASHELL_VARIATION,SeashellVariation.WHITE).with(Properties.WATERLOGGED, true), 6);
+    private static final WeightedBlockStateProvider SeashellStates = new WeightedBlockStateProvider(DataPool.<BlockState>builder()
+            .add(RocksMain.Seashell.getDefaultState().with(RocksMain.SEASHELL_VARIATION, SeashellVariation.YELLOW).with(Properties.WATERLOGGED, true), 7)
+            .add(RocksMain.Seashell.getDefaultState().with(RocksMain.SEASHELL_VARIATION,SeashellVariation.PINK).with(Properties.WATERLOGGED, true), 2)
+            .add(RocksMain.Seashell.getDefaultState().with(RocksMain.SEASHELL_VARIATION,SeashellVariation.WHITE).with(Properties.WATERLOGGED, true), 6).build());
 
-    private static final WeightedBlockStateProvider GeyserStates = new WeightedBlockStateProvider()
-            .addState(RocksMain.Geyser.getDefaultState().with(Properties.SNOWY, true), 1);
+    private static final WeightedBlockStateProvider GeyserStates = new WeightedBlockStateProvider(DataPool.<BlockState>builder()
+            .add(RocksMain.Geyser.getDefaultState().with(Properties.SNOWY, true), 1).build());
 
     static {
         UNDERWATER_STARFISH_FEATURE = register("underwater_starfish", new UnderwaterFeature(ProbabilityConfig.CODEC, StarfishStates));

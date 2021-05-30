@@ -1,6 +1,27 @@
 {
-	"parent": "item/generated",
+	"parent": "minecraft:item/generated",
 	"textures": {
 		"layer0": "rocks:item/starfish"
-	}
+	},
+
+	"overrides": [
+        {
+            "predicate": {
+                "red": 1
+            },
+            "model": "rocks:block/starfish_red"
+        },
+				{
+            "predicate": {
+                "pink": 1
+            },
+            "model": "rocks:block/starfish_pink"
+        },
+				{
+            "predicate": {
+                "orange": 1
+            },
+            "model": "rocks:block/starfish_orange"
+        }
+    ]
 }

@@ -1,9 +1,12 @@
 package eu.midnightdust.motschen.rocks.block;
 
+import eu.midnightdust.motschen.rocks.block.blockentity.BlockEntityInit;
 import eu.midnightdust.motschen.rocks.block.blockentity.NetherGeyserBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
@@ -12,9 +15,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
+import org.jetbrains.annotations.Nullable;
 
-public class NetherGeyser extends Block implements BlockEntityProvider {
+import java.util.Objects;
+
+public class NetherGeyser extends BlockWithEntity implements BlockEntityProvider {
 
     private static final VoxelShape SHAPE;
     public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
@@ -24,13 +31,20 @@ public class NetherGeyser extends Block implements BlockEntityProvider {
         this.setDefaultState(this.stateManager.getDefaultState().with(ACTIVE, false));
     }
     @Override
-    public BlockEntity createBlockEntity(BlockView view) {
-        return new NetherGeyserBlockEntity();
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
     }
-
+    @Override
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new NetherGeyserBlockEntity(pos, state);
+    }
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return checkType(type, BlockEntityInit.NETHER_GEYSER_BE, NetherGeyserBlockEntity::tick);
+    }
     @Override
     public BlockState getPlacementState(ItemPlacementContext itemPlacementContext) {
-        return super.getPlacementState(itemPlacementContext)
+        return Objects.requireNonNull(super.getPlacementState(itemPlacementContext))
                 .with(ACTIVE, false);
     }
 
@@ -43,9 +57,7 @@ public class NetherGeyser extends Block implements BlockEntityProvider {
         return SHAPE;
     }
     static {
-        VoxelShape shape = createCuboidShape(5, 0, 5, 11, 1, 11);
-
-        SHAPE = shape;
+        SHAPE = createCuboidShape(5, 0, 5, 11, 1, 11);
     }
 
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {

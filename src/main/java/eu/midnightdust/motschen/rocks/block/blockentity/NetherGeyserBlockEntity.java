@@ -7,22 +7,22 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
-public class NetherGeyserBlockEntity extends BlockEntity implements Tickable {
+public class NetherGeyserBlockEntity extends BlockEntity {
     private int countdown = 0;
 
-    public NetherGeyserBlockEntity() {
-        super(BlockEntityInit.NETHER_GEYSER_BE);
+    public NetherGeyserBlockEntity(BlockPos pos, BlockState state) {
+        super(BlockEntityInit.NETHER_GEYSER_BE, pos, state);
     }
 
-    @Override
-    public void tick() {
+    public static void tick(World world, BlockPos pos, BlockState state, NetherGeyserBlockEntity blockEntity) {
+        assert world != null;
         if (world.getBlockState(pos).getBlock() == RocksMain.NetherGeyser) {
-            PlayerEntity player = this.world.getClosestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3, true);
-            PlayerEntity player2 = this.world.getClosestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, true);
-            BlockState state = this.getCachedState();
+            PlayerEntity player = world.getClosestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3, true);
+            PlayerEntity player2 = world.getClosestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, true);
+
 
             if (player != null) {
                 world.setBlockState(pos, state.with(NetherGeyser.ACTIVE, true));
@@ -31,17 +31,17 @@ public class NetherGeyserBlockEntity extends BlockEntity implements Tickable {
                 if (player2 != null) {
                     player2.damage(DamageSource.ON_FIRE, 4);
                 }
-                countdown = 1000;
+                blockEntity.countdown = 1000;
             } else {
-                if (countdown > 0) {
-                    countdown = countdown - 1;
+                if (blockEntity.countdown > 0) {
+                    blockEntity.countdown = blockEntity.countdown - 1;
                 }
-                if (countdown == 0) {
+                if (blockEntity.countdown == 0) {
                     world.setBlockState(pos, state.with(NetherGeyser.ACTIVE, false));
                 }
             }
 
-            if (Boolean.TRUE.equals(state.get(NetherGeyser.ACTIVE))) {
+            if (state.get(NetherGeyser.ACTIVE)) {
                 world.addParticle(ParticleTypes.LAVA, pos.getX() + 0.5, pos.getY() + 0.1, pos.getZ() + 0.5, 1, 1.5, 1);
                 world.addParticle(ParticleTypes.LAVA, pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, 1, 1.5, 1);
                 world.addParticle(ParticleTypes.SMOKE, pos.getX() + 0.5, pos.getY() + 0.1, pos.getZ() + 0.5, 0, 0.3, 0);

@@ -24,9 +24,7 @@ public class Pinecone extends Block {
         return SHAPE;
     }
     static {
-        VoxelShape shape = createCuboidShape(0, 0, 0, 16, 3, 16);
-
-        SHAPE = shape;
+        SHAPE = createCuboidShape(0, 0, 0, 16, 3, 16);
     }
 
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {

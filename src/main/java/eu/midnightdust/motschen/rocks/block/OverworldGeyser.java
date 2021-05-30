@@ -1,9 +1,12 @@
 package eu.midnightdust.motschen.rocks.block;
 
+import eu.midnightdust.motschen.rocks.block.blockentity.BlockEntityInit;
 import eu.midnightdust.motschen.rocks.block.blockentity.OverworldGeyserBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
@@ -14,9 +17,13 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
+import org.jetbrains.annotations.Nullable;
 
-public class OverworldGeyser extends Block implements BlockEntityProvider {
+import java.util.Objects;
+
+public class OverworldGeyser extends BlockWithEntity implements BlockEntityProvider {
 
     private static final VoxelShape SHAPE;
     private static final VoxelShape SNOWY_SHAPE;
@@ -28,13 +35,20 @@ public class OverworldGeyser extends Block implements BlockEntityProvider {
         this.setDefaultState(this.stateManager.getDefaultState().with(ACTIVE, false).with(SNOWY, false));
     }
     @Override
-    public BlockEntity createBlockEntity(BlockView view) {
-        return new OverworldGeyserBlockEntity();
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
     }
-
+    @Override
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new OverworldGeyserBlockEntity(pos, state);
+    }
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return checkType(type, BlockEntityInit.OVERWORLD_GEYSER_BE, OverworldGeyserBlockEntity::tick);
+    }
     @Override
     public BlockState getPlacementState(ItemPlacementContext itemPlacementContext) {
-        return super.getPlacementState(itemPlacementContext)
+        return Objects.requireNonNull(super.getPlacementState(itemPlacementContext))
                 .with(ACTIVE, false).with(SNOWY, false);
     }
 
@@ -44,7 +58,7 @@ public class OverworldGeyser extends Block implements BlockEntityProvider {
     }
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
-        if (state.get(SNOWY) == true) {return SNOWY_SHAPE;}
+        if (state.get(SNOWY)) {return SNOWY_SHAPE;}
         else return SHAPE;
     }
     static {

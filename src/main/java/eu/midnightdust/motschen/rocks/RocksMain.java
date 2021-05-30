@@ -126,7 +126,6 @@ public class RocksMain implements ModInitializer {
         StickFeatures.init();
         MiscFeatures.init();
         NetherFeatures.init();
-
         FeatureInjector.init();
         BlockEntityInit.init();
     }

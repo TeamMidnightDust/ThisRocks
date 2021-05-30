@@ -20,6 +20,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
+import java.util.Objects;
+
 public class Stick extends Block {
 
     private static final VoxelShape SHAPE;
@@ -32,7 +34,7 @@ public class Stick extends Block {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext itemPlacementContext) {
-        return super.getPlacementState(itemPlacementContext)
+        return Objects.requireNonNull(super.getPlacementState(itemPlacementContext))
                 .with(STICK_VARIATION, StickVariation.SMALL);
     }
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
@@ -60,9 +62,7 @@ public class Stick extends Block {
         return SHAPE;
     }
     static {
-        VoxelShape shape = createCuboidShape(0, 0, 0, 16, 1, 16);
-
-        SHAPE = shape;
+        SHAPE = createCuboidShape(0, 0, 0, 16, 1, 16);
     }
 
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {

@@ -10,6 +10,7 @@ import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.ProbabilityConfig;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.util.FeatureContext;
 import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
 
 import java.util.Random;
@@ -22,7 +23,11 @@ public class SnowFeature extends Feature<ProbabilityConfig> {
         weightedBlockStateProvider1 = weightedBlockStateProvider;
     }
 
-    public boolean generate(StructureWorldAccess structureWorldAccess, ChunkGenerator chunkGenerator, Random random, BlockPos blockPos, ProbabilityConfig probabilityConfig) {
+    @Override
+    public boolean generate(FeatureContext<ProbabilityConfig> context) {
+        Random random = context.getRandom();
+        StructureWorldAccess structureWorldAccess = context.getWorld();
+        BlockPos blockPos = context.getOrigin();
         boolean bl = false;
         int i = random.nextInt(8) - random.nextInt(8);
         int j = random.nextInt(8) - random.nextInt(8);
