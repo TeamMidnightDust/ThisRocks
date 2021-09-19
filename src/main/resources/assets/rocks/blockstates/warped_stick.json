@@ -1,0 +1,22 @@
+{
+    "variants": {
+		"variation=small": [
+			{"model": "rocks:block/small_warped_stick"},
+			{"model": "rocks:block/small_warped_stick", "y": 90},
+			{"model": "rocks:block/small_warped_stick", "y": 180},
+			{"model": "rocks:block/small_warped_stick", "y": 270}
+		],
+		"variation=medium": [
+			{"model": "rocks:block/medium_warped_stick"},
+			{"model": "rocks:block/medium_warped_stick", "y": 90},
+			{"model": "rocks:block/medium_warped_stick", "y": 180},
+			{"model": "rocks:block/medium_warped_stick", "y": 270}
+		],
+		"variation=large": [
+			{"model": "rocks:block/large_warped_stick"},
+			{"model": "rocks:block/large_warped_stick", "y": 90},
+			{"model": "rocks:block/large_warped_stick", "y": 180},
+			{"model": "rocks:block/large_warped_stick", "y": 270}
+		]
+    }
+}

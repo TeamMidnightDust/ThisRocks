@@ -1,0 +1,7 @@
+{
+	"parent": "rocks:block/medium_oak_stick",
+	"textures": {
+		"0": "block/warped_stem",
+		"particle": "block/warped_stem"
+	}
+}

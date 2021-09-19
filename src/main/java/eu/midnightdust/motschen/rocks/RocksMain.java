@@ -6,6 +6,7 @@ import eu.midnightdust.motschen.rocks.blockstates.RockVariation;
 import eu.midnightdust.motschen.rocks.blockstates.SeashellVariation;
 import eu.midnightdust.motschen.rocks.blockstates.StarfishVariation;
 import eu.midnightdust.motschen.rocks.blockstates.StickVariation;
+import eu.midnightdust.motschen.rocks.config.RocksConfig;
 import eu.midnightdust.motschen.rocks.world.*;
 import eu.midnightdust.motschen.rocks.world.configured_feature.MiscFeatures;
 import eu.midnightdust.motschen.rocks.world.configured_feature.NetherFeatures;
@@ -20,9 +21,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class RocksMain implements ModInitializer {
-
     public static final String MOD_ID = "rocks";
-
     public static final ItemGroup RocksGroup = FabricItemGroupBuilder.build(new Identifier(MOD_ID, "rocks"), () -> new ItemStack(RocksMain.Rock));
 
     public static final EnumProperty<RockVariation> ROCK_VARIATION = EnumProperty.of("variation", RockVariation.class);
@@ -47,6 +46,8 @@ public class RocksMain implements ModInitializer {
     public static Block AcaciaStick = new Stick();
     public static Block JungleStick = new Stick();
     public static Block DarkOakStick = new Stick();
+    public static Block CrimsonStick = new Stick();
+    public static Block WarpedStick = new Stick();
 
     public static Block Pinecone = new Pinecone();
     public static Block Seashell = new Seashell();
@@ -66,6 +67,8 @@ public class RocksMain implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        RocksConfig.init("rocks", RocksConfig.class);
+
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID,"rock"), Rock);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID,"rock"), new BlockItem(Rock, new Item.Settings().group(RocksMain.RocksGroup)));
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID,"granite_rock"), GraniteRock);
@@ -99,6 +102,10 @@ public class RocksMain implements ModInitializer {
         Registry.register(Registry.ITEM, new Identifier(MOD_ID,"jungle_stick"), new BlockItem(JungleStick, new Item.Settings().group(RocksMain.RocksGroup)));
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID,"dark_oak_stick"), DarkOakStick);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID,"dark_oak_stick"), new BlockItem(DarkOakStick, new Item.Settings().group(RocksMain.RocksGroup)));
+        Registry.register(Registry.BLOCK, new Identifier(MOD_ID,"crimson_stick"), CrimsonStick);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID,"crimson_stick"), new BlockItem(CrimsonStick, new Item.Settings().group(RocksMain.RocksGroup)));
+        Registry.register(Registry.BLOCK, new Identifier(MOD_ID,"warped_stick"), WarpedStick);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID,"warped_stick"), new BlockItem(WarpedStick, new Item.Settings().group(RocksMain.RocksGroup)));
 
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID,"geyser"), Geyser);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID,"geyser"), new BlockItem(Geyser, new Item.Settings().group(RocksMain.RocksGroup)));

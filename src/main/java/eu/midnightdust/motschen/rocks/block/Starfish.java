@@ -50,8 +50,8 @@ public class Starfish extends Block implements Waterloggable {
     public BlockState getPlacementState(ItemPlacementContext itemPlacementContext) {
         ItemStack stack = itemPlacementContext.getStack();
         StarfishVariation variation = StarfishVariation.RED;
-        if (stack.getTag() != null) {
-            var optionalVariation = STARFISH_VARIATION.parse(stack.getTag().getString("variation"));
+        if (stack.getNbt() != null) {
+            var optionalVariation = STARFISH_VARIATION.parse(stack.getNbt().getString("variation"));
             if (optionalVariation.isPresent()) variation = optionalVariation.get();
         }
         FluidState fluidState = itemPlacementContext.getWorld().getFluidState(itemPlacementContext.getBlockPos());
@@ -61,7 +61,7 @@ public class Starfish extends Block implements Waterloggable {
     @Override
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
         ItemStack stack = new ItemStack(this);
-        stack.getOrCreateTag().putString("variation", state.get(STARFISH_VARIATION).asString());
+        stack.getNbt().putString("variation", state.get(STARFISH_VARIATION).asString());
         LOGGER.info(state.get(STARFISH_VARIATION).asString());
         return stack;
     }

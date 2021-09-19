@@ -3,6 +3,7 @@ package eu.midnightdust.motschen.rocks.world.configured_feature;
 import com.google.common.collect.ImmutableSet;
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.blockstates.RockVariation;
+import eu.midnightdust.motschen.rocks.config.RocksConfig;
 import eu.midnightdust.motschen.rocks.world.RocksDecorators;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;

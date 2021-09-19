@@ -2,9 +2,6 @@
   "required": true,
   "package": "eu.midnightdust.motschen.rocks.mixin",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [
-    "GenerationSettingsAccessorMixin"
-  ],
   "client": [
     "MixinModelElementDeserializer"
   ],

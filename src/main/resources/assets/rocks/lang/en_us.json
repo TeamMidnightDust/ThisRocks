@@ -18,6 +18,8 @@
 	"block.rocks.jungle_stick":"Jungle Stick",
 	"block.rocks.acacia_stick":"Acacia Stick",
 	"block.rocks.dark_oak_stick":"Dark Oak Stick",
+	"block.rocks.crimson_stick":"Crimson Stick",
+	"block.rocks.warped_stick":"Warped Stick",
 	
 	"block.rocks.geyser":"Geyser",
 	"block.rocks.nether_geyser":"Magma Geyser",
@@ -34,5 +36,13 @@
 	"item.rocks.red_sandstone_splitter":"Red Sandstone Splitter",
 	"item.rocks.end_stone_splitter":"End Stone Splitter",
 	"item.rocks.netherrack_splitter":"Netherrack Splitter",
-	"item.rocks.soul_soil_splitter":"Soul Soil Splitter"
+	"item.rocks.soul_soil_splitter":"Soul Soil Splitter",
+
+	"rocks.midnightconfig.title":"This Rocks! Config",
+	"rocks.midnightconfig.needs_restart":"§c Restart game after changing config!",
+	"rocks.midnightconfig.rocks":"§aRocks",
+	"rocks.midnightconfig.sticks":"§aSticks",
+	"rocks.midnightconfig.misc":"§aMiscellaneous",
+	"rocks.midnightconfig.underwater_seashell":"Underwater Seashell",
+	"rocks.midnightconfig.underwater_starfish":"Underwater Starfish"
 }
