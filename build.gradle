@@ -17,8 +17,8 @@ minecraft {
 repositories {
 	maven { url "https://maven.terraformersmc.com/releases" }
 	maven { url "https://jitpack.io" }
-	flatDir {
-		dirs 'local_maven'
+	maven {
+		url = "https://api.modrinth.com/maven"
 	}
 }
 
@@ -30,9 +30,9 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	
-	modImplementation "eu.midnightdust:midnightlib:${midnightlib_version}"
-    include "eu.midnightdust:midnightlib:${midnightlib_version}"
+
+	modImplementation "maven.modrinth:midnightlib:${midnightlib_version}"
+	include "maven.modrinth:midnightlib:${midnightlib_version}"
 }
 
 processResources {

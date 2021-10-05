@@ -61,7 +61,7 @@ public class Starfish extends Block implements Waterloggable {
     @Override
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
         ItemStack stack = new ItemStack(this);
-        stack.getNbt().putString("variation", state.get(STARFISH_VARIATION).asString());
+        stack.getOrCreateNbt().putString("variation", state.get(STARFISH_VARIATION).asString());
         LOGGER.info(state.get(STARFISH_VARIATION).asString());
         return stack;
     }
