@@ -9,9 +9,6 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -62,7 +59,6 @@ public class Starfish extends Block implements Waterloggable {
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
         ItemStack stack = new ItemStack(this);
         stack.getOrCreateNbt().putString("variation", state.get(STARFISH_VARIATION).asString());
-        LOGGER.info(state.get(STARFISH_VARIATION).asString());
         return stack;
     }
 

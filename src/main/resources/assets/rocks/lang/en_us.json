@@ -39,10 +39,10 @@
 	"item.rocks.soul_soil_splitter":"Soul Soil Splitter",
 
 	"rocks.midnightconfig.title":"This Rocks! Config",
-	"rocks.midnightconfig.needs_restart":"§c Restart game after changing config!",
-	"rocks.midnightconfig.rocks":"§aRocks",
-	"rocks.midnightconfig.sticks":"§aSticks",
-	"rocks.midnightconfig.misc":"§aMiscellaneous",
-	"rocks.midnightconfig.underwater_seashell":"Underwater Seashell",
-	"rocks.midnightconfig.underwater_starfish":"Underwater Starfish"
+	"rocks.midnightconfig.needs_restart":"§cRestart game after changing config!",
+	"rocks.midnightconfig.rocks":"§aRock Spawn Count",
+	"rocks.midnightconfig.sticks":"§aStick Spawn Count",
+	"rocks.midnightconfig.misc":"§aMiscellaneous Spawn Count",
+	"rocks.midnightconfig.underwater_seashell_count":"Underwater Seashell",
+	"rocks.midnightconfig.underwater_starfish_count":"Underwater Starfish"
 }

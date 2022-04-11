@@ -39,10 +39,10 @@
 	"item.rocks.soul_soil_splitter":"Seelenerdesplitter",
 
 	"rocks.midnightconfig.title": "This Rocks! Konfiguration",
-	"rocks.midnightconfig.needs_restart": "§c Starte das Spiel neu, nachdem du Änderungen vorgenommen hast!",
+	"rocks.midnightconfig.needs_restart": "§cStarte das Spiel neu, nachdem du Änderungen vorgenommen hast!",
 	"rocks.midnightconfig.rocks": "§aBrocken",
 	"rocks.midnightconfig.sticks": "§aStöcke",
 	"rocks.midnightconfig.misc": "§aWeiteres",
-	"rocks.midnightconfig.underwater_seashell": "Unterwassermuschel",
-	"rocks.midnightconfig.underwater_starfish": "Unterwasserseestern"
+	"rocks.midnightconfig.underwater_seashell_count": "Unterwassermuschel",
+	"rocks.midnightconfig.underwater_starfish_count": "Unterwasserseestern"
 }

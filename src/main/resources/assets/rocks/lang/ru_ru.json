@@ -1,6 +1,6 @@
 {
 	"itemGroup.rocks.rocks":"This Rocks!",
-	
+
 	"block.rocks.rock":"Камушек из булыжника",
 	"block.rocks.granite_rock":"Камушек из гранита",
 	"block.rocks.diorite_rock":"Камушек из диорита",
@@ -11,21 +11,23 @@
 	"block.rocks.end_stone_rock":"Камушек из эндерняка",
 	"block.rocks.netherrack_rock":"Камушек из адского камня",
 	"block.rocks.soul_soil_rock":"Камушек из почвы душ",
-	
-	"block.rocks.oak_stick":"Дубовая палка",
-	"block.rocks.birch_stick":"Берёзовая палка",
+
+	"block.rocks.oak_stick":"Дубовая палочка",
+	"block.rocks.birch_stick":"Берёзовая палочка",
 	"block.rocks.spruce_stick":"Еловая палочка",
-	"block.rocks.jungle_stick":"Палка из тропического дерева",
-	"block.rocks.acacia_stick":"Палка из акации",
-	"block.rocks.dark_oak_stick":"Палка из тёмного дуба",
-	
+	"block.rocks.jungle_stick":"Палочка из тропического дерева",
+	"block.rocks.acacia_stick":"Палочка из акации",
+	"block.rocks.dark_oak_stick":"Палочка из тёмного дуба",
+	"block.rocks.crimson_stick":"Багровая палочка",
+	"block.rocks.warped_stick":"Искажённая палочка",
+
 	"block.rocks.geyser":"Гейзер",
 	"block.rocks.nether_geyser":"Магмовый гейзер",
-	
+
 	"block.rocks.pinecone":"Шишка",
 	"block.rocks.seashell":"Морская ракушка",
 	"block.rocks.starfish":"Морская звезда",
-	
+
 	"item.rocks.cobblestone_splitter":"Кусочек булыжника",
 	"item.rocks.granite_splitter":"Кусочек гранита",
 	"item.rocks.diorite_splitter":"Кусочек диорита",
@@ -34,5 +36,13 @@
 	"item.rocks.red_sandstone_splitter":"Кусочек красного песчаника",
 	"item.rocks.end_stone_splitter":"Кусочек эндерняка",
 	"item.rocks.netherrack_splitter":"Кусочек адского камня",
-	"item.rocks.soul_soil_splitter":"Кусочек почвы душ"
+	"item.rocks.soul_soil_splitter":"Кусочек почвы душ",
+
+	"rocks.midnightconfig.title":"This Rocks! Настройки",
+	"rocks.midnightconfig.needs_restart":"§c Перезапустить игру после изменения конфигурации!",
+	"rocks.midnightconfig.rocks":"§aГорные породы",
+	"rocks.midnightconfig.sticks":"§aПалочки",
+	"rocks.midnightconfig.misc":"§aРазнообразие",
+	"rocks.midnightconfig.underwater_seashell_count":"Подводная морская раковина",
+	"rocks.midnightconfig.underwater_starfish_count":"Подводная морская звезда"
 }
