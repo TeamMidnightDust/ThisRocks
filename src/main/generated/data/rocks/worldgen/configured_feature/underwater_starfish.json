@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:underwater_starfish",
+  "config": {
+    "probability": 1.0
+  }
+}

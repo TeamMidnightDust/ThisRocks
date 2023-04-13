@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:underwater_seashell",
+  "config": {
+    "probability": 1.0
+  }
+}

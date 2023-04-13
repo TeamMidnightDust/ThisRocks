@@ -6,19 +6,18 @@ import eu.midnightdust.motschen.rocks.blockstates.StickVariation;
 import eu.midnightdust.motschen.rocks.config.RocksConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.util.Identifier;
+import net.minecraft.registry.Registerable;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.collection.DataPool;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
-import net.minecraft.util.registry.BuiltinRegistries;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.gen.blockpredicate.BlockPredicate;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.placementmodifier.*;
 import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
 
 import java.util.List;
+
+import static eu.midnightdust.motschen.rocks.RocksRegistryUtils.register;
 
 public class StickFeatures {
     public static ConfiguredFeature<?, ?> OAK_STICK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
@@ -59,29 +58,27 @@ public class StickFeatures {
                             .add(RocksMain.DarkOakStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1).build()))
             );
 
-    public static PlacedFeature OAK_STICK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(OAK_STICK_FEATURE), List.of(CountPlacementModifier.of(RocksConfig.oak_stick_count), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.GRASS_BLOCK))))));
-    public static PlacedFeature SPRUCE_STICK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(SPRUCE_STICK_FEATURE), List.of(CountPlacementModifier.of(RocksConfig.spruce_stick_count), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.GRASS_BLOCK))))));
-    public static PlacedFeature BIRCH_STICK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(BIRCH_STICK_FEATURE), List.of(CountPlacementModifier.of(RocksConfig.birch_stick_count), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.GRASS_BLOCK))))));
-    public static PlacedFeature ACACIA_STICK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(ACACIA_STICK_FEATURE), List.of(CountPlacementModifier.of(RocksConfig.acacia_stick_count), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.GRASS_BLOCK))))));
-    public static PlacedFeature JUNGLE_STICK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(JUNGLE_STICK_FEATURE), List.of(CountPlacementModifier.of(RocksConfig.jungle_stick_count), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.GRASS_BLOCK))))));
-    public static PlacedFeature DARK_OAK_STICK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(DARK_OAK_STICK_FEATURE), List.of(CountPlacementModifier.of(RocksConfig.dark_oak_stick_count), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.GRASS_BLOCK))))));
+    public static PlacedFeature OAK_STICK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(OAK_STICK_FEATURE), List.of(CountPlacementModifier.of(3), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.GRASS_BLOCK))))));
+    public static PlacedFeature SPRUCE_STICK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(SPRUCE_STICK_FEATURE), List.of(CountPlacementModifier.of(3), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.GRASS_BLOCK))))));
+    public static PlacedFeature BIRCH_STICK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(BIRCH_STICK_FEATURE), List.of(CountPlacementModifier.of(3), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.GRASS_BLOCK))))));
+    public static PlacedFeature ACACIA_STICK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(ACACIA_STICK_FEATURE), List.of(CountPlacementModifier.of(3), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.GRASS_BLOCK))))));
+    public static PlacedFeature JUNGLE_STICK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(JUNGLE_STICK_FEATURE), List.of(CountPlacementModifier.of(3), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.GRASS_BLOCK))))));
+    public static PlacedFeature DARK_OAK_STICK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(DARK_OAK_STICK_FEATURE), List.of(CountPlacementModifier.of(3), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.GRASS_BLOCK))))));
 
-    public static void init() {
-        Registry<ConfiguredFeature<?, ?>> registry = BuiltinRegistries.CONFIGURED_FEATURE;
-        Registry.register(registry, new Identifier(RocksMain.MOD_ID, "oak_stick"), OAK_STICK_FEATURE);
-        Registry.register(registry, new Identifier(RocksMain.MOD_ID, "spruce_stick"), SPRUCE_STICK_FEATURE);
-        Registry.register(registry, new Identifier(RocksMain.MOD_ID, "birch_stick"), BIRCH_STICK_FEATURE);
-        Registry.register(registry, new Identifier(RocksMain.MOD_ID, "acacia_stick"), ACACIA_STICK_FEATURE);
-        Registry.register(registry, new Identifier(RocksMain.MOD_ID, "jungle_stick"), JUNGLE_STICK_FEATURE);
-        Registry.register(registry, new Identifier(RocksMain.MOD_ID, "dark_oak_stick"), DARK_OAK_STICK_FEATURE);
-
-        Registry<PlacedFeature> placedRegistry = BuiltinRegistries.PLACED_FEATURE;
-        Registry.register(placedRegistry, new Identifier(RocksMain.MOD_ID, "oak_stick"), OAK_STICK_PLACED_FEATURE);
-        Registry.register(placedRegistry, new Identifier(RocksMain.MOD_ID, "spruce_stick"), SPRUCE_STICK_PLACED_FEATURE);
-        Registry.register(placedRegistry, new Identifier(RocksMain.MOD_ID, "birch_stick"), BIRCH_STICK_PLACED_FEATURE);
-        Registry.register(placedRegistry, new Identifier(RocksMain.MOD_ID, "acacia_stick"), ACACIA_STICK_PLACED_FEATURE);
-        Registry.register(placedRegistry, new Identifier(RocksMain.MOD_ID, "jungle_stick"), JUNGLE_STICK_PLACED_FEATURE);
-        Registry.register(placedRegistry, new Identifier(RocksMain.MOD_ID, "dark_oak_stick"), DARK_OAK_STICK_PLACED_FEATURE);
+    public static void initConfigured(Registerable<ConfiguredFeature<?, ?>> context) {
+        register(context, "oak_stick", OAK_STICK_FEATURE);
+        register(context, "spruce_stick", SPRUCE_STICK_FEATURE);
+        register(context, "birch_stick", BIRCH_STICK_FEATURE);
+        register(context, "acacia_stick", ACACIA_STICK_FEATURE);
+        register(context, "jungle_stick", JUNGLE_STICK_FEATURE);
+        register(context, "dark_oak_stick", DARK_OAK_STICK_FEATURE);
     }
-
+    public static void initPlaced(Registerable<PlacedFeature> context) {
+        register(context, "oak_stick", OAK_STICK_PLACED_FEATURE);
+        register(context, "spruce_stick", SPRUCE_STICK_PLACED_FEATURE);
+        register(context, "birch_stick", BIRCH_STICK_PLACED_FEATURE);
+        register(context, "acacia_stick", ACACIA_STICK_PLACED_FEATURE);
+        register(context, "jungle_stick", JUNGLE_STICK_PLACED_FEATURE);
+        register(context, "dark_oak_stick", DARK_OAK_STICK_PLACED_FEATURE);
+    }
 }

@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "rocks:crimson_stick",
+            "Properties": {
+              "variation": "small"
+            }
+          },
+          "weight": 7
+        },
+        {
+          "data": {
+            "Name": "rocks:crimson_stick",
+            "Properties": {
+              "variation": "medium"
+            }
+          },
+          "weight": 5
+        },
+        {
+          "data": {
+            "Name": "rocks:crimson_stick",
+            "Properties": {
+              "variation": "large"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  }
+}

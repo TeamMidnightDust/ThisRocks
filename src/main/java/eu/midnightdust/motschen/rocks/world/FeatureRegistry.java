@@ -6,9 +6,10 @@ import eu.midnightdust.motschen.rocks.blockstates.StarfishVariation;
 import eu.midnightdust.motschen.rocks.world.feature.SnowFeature;
 import eu.midnightdust.motschen.rocks.world.feature.UnderwaterFeature;
 import net.minecraft.block.BlockState;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.collection.DataPool;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.ProbabilityConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.FeatureConfig;
@@ -21,7 +22,7 @@ public class FeatureRegistry<FC extends FeatureConfig> {
     public static final SnowFeature SNOWY_GEYSER_FEATURE;
 
     private static <C extends FeatureConfig, F extends Feature<C>> F register(String name, F feature) {
-        return Registry.register(Registry.FEATURE, name, feature);
+        return Registry.register(Registries.FEATURE, name, feature);
     }
 
     private static final WeightedBlockStateProvider StarfishStates = new WeightedBlockStateProvider(DataPool.<BlockState>builder()

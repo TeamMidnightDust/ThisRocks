@@ -1,0 +1,46 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "rocks:rock",
+            "Properties": {
+              "variation": "tiny"
+            }
+          },
+          "weight": 10
+        },
+        {
+          "data": {
+            "Name": "rocks:rock",
+            "Properties": {
+              "variation": "small"
+            }
+          },
+          "weight": 7
+        },
+        {
+          "data": {
+            "Name": "rocks:rock",
+            "Properties": {
+              "variation": "medium"
+            }
+          },
+          "weight": 5
+        },
+        {
+          "data": {
+            "Name": "rocks:rock",
+            "Properties": {
+              "variation": "large"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  }
+}

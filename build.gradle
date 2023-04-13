@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.12-SNAPSHOT'
+	id 'fabric-loom' version '1.1-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -12,6 +12,20 @@ group = project.maven_group
 
 loom {
 	accessWidenerPath =  file("src/main/resources/thisrocks.accesswidener")
+	runs {
+		//
+		// This adds a new gradle task that runs the datagen API: "gradlew runDatagenClient"
+		//
+		datagenClient {
+			inherit client
+			name "Data Generation"
+			vmArg "-Dfabric-api.datagen"
+			vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
+			vmArg "-Dfabric-api.datagen.modid=rocks"
+
+			runDir "build/datagen"
+		}
+	}
 }
 
 repositories {
@@ -52,6 +66,15 @@ tasks.withType(JavaCompile).configureEach {
 
 	// Minecraft 1.17 (21w19a) upwards uses Java 16.
 	it.options.release = 17
+}
+sourceSets {
+	main {
+		resources {
+			srcDirs += [
+					'src/main/generated'
+			]
+		}
+	}
 }
 
 java {

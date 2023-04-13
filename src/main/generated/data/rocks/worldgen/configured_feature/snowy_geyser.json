@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:snowy_geyser",
+  "config": {
+    "probability": 1.0
+  }
+}

@@ -24,6 +24,9 @@
     ],
     "client": [
       "eu.midnightdust.motschen.rocks.RocksClient"
+    ],
+    "fabric-datagen": [
+      "eu.midnightdust.motschen.rocks.RocksDataGen"
     ]
   },
 

@@ -40,9 +40,11 @@
 
 	"rocks.midnightconfig.title":"This Rocks! Настройки",
 	"rocks.midnightconfig.needs_restart":"§c Перезапустить игру после изменения конфигурации!",
+	"rocks.midnightconfig.needs_restart1":"§c Перезапустить игру после изменения конфигурации!",
+	"rocks.midnightconfig.needs_restart2":"§c Перезапустить игру после изменения конфигурации!",
 	"rocks.midnightconfig.rocks":"§aГорные породы",
 	"rocks.midnightconfig.sticks":"§aПалочки",
 	"rocks.midnightconfig.misc":"§aРазнообразие",
-	"rocks.midnightconfig.underwater_seashell_count":"Подводная морская раковина",
-	"rocks.midnightconfig.underwater_starfish_count":"Подводная морская звезда"
+	"rocks.midnightconfig.underwater_seashell":"Подводная морская раковина",
+	"rocks.midnightconfig.underwater_starfish":"Подводная морская звезда"
 }

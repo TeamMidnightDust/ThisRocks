@@ -32,7 +32,7 @@ public class UnderwaterFeature extends Feature<ProbabilityConfig> {
 
         if (structureWorldAccess.getBlockState(blockPos2).isOf(Blocks.WATER)) {
 
-            BlockState blockState = weightedBlockStateProvider1.getBlockState(random,blockPos);
+            BlockState blockState = weightedBlockStateProvider1.get(random,blockPos);
 
             if (blockState.canPlaceAt(structureWorldAccess, blockPos2)) {
                 structureWorldAccess.setBlockState(blockPos2, blockState, 2);

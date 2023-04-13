@@ -1,0 +1,40 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "rocks:starfish",
+            "Properties": {
+              "variation": "red",
+              "waterlogged": "false"
+            }
+          },
+          "weight": 2
+        },
+        {
+          "data": {
+            "Name": "rocks:starfish",
+            "Properties": {
+              "variation": "pink",
+              "waterlogged": "false"
+            }
+          },
+          "weight": 6
+        },
+        {
+          "data": {
+            "Name": "rocks:starfish",
+            "Properties": {
+              "variation": "orange",
+              "waterlogged": "false"
+            }
+          },
+          "weight": 7
+        }
+      ]
+    }
+  }
+}
