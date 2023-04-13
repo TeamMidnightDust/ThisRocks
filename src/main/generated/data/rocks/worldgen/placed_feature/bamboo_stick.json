@@ -7,36 +7,30 @@
         "entries": [
           {
             "data": {
-              "Name": "rocks:red_sand_rock",
+              "Name": "rocks:bamboo_stick",
               "Properties": {
-                "variation": "tiny"
-              }
-            },
-            "weight": 10
-          },
-          {
-            "data": {
-              "Name": "rocks:red_sand_rock",
-              "Properties": {
-                "variation": "small"
+                "variation": "small",
+                "waterlogged": "false"
               }
             },
             "weight": 7
           },
           {
             "data": {
-              "Name": "rocks:red_sand_rock",
+              "Name": "rocks:bamboo_stick",
               "Properties": {
-                "variation": "medium"
+                "variation": "medium",
+                "waterlogged": "false"
               }
             },
             "weight": 5
           },
           {
             "data": {
-              "Name": "rocks:red_sand_rock",
+              "Name": "rocks:bamboo_stick",
               "Properties": {
-                "variation": "large"
+                "variation": "large",
+                "waterlogged": "false"
               }
             },
             "weight": 1
@@ -48,7 +42,7 @@
   "placement": [
     {
       "type": "minecraft:count",
-      "count": 7
+      "count": 3
     },
     {
       "type": "minecraft:rarity_filter",
@@ -76,8 +70,9 @@
           {
             "type": "minecraft:matching_blocks",
             "blocks": [
-              "minecraft:red_sand",
-              "minecraft:red_sandstone"
+              "minecraft:grass_block",
+              "minecraft:mud",
+              "minecraft:podzol"
             ],
             "offset": [
               0,

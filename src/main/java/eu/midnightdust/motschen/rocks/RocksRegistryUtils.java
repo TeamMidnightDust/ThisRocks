@@ -17,7 +17,11 @@ public class RocksRegistryUtils {
     public static void registerItem(Identifier id, Item item) {
         Registry.register(Registries.ITEM, id, item);
         if (id.equals(new Identifier(RocksMain.MOD_ID, "starfish"))) putStarfishItems(item);
-        else RocksMain.groupItems.add(new ItemStack(item));
+        else {
+            ItemStack itemStack = new ItemStack(item);
+            RocksMain.groupItems.add(itemStack);
+            if (id.equals(new Identifier(RocksMain.MOD_ID, "cherry_stick"))) RocksMain.cherryStack = itemStack;
+        }
     }
     private static void putStarfishItems(Item starfish) {
         ItemStack redStarfish = new ItemStack(starfish);

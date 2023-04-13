@@ -18,6 +18,9 @@
 	"block.rocks.jungle_stick":"Jungle Stick",
 	"block.rocks.acacia_stick":"Acacia Stick",
 	"block.rocks.dark_oak_stick":"Dark Oak Stick",
+	"block.rocks.mangrove_stick":"Mangrove Stick",
+	"block.rocks.cherry_stick":"Cherry Stick",
+	"block.rocks.bamboo_stick":"Bamboo Stick",
 	"block.rocks.crimson_stick":"Crimson Stick",
 	"block.rocks.warped_stick":"Warped Stick",
 	
@@ -42,12 +45,15 @@
 	"rocks.midnightconfig.category.rocks":"Rocks",
 	"rocks.midnightconfig.category.sticks":"Sticks",
 	"rocks.midnightconfig.category.misc":"Miscellaneous",
-	"rocks.midnightconfig.needs_restart":"§cRestart game after changing config!",
-	"rocks.midnightconfig.needs_restart1":"§cRestart game after changing config!",
-	"rocks.midnightconfig.needs_restart2":"§cRestart game after changing config!",
+	"rocks.midnightconfig.category.effects":"Effects",
+	"rocks.midnightconfig.needs_restart":"§cRestart the game after changing options here!",
+	"rocks.midnightconfig.needs_restart1":"§cRestart the game after changing options here!",
+	"rocks.midnightconfig.needs_restart2":"§cRestart the game after changing options here!",
 	"rocks.midnightconfig.rocks":"§aRock Spawn Count",
 	"rocks.midnightconfig.sticks":"§aStick Spawn Count",
 	"rocks.midnightconfig.misc":"§aMiscellaneous Spawn Count",
-	"rocks.midnightconfig.underwater_seashell":"Underwater Seashell",
-	"rocks.midnightconfig.underwater_starfish":"Underwater Starfish"
+	"rocks.midnightconfig.underwaterSeashell":"Underwater Seashell",
+	"rocks.midnightconfig.underwaterStarfish":"Underwater Starfish",
+	"rocks.midnightconfig.geyserLevitation":"Geyser Levitation",
+	"rocks.midnightconfig.netherGeyserDamage":"Nether Geyser Damage"
 }

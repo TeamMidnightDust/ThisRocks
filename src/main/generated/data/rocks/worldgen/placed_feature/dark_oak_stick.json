@@ -9,7 +9,8 @@
             "data": {
               "Name": "rocks:dark_oak_stick",
               "Properties": {
-                "variation": "small"
+                "variation": "small",
+                "waterlogged": "false"
               }
             },
             "weight": 7
@@ -18,7 +19,8 @@
             "data": {
               "Name": "rocks:dark_oak_stick",
               "Properties": {
-                "variation": "medium"
+                "variation": "medium",
+                "waterlogged": "false"
               }
             },
             "weight": 5
@@ -27,7 +29,8 @@
             "data": {
               "Name": "rocks:dark_oak_stick",
               "Properties": {
-                "variation": "large"
+                "variation": "large",
+                "waterlogged": "false"
               }
             },
             "weight": 1
@@ -66,7 +69,11 @@
           },
           {
             "type": "minecraft:matching_blocks",
-            "blocks": "minecraft:grass_block",
+            "blocks": [
+              "minecraft:grass_block",
+              "minecraft:mud",
+              "minecraft:podzol"
+            ],
             "offset": [
               0,
               -1,

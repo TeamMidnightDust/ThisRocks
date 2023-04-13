@@ -8,7 +8,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -26,16 +28,17 @@ public class Stick extends Block {
 
     private static final VoxelShape SHAPE;
     private static final EnumProperty<StickVariation> STICK_VARIATION = RocksMain.STICK_VARIATION;
+    public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
     public Stick() {
         super(FabricBlockSettings.copy(Blocks.POPPY).nonOpaque().sounds(BlockSoundGroup.WOOD));
-        this.setDefaultState(this.stateManager.getDefaultState().with(STICK_VARIATION, StickVariation.SMALL));
+        this.setDefaultState(this.stateManager.getDefaultState().with(STICK_VARIATION, StickVariation.SMALL).with(WATERLOGGED, false));
     }
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext itemPlacementContext) {
         return Objects.requireNonNull(super.getPlacementState(itemPlacementContext))
-                .with(STICK_VARIATION, StickVariation.SMALL);
+                .with(STICK_VARIATION, StickVariation.SMALL).with(WATERLOGGED, false);
     }
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (player.isCreative()) {
@@ -55,7 +58,7 @@ public class Stick extends Block {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(STICK_VARIATION);
+        builder.add(STICK_VARIATION, WATERLOGGED);
     }
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {

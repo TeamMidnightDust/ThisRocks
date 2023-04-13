@@ -80,7 +80,7 @@ public class Starfish extends Block implements Waterloggable {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(STARFISH_VARIATION,WATERLOGGED);
+        builder.add(STARFISH_VARIATION, WATERLOGGED);
     }
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {

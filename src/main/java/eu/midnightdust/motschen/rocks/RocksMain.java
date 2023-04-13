@@ -1,5 +1,6 @@
 package eu.midnightdust.motschen.rocks;
 
+import com.google.common.collect.Lists;
 import eu.midnightdust.motschen.rocks.block.*;
 import eu.midnightdust.motschen.rocks.block.blockentity.BlockEntityInit;
 import eu.midnightdust.motschen.rocks.blockstates.RockVariation;
@@ -12,10 +13,12 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.block.Block;
 import net.minecraft.item.*;
+import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static eu.midnightdust.motschen.rocks.RocksRegistryUtils.registerBlockWithItem;
@@ -46,6 +49,9 @@ public class RocksMain implements ModInitializer {
     public static Block AcaciaStick = new Stick();
     public static Block JungleStick = new Stick();
     public static Block DarkOakStick = new Stick();
+    public static Block MangroveStick = new Stick();
+    public static Block CherryStick = new Stick();
+    public static Block BambooStick = new Stick();
     public static Block CrimsonStick = new Stick();
     public static Block WarpedStick = new Stick();
 
@@ -65,6 +71,7 @@ public class RocksMain implements ModInitializer {
     public static Item NetherrackSplitter = new Item(new Item.Settings());
     public static Item SoulSoilSplitter = new Item(new Item.Settings());
     public static List<ItemStack> groupItems = new ArrayList<>();
+    public static ItemStack cherryStack;
     public static ItemGroup RocksGroup;
 
     @Override
@@ -88,6 +95,9 @@ public class RocksMain implements ModInitializer {
         registerBlockWithItem(new Identifier(MOD_ID,"acacia_stick"), AcaciaStick);
         registerBlockWithItem(new Identifier(MOD_ID,"jungle_stick"), JungleStick);
         registerBlockWithItem(new Identifier(MOD_ID,"dark_oak_stick"), DarkOakStick);
+        registerBlockWithItem(new Identifier(MOD_ID,"mangrove_stick"), MangroveStick);
+        registerBlockWithItem(new Identifier(MOD_ID,"cherry_stick"), CherryStick);
+        registerBlockWithItem(new Identifier(MOD_ID,"bamboo_stick"), BambooStick);
         registerBlockWithItem(new Identifier(MOD_ID,"crimson_stick"), CrimsonStick);
         registerBlockWithItem(new Identifier(MOD_ID,"warped_stick"), WarpedStick);
 
@@ -109,7 +119,9 @@ public class RocksMain implements ModInitializer {
         registerItem(new Identifier(MOD_ID,"soul_soil_splitter"), SoulSoilSplitter);
 
         RocksGroup = FabricItemGroup.builder(new Identifier(MOD_ID, "rocks")).icon(() -> new ItemStack(RocksMain.Rock)).entries(((displayContext, entries) -> {
-            entries.addAll(groupItems);
+            List<ItemStack> visibleGroupItems = new ArrayList<>(groupItems);
+            if (!displayContext.enabledFeatures().contains(FeatureFlags.UPDATE_1_20)) visibleGroupItems.remove(cherryStack);
+            entries.addAll(visibleGroupItems);
         })).build();
         new FeatureRegistry<>();
         FeatureInjector.init();

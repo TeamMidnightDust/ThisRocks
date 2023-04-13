@@ -9,7 +9,8 @@
             "data": {
               "Name": "rocks:crimson_stick",
               "Properties": {
-                "variation": "small"
+                "variation": "small",
+                "waterlogged": "false"
               }
             },
             "weight": 7
@@ -18,7 +19,8 @@
             "data": {
               "Name": "rocks:crimson_stick",
               "Properties": {
-                "variation": "medium"
+                "variation": "medium",
+                "waterlogged": "false"
               }
             },
             "weight": 5
@@ -27,7 +29,8 @@
             "data": {
               "Name": "rocks:crimson_stick",
               "Properties": {
-                "variation": "large"
+                "variation": "large",
+                "waterlogged": "false"
               }
             },
             "weight": 1

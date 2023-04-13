@@ -1,0 +1,7 @@
+{
+	"parent": "rocks:block/small_oak_stick",
+	"textures": {
+		"0": "block/cherry_log",
+		"particle": "block/cherry_log"
+	}
+}
