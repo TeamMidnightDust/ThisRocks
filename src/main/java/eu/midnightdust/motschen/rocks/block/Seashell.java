@@ -33,7 +33,7 @@ public class Seashell extends Block implements Waterloggable {
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
     public Seashell() {
-        super(FabricBlockSettings.copy(Blocks.POPPY).nonOpaque().sounds(BlockSoundGroup.STONE));
+        super(AbstractBlock.Settings.copy(Blocks.POPPY).nonOpaque().sounds(BlockSoundGroup.STONE));
         this.setDefaultState(this.stateManager.getDefaultState().with(SEASHELL_VARIATION, SeashellVariation.PINK).with(WATERLOGGED, false));
     }
 
@@ -49,7 +49,8 @@ public class Seashell extends Block implements Waterloggable {
                 .with(SEASHELL_VARIATION, SeashellVariation.PINK).with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
     }
 
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (player.isCreative()) {
             if (state.get(SEASHELL_VARIATION) == SeashellVariation.YELLOW) {
                 world.setBlockState(pos, state.with(SEASHELL_VARIATION, SeashellVariation.WHITE));
@@ -83,4 +84,5 @@ public class Seashell extends Block implements Waterloggable {
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos, BlockPos posFrom) {
         return !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
     }
+    protected boolean canReplace(BlockState state, ItemPlacementContext context) {return true;}
 }

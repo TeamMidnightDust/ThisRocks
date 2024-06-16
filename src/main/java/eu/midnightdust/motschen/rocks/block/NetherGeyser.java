@@ -1,5 +1,6 @@
 package eu.midnightdust.motschen.rocks.block;
 
+import com.mojang.serialization.MapCodec;
 import eu.midnightdust.motschen.rocks.block.blockentity.BlockEntityInit;
 import eu.midnightdust.motschen.rocks.block.blockentity.NetherGeyserBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -27,9 +28,15 @@ public class NetherGeyser extends BlockWithEntity implements BlockEntityProvider
     public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
 
     public NetherGeyser() {
-        super(FabricBlockSettings.copy(Blocks.STONE).strength(10).noCollision().nonOpaque().sounds(BlockSoundGroup.STONE));
+        super(AbstractBlock.Settings.copy(Blocks.STONE).strength(10).noCollision().nonOpaque().sounds(BlockSoundGroup.STONE));
         this.setDefaultState(this.stateManager.getDefaultState().with(ACTIVE, false));
     }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return null;
+    }
+
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
@@ -40,7 +47,7 @@ public class NetherGeyser extends BlockWithEntity implements BlockEntityProvider
     }
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, BlockEntityInit.NETHER_GEYSER_BE, NetherGeyserBlockEntity::tick);
+        return validateTicker(type, BlockEntityInit.NETHER_GEYSER_BE, NetherGeyserBlockEntity::tick);
     }
     @Override
     public BlockState getPlacementState(ItemPlacementContext itemPlacementContext) {

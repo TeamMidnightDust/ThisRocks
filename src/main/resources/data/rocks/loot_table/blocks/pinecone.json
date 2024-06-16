@@ -4,40 +4,37 @@
     {
       "rolls": 1,
       "entries": [
-       {
-        "type": "minecraft:alternatives",
+        {
+          "type": "minecraft:alternatives",
           "children": [
             {
               "type": "minecraft:item",
+              "name": "rocks:pinecone",
               "conditions": [
                 {
                   "condition": "minecraft:match_tool",
                   "predicate": {
-                    "enchantments": [
-                      {
-                        "enchantment": "minecraft:silk_touch",
-                        "levels": {
-                          "min": 1
-                        }
+                    "components": {
+                      "minecraft:enchantments": {
+                        "minecraft:silk_touch": 1
                       }
-                    ]
+                    }
                   }
                 }
-              ],
-              "name": "rocks:dark_oak_stick"
+              ]
             },
             {
               "type": "minecraft:item",
-              "name": "minecraft:stick"
+              "name": "minecraft:spruce_sapling"
             }
-          ],
-        "conditions": [
+          ]
+        }
+      ],
+      "conditions": [
         {
           "condition": "minecraft:survives_explosion"
         }
       ]
     }
-   ]
-  }
- ]
+  ]
 }

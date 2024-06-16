@@ -1,5 +1,6 @@
 package eu.midnightdust.motschen.rocks.block;
 
+import com.mojang.serialization.MapCodec;
 import eu.midnightdust.motschen.rocks.block.blockentity.BlockEntityInit;
 import eu.midnightdust.motschen.rocks.block.blockentity.OverworldGeyserBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -31,9 +32,15 @@ public class OverworldGeyser extends BlockWithEntity implements BlockEntityProvi
     public static final BooleanProperty SNOWY = Properties.SNOWY;
 
     public OverworldGeyser() {
-        super(FabricBlockSettings.copy(Blocks.STONE).strength(10).noCollision().nonOpaque().sounds(BlockSoundGroup.STONE));
+        super(AbstractBlock.Settings.copy(Blocks.STONE).strength(10).noCollision().nonOpaque().sounds(BlockSoundGroup.STONE));
         this.setDefaultState(this.stateManager.getDefaultState().with(ACTIVE, false).with(SNOWY, false));
     }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return null;
+    }
+
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
@@ -44,7 +51,7 @@ public class OverworldGeyser extends BlockWithEntity implements BlockEntityProvi
     }
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, BlockEntityInit.OVERWORLD_GEYSER_BE, OverworldGeyserBlockEntity::tick);
+        return validateTicker(type, BlockEntityInit.OVERWORLD_GEYSER_BE, OverworldGeyserBlockEntity::tick);
     }
     @Override
     public BlockState getPlacementState(ItemPlacementContext itemPlacementContext) {

@@ -7,7 +7,7 @@ public enum StarfishVariation implements StringIdentifiable {
     PINK("pink"),
     ORANGE("orange");
 
-    private final String name;
+    public final String name;
 
     StarfishVariation(String name) {
         this.name = name;

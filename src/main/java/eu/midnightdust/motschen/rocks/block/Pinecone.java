@@ -2,6 +2,7 @@ package eu.midnightdust.motschen.rocks.block;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -15,7 +16,7 @@ public class Pinecone extends Block {
     private static final VoxelShape SHAPE;
 
     public Pinecone() {
-        super(FabricBlockSettings.copy(Blocks.POPPY).nonOpaque().sounds(BlockSoundGroup.WOOD));
+        super(AbstractBlock.Settings.copy(Blocks.POPPY).nonOpaque().sounds(BlockSoundGroup.WOOD));
         this.setDefaultState(this.stateManager.getDefaultState());
     }
 
@@ -33,4 +34,6 @@ public class Pinecone extends Block {
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos, BlockPos posFrom) {
         return !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
     }
+    protected boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {return true;}
+    protected boolean canReplace(BlockState state, ItemPlacementContext context) {return true;}
 }

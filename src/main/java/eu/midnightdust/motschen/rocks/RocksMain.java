@@ -1,6 +1,5 @@
 package eu.midnightdust.motschen.rocks;
 
-import com.google.common.collect.Lists;
 import eu.midnightdust.motschen.rocks.block.*;
 import eu.midnightdust.motschen.rocks.block.blockentity.BlockEntityInit;
 import eu.midnightdust.motschen.rocks.blockstates.RockVariation;
@@ -11,14 +10,18 @@ import eu.midnightdust.motschen.rocks.config.RocksConfig;
 import eu.midnightdust.motschen.rocks.world.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.Block;
 import net.minecraft.item.*;
-import net.minecraft.resource.featuretoggle.FeatureFlags;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.state.property.EnumProperty;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static eu.midnightdust.motschen.rocks.RocksRegistryUtils.registerBlockWithItem;
@@ -71,58 +74,58 @@ public class RocksMain implements ModInitializer {
     public static Item NetherrackSplitter = new Item(new Item.Settings());
     public static Item SoulSoilSplitter = new Item(new Item.Settings());
     public static List<ItemStack> groupItems = new ArrayList<>();
-    public static ItemStack cherryStack;
     public static ItemGroup RocksGroup;
+    public static final RegistryKey<ItemGroup> ROCKS_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier.of(MOD_ID, "rocks"));
 
     @Override
     public void onInitialize() {
         RocksConfig.init("rocks", RocksConfig.class);
 
-        registerBlockWithItem(new Identifier(MOD_ID,"rock"), Rock);
-        registerBlockWithItem(new Identifier(MOD_ID,"granite_rock"), GraniteRock);
-        registerBlockWithItem(new Identifier(MOD_ID,"diorite_rock"), DioriteRock);
-        registerBlockWithItem(new Identifier(MOD_ID,"andesite_rock"), AndesiteRock);
-        registerBlockWithItem(new Identifier(MOD_ID,"sand_rock"), SandRock);
-        registerBlockWithItem(new Identifier(MOD_ID,"red_sand_rock"), RedSandRock);
-        registerBlockWithItem(new Identifier(MOD_ID,"gravel_rock"), GravelRock);
-        registerBlockWithItem(new Identifier(MOD_ID,"end_stone_rock"), EndstoneRock);
-        registerBlockWithItem(new Identifier(MOD_ID,"netherrack_rock"), NetherrackRock);
-        registerBlockWithItem(new Identifier(MOD_ID,"soul_soil_rock"), SoulSoilRock);
+        registerBlockWithItem(Identifier.of(MOD_ID,"rock"), Rock);
+        registerBlockWithItem(Identifier.of(MOD_ID,"granite_rock"), GraniteRock);
+        registerBlockWithItem(Identifier.of(MOD_ID,"diorite_rock"), DioriteRock);
+        registerBlockWithItem(Identifier.of(MOD_ID,"andesite_rock"), AndesiteRock);
+        registerBlockWithItem(Identifier.of(MOD_ID,"sand_rock"), SandRock);
+        registerBlockWithItem(Identifier.of(MOD_ID,"red_sand_rock"), RedSandRock);
+        registerBlockWithItem(Identifier.of(MOD_ID,"gravel_rock"), GravelRock);
+        registerBlockWithItem(Identifier.of(MOD_ID,"end_stone_rock"), EndstoneRock);
+        registerBlockWithItem(Identifier.of(MOD_ID,"netherrack_rock"), NetherrackRock);
+        registerBlockWithItem(Identifier.of(MOD_ID,"soul_soil_rock"), SoulSoilRock);
 
-        registerBlockWithItem(new Identifier(MOD_ID,"oak_stick"), OakStick);
-        registerBlockWithItem(new Identifier(MOD_ID,"spruce_stick"), SpruceStick);
-        registerBlockWithItem(new Identifier(MOD_ID,"birch_stick"), BirchStick);
-        registerBlockWithItem(new Identifier(MOD_ID,"acacia_stick"), AcaciaStick);
-        registerBlockWithItem(new Identifier(MOD_ID,"jungle_stick"), JungleStick);
-        registerBlockWithItem(new Identifier(MOD_ID,"dark_oak_stick"), DarkOakStick);
-        registerBlockWithItem(new Identifier(MOD_ID,"mangrove_stick"), MangroveStick);
-        registerBlockWithItem(new Identifier(MOD_ID,"cherry_stick"), CherryStick);
-        registerBlockWithItem(new Identifier(MOD_ID,"bamboo_stick"), BambooStick);
-        registerBlockWithItem(new Identifier(MOD_ID,"crimson_stick"), CrimsonStick);
-        registerBlockWithItem(new Identifier(MOD_ID,"warped_stick"), WarpedStick);
+        registerBlockWithItem(Identifier.of(MOD_ID,"oak_stick"), OakStick);
+        registerBlockWithItem(Identifier.of(MOD_ID,"spruce_stick"), SpruceStick);
+        registerBlockWithItem(Identifier.of(MOD_ID,"birch_stick"), BirchStick);
+        registerBlockWithItem(Identifier.of(MOD_ID,"acacia_stick"), AcaciaStick);
+        registerBlockWithItem(Identifier.of(MOD_ID,"jungle_stick"), JungleStick);
+        registerBlockWithItem(Identifier.of(MOD_ID,"dark_oak_stick"), DarkOakStick);
+        registerBlockWithItem(Identifier.of(MOD_ID,"mangrove_stick"), MangroveStick);
+        registerBlockWithItem(Identifier.of(MOD_ID,"cherry_stick"), CherryStick);
+        registerBlockWithItem(Identifier.of(MOD_ID,"bamboo_stick"), BambooStick);
+        registerBlockWithItem(Identifier.of(MOD_ID,"crimson_stick"), CrimsonStick);
+        registerBlockWithItem(Identifier.of(MOD_ID,"warped_stick"), WarpedStick);
 
-        registerBlockWithItem(new Identifier(MOD_ID,"geyser"), Geyser);
-        registerBlockWithItem(new Identifier(MOD_ID,"nether_geyser"), NetherGeyser);
+        registerBlockWithItem(Identifier.of(MOD_ID,"geyser"), Geyser);
+        registerBlockWithItem(Identifier.of(MOD_ID,"nether_geyser"), NetherGeyser);
 
-        registerBlockWithItem(new Identifier(MOD_ID,"pinecone"), Pinecone);
-        registerBlockWithItem(new Identifier(MOD_ID,"seashell"), Seashell);
-        registerBlockWithItem(new Identifier(MOD_ID,"starfish"), Starfish);
+        registerBlockWithItem(Identifier.of(MOD_ID,"pinecone"), Pinecone);
+        registerBlockWithItem(Identifier.of(MOD_ID,"seashell"), Seashell);
+        registerBlockWithItem(Identifier.of(MOD_ID,"starfish"), Starfish);
 
-        registerItem(new Identifier(MOD_ID,"cobblestone_splitter"), CobblestoneSplitter);
-        registerItem(new Identifier(MOD_ID,"granite_splitter"), GraniteSplitter);
-        registerItem(new Identifier(MOD_ID,"diorite_splitter"), DioriteSplitter);
-        registerItem(new Identifier(MOD_ID,"andesite_splitter"), AndesiteSplitter);
-        registerItem(new Identifier(MOD_ID,"sandstone_splitter"), SandStoneSplitter);
-        registerItem(new Identifier(MOD_ID,"red_sandstone_splitter"), RedSandStoneSplitter);
-        registerItem(new Identifier(MOD_ID,"end_stone_splitter"), EndStoneSplitter);
-        registerItem(new Identifier(MOD_ID,"netherrack_splitter"), NetherrackSplitter);
-        registerItem(new Identifier(MOD_ID,"soul_soil_splitter"), SoulSoilSplitter);
+        registerItem(Identifier.of(MOD_ID,"cobblestone_splitter"), CobblestoneSplitter);
+        registerItem(Identifier.of(MOD_ID,"granite_splitter"), GraniteSplitter);
+        registerItem(Identifier.of(MOD_ID,"diorite_splitter"), DioriteSplitter);
+        registerItem(Identifier.of(MOD_ID,"andesite_splitter"), AndesiteSplitter);
+        registerItem(Identifier.of(MOD_ID,"sandstone_splitter"), SandStoneSplitter);
+        registerItem(Identifier.of(MOD_ID,"red_sandstone_splitter"), RedSandStoneSplitter);
+        registerItem(Identifier.of(MOD_ID,"end_stone_splitter"), EndStoneSplitter);
+        registerItem(Identifier.of(MOD_ID,"netherrack_splitter"), NetherrackSplitter);
+        registerItem(Identifier.of(MOD_ID,"soul_soil_splitter"), SoulSoilSplitter);
 
-        RocksGroup = FabricItemGroup.builder(new Identifier(MOD_ID, "rocks")).icon(() -> new ItemStack(RocksMain.Rock)).entries(((displayContext, entries) -> {
+        RocksGroup = FabricItemGroup.builder().displayName(Text.translatable("itemGroup.rocks.rocks")).icon(() -> new ItemStack(RocksMain.Rock)).entries(((displayContext, entries) -> {
             List<ItemStack> visibleGroupItems = new ArrayList<>(groupItems);
-            if (!displayContext.enabledFeatures().contains(FeatureFlags.UPDATE_1_20)) visibleGroupItems.remove(cherryStack);
             entries.addAll(visibleGroupItems);
         })).build();
+        Registry.register(Registries.ITEM_GROUP, ROCKS_GROUP, RocksGroup);
         new FeatureRegistry<>();
         FeatureInjector.init();
         BlockEntityInit.init();

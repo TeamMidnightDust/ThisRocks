@@ -31,7 +31,7 @@ public class Stick extends Block {
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
     public Stick() {
-        super(FabricBlockSettings.copy(Blocks.POPPY).nonOpaque().sounds(BlockSoundGroup.WOOD));
+        super(AbstractBlock.Settings.copy(Blocks.POPPY).nonOpaque().sounds(BlockSoundGroup.WOOD));
         this.setDefaultState(this.stateManager.getDefaultState().with(STICK_VARIATION, StickVariation.SMALL).with(WATERLOGGED, false));
     }
 
@@ -40,7 +40,7 @@ public class Stick extends Block {
         return Objects.requireNonNull(super.getPlacementState(itemPlacementContext))
                 .with(STICK_VARIATION, StickVariation.SMALL).with(WATERLOGGED, false);
     }
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (player.isCreative()) {
             if (state.get(STICK_VARIATION) == StickVariation.SMALL) {
                 world.setBlockState(pos, state.with(STICK_VARIATION, StickVariation.MEDIUM));
@@ -74,4 +74,6 @@ public class Stick extends Block {
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos, BlockPos posFrom) {
         return !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
     }
+    protected boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {return true;}
+    protected boolean canReplace(BlockState state, ItemPlacementContext context) {return true;}
 }

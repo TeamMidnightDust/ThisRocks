@@ -4,40 +4,46 @@
     {
       "rolls": 1,
       "entries": [
-       {
-        "type": "minecraft:alternatives",
+        {
+          "type": "minecraft:alternatives",
           "children": [
             {
               "type": "minecraft:item",
+              "name": "rocks:rock",
+              "functions": [
+                {
+                  "function": "minecraft:copy_state",
+                  "block": "rocks:rock",
+                  "properties": [
+                    "variation"
+                  ]
+                }
+              ],
               "conditions": [
                 {
                   "condition": "minecraft:match_tool",
                   "predicate": {
-                    "enchantments": [
-                      {
-                        "enchantment": "minecraft:silk_touch",
-                        "levels": {
-                          "min": 1
-                        }
+                    "components": {
+                      "minecraft:enchantments": {
+                        "minecraft:silk_touch": 1
                       }
-                    ]
+                    }
                   }
                 }
-              ],
-              "name": "rocks:rock"
+              ]
             },
             {
               "type": "minecraft:item",
               "name": "rocks:cobblestone_splitter"
             }
-          ],
-        "conditions": [
+          ]
+        }
+      ],
+      "conditions": [
         {
           "condition": "minecraft:survives_explosion"
         }
       ]
     }
-   ]
-  }
- ]
+  ]
 }

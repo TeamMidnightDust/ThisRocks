@@ -2,7 +2,6 @@ package eu.midnightdust.motschen.rocks.block;
 
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.blockstates.RockVariation;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -25,10 +24,11 @@ import java.util.Objects;
 public class Rock extends Block {
 
     private static final VoxelShape SHAPE;
+    private static final VoxelShape SHAPE_LARGE;
     private static final EnumProperty<RockVariation> ROCK_VARIATION = RocksMain.ROCK_VARIATION;
 
     public Rock() {
-        super(FabricBlockSettings.copy(Blocks.POPPY).nonOpaque().sounds(BlockSoundGroup.STONE));
+        super(AbstractBlock.Settings.copy(Blocks.POPPY).nonOpaque().sounds(BlockSoundGroup.STONE));
         this.setDefaultState(this.stateManager.getDefaultState().with(ROCK_VARIATION, RockVariation.TINY));
     }
 
@@ -37,7 +37,8 @@ public class Rock extends Block {
         return Objects.requireNonNull(super.getPlacementState(itemPlacementContext))
                 .with(ROCK_VARIATION, RockVariation.TINY);
     }
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (player.isCreative()) {
             if (state.get(ROCK_VARIATION) == RockVariation.TINY) {
                 world.setBlockState(pos, state.with(ROCK_VARIATION, RockVariation.SMALL));
@@ -62,10 +63,11 @@ public class Rock extends Block {
     }
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
-        return SHAPE;
+        return state.get(ROCK_VARIATION).equals(RockVariation.LARGE) ? SHAPE_LARGE : SHAPE;
     }
     static {
-        SHAPE = createCuboidShape(0, 0, 0, 16, 3, 16);
+        SHAPE = createCuboidShape(0, 0, 0, 16, 2, 16);
+        SHAPE_LARGE = createCuboidShape(0, 0, 0, 16, 3, 16);
     }
 
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
@@ -74,4 +76,6 @@ public class Rock extends Block {
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos, BlockPos posFrom) {
         return !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
     }
+    protected boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {return true;}
+    protected boolean canReplace(BlockState state, ItemPlacementContext context) {return true;}
 }

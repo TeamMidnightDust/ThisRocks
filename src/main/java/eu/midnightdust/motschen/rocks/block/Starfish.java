@@ -4,6 +4,9 @@ import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.blockstates.StarfishVariation;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
+import net.minecraft.component.ComponentMap;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.BlockStateComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -27,6 +30,8 @@ import net.minecraft.world.WorldView;
 
 import java.util.Objects;
 
+import static eu.midnightdust.motschen.rocks.RocksMain.STARFISH_VARIATION;
+
 public class Starfish extends Block implements Waterloggable {
 
     private static final VoxelShape SHAPE;
@@ -34,7 +39,7 @@ public class Starfish extends Block implements Waterloggable {
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
     public Starfish() {
-        super(FabricBlockSettings.copy(Blocks.POPPY).nonOpaque().sounds(BlockSoundGroup.CORAL));
+        super(AbstractBlock.Settings.copy(Blocks.POPPY).nonOpaque().sounds(BlockSoundGroup.CORAL));
         this.setDefaultState(this.stateManager.getDefaultState().with(STARFISH_VARIATION, StarfishVariation.RED).with(WATERLOGGED, false));
     }
 
@@ -45,24 +50,18 @@ public class Starfish extends Block implements Waterloggable {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext itemPlacementContext) {
-        ItemStack stack = itemPlacementContext.getStack();
-        StarfishVariation variation = StarfishVariation.RED;
-        if (stack.getNbt() != null) {
-            var optionalVariation = STARFISH_VARIATION.parse(stack.getNbt().getString("variation"));
-            if (optionalVariation.isPresent()) variation = optionalVariation.get();
-        }
         FluidState fluidState = itemPlacementContext.getWorld().getFluidState(itemPlacementContext.getBlockPos());
         return Objects.requireNonNull(super.getPlacementState(itemPlacementContext))
-                .with(STARFISH_VARIATION, variation).with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
+                .with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
     }
     @Override
-    public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
+    public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
         ItemStack stack = new ItemStack(this);
-        stack.getOrCreateNbt().putString("variation", state.get(STARFISH_VARIATION).asString());
+        stack.applyComponentsFrom(ComponentMap.builder().add(DataComponentTypes.BLOCK_STATE, BlockStateComponent.DEFAULT.with(STARFISH_VARIATION, state.get(STARFISH_VARIATION))).build());
         return stack;
     }
 
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (player.isCreative()) {
             if (state.get(STARFISH_VARIATION) == StarfishVariation.RED) {
                 world.setBlockState(pos, state.with(STARFISH_VARIATION, StarfishVariation.PINK));
@@ -96,4 +95,5 @@ public class Starfish extends Block implements Waterloggable {
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos, BlockPos posFrom) {
         return !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
     }
+    protected boolean canReplace(BlockState state, ItemPlacementContext context) {return true;}
 }

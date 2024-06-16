@@ -94,6 +94,6 @@ public class FeatureInjector {
         if (RocksConfig.geyser) BiomeModifications.addFeature(ctx -> ctx.hasTag(BiomeTags.IGLOO_HAS_STRUCTURE) || ctx.getBiomeKey().toString().contains("snowy"), GenerationStep.Feature.TOP_LAYER_MODIFICATION, getKey("snowy_geyser"));
     }
     public static RegistryKey<PlacedFeature> getKey(String name) {
-        return RegistryKey.of(RegistryKeys.PLACED_FEATURE, new Identifier(RocksMain.MOD_ID, name));
+        return RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(RocksMain.MOD_ID, name));
     }
 }
