@@ -15,7 +15,7 @@
         }
     ],
     "result": {
-        "item": "minecraft:soul_soil",
+        "id": "minecraft:soul_soil",
         "count": 1
     }
 }

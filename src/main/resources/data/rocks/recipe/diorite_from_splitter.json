@@ -15,7 +15,7 @@
         }
     ],
     "result": {
-        "item": "minecraft:diorite",
+        "id": "minecraft:diorite",
         "count": 1
     }
 }

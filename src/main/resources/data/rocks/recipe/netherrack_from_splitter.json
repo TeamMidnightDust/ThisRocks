@@ -15,7 +15,7 @@
         }
     ],
     "result": {
-        "item": "minecraft:netherrack",
+        "id": "minecraft:netherrack",
         "count": 1
     }
 }
