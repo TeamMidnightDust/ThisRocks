@@ -28,7 +28,7 @@ public class Rock extends Block {
     private static final EnumProperty<RockVariation> ROCK_VARIATION = RocksMain.ROCK_VARIATION;
 
     public Rock() {
-        super(AbstractBlock.Settings.copy(Blocks.POPPY).nonOpaque().sounds(BlockSoundGroup.STONE));
+        super(AbstractBlock.Settings.copy(Blocks.POPPY).nonOpaque().dynamicBounds().sounds(BlockSoundGroup.STONE));
         this.setDefaultState(this.stateManager.getDefaultState().with(ROCK_VARIATION, RockVariation.TINY));
     }
 

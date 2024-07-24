@@ -1,6 +1,6 @@
 {
 	"credit": "made by Motschen",
-	"gui_light": "front",
+	"parent": "block/block",
 	"textures": {
 		"0": "rocks:block/seashell",
 		"particle": "rocks:block/seashell"
@@ -43,42 +43,5 @@
 				"down": {"uv": [0, 6, 2, 10], "texture": "#0"}
 			}
 		}
-	],
-	"display": {
-		"thirdperson_righthand": {
-			"rotation": [-103.5, 0, 0],
-			"translation": [-1.25, -4.25, -3.75],
-			"scale": [0.5, 0.5, 0.5]
-		},
-		"thirdperson_lefthand": {
-			"rotation": [-103.5, 0, 0],
-			"translation": [0.25, -4.25, -3.75],
-			"scale": [0.5, 0.5, 0.5]
-		},
-		"firstperson_righthand": {
-			"rotation": [-89, 0, 0],
-			"translation": [0, 1.25, -6.75]
-		},
-		"firstperson_lefthand": {
-			"rotation": [-89, 0, 0],
-			"translation": [3, 1.25, -6.75]
-		},
-		"ground": {
-			"rotation": [-92, 0, 0],
-			"translation": [-1.25, 0, -7.5]
-		},
-		"gui": {
-			"rotation": [-72, 0, 160],
-			"translation": [-1.5, -6.25, 0],
-			"scale": [1.5, 1.5, 1.5]
-		},
-		"head": {
-			"translation": [-1.5, 14, -2.75]
-		},
-		"fixed": {
-			"rotation": [-90, 0, 0],
-			"translation": [-2.75, -3.75, -14],
-			"scale": [1.75, 1.75, 1.75]
-		}
-	}
+	]
 }

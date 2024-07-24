@@ -3,6 +3,8 @@ package eu.midnightdust.motschen.rocks.block.blockentity;
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.block.OverworldGeyser;
 import eu.midnightdust.motschen.rocks.config.RocksConfig;
+import eu.midnightdust.motschen.rocks.util.ParticleUtil;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.GrassBlock;
 import net.minecraft.block.entity.BlockEntity;
@@ -12,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockStateRaycastContext;
 import net.minecraft.world.World;
 
@@ -23,7 +26,7 @@ public class OverworldGeyserBlockEntity extends BlockEntity {
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, OverworldGeyserBlockEntity blockEntity) {
-        assert world != null;
+        if (world == null || world.isClient) return;
         if (world.getBlockState(pos).getBlock() == RocksMain.Geyser) {
             PlayerEntity player = world.getClosestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3, true);
             PlayerEntity player2 = world.getClosestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 8, true);
@@ -46,9 +49,11 @@ public class OverworldGeyserBlockEntity extends BlockEntity {
             }
 
             if (state.get(OverworldGeyser.ACTIVE)) {
-                world.addParticle(ParticleTypes.SPIT, pos.getX() + 0.5, pos.getY() + 0.1, pos.getZ() + 0.5, 0, 1.0, 0);
-                world.addParticle(ParticleTypes.SPIT, pos.getX() + 0.5, pos.getY() + 0.3, pos.getZ() + 0.5, 0, 1.0, 0);
-                world.addParticle(ParticleTypes.SPLASH, pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, -0.01, 1.5, -0.01);
+                PlayerLookup.tracking(blockEntity).forEach(watchingPlayer -> {
+                    ParticleUtil.spawnParticle(watchingPlayer, ParticleTypes.SPIT, new Vec3d(pos.getX() + 0.5, pos.getY() + 0.1, pos.getZ() + 0.5), new Vec3d(0, 16.0, 0), 0.3f);
+                    ParticleUtil.spawnParticle(watchingPlayer, ParticleTypes.SPIT, new Vec3d(pos.getX() + 0.5, pos.getY() + 2.3, pos.getZ() + 0.5), new Vec3d(0, 64.0, 0), 0.1f);
+                    ParticleUtil.spawnParticle(watchingPlayer, ParticleTypes.SPLASH, new Vec3d(pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5), new Vec3d(-0.01, 16.5, -0.01), 0.3f);
+                });
             }
         }
     }

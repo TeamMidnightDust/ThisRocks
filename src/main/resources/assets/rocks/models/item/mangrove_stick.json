@@ -1,3 +1,7 @@
 {
-	"parent": "rocks:block/large_mangrove_stick"
+	"parent": "rocks:item/oak_stick",
+	"textures": {
+		"0": "block/mangrove_log",
+		"particle": "block/mangrove_log"
+	}
 }

@@ -3,7 +3,6 @@ package eu.midnightdust.motschen.rocks.world.configured_feature;
 import com.google.common.collect.ImmutableList;
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.blockstates.RockVariation;
-import eu.midnightdust.motschen.rocks.config.RocksConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.registry.*;
@@ -17,7 +16,7 @@ import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
 
 import java.util.List;
 
-import static eu.midnightdust.motschen.rocks.RocksRegistryUtils.register;
+import static eu.midnightdust.motschen.rocks.util.RegistryUtil.register;
 
 public class RockFeatures {
     public static ConfiguredFeature<?, ?> ROCK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(

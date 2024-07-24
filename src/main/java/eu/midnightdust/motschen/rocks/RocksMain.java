@@ -10,9 +10,10 @@ import eu.midnightdust.motschen.rocks.config.RocksConfig;
 import eu.midnightdust.motschen.rocks.world.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.Block;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -24,8 +25,8 @@ import net.minecraft.util.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import static eu.midnightdust.motschen.rocks.RocksRegistryUtils.registerBlockWithItem;
-import static eu.midnightdust.motschen.rocks.RocksRegistryUtils.registerItem;
+import static eu.midnightdust.motschen.rocks.util.RegistryUtil.registerBlockWithItem;
+import static eu.midnightdust.motschen.rocks.util.RegistryUtil.registerItem;
 
 public class RocksMain implements ModInitializer {
     public static final String MOD_ID = "rocks";
@@ -64,15 +65,15 @@ public class RocksMain implements ModInitializer {
     public static Block Geyser = new OverworldGeyser();
     public static Block NetherGeyser = new NetherGeyser();
 
-    public static Item CobblestoneSplitter = new Item(new Item.Settings());
-    public static Item GraniteSplitter = new Item(new Item.Settings());
-    public static Item DioriteSplitter = new Item(new Item.Settings());
-    public static Item AndesiteSplitter = new Item(new Item.Settings());
-    public static Item SandStoneSplitter = new Item(new Item.Settings());
-    public static Item RedSandStoneSplitter = new Item(new Item.Settings());
-    public static Item EndStoneSplitter = new Item(new Item.Settings());
-    public static Item NetherrackSplitter = new Item(new Item.Settings());
-    public static Item SoulSoilSplitter = new Item(new Item.Settings());
+    public static Item CobblestoneSplitter;
+    public static Item GraniteSplitter;
+    public static Item DioriteSplitter;
+    public static Item AndesiteSplitter;
+    public static Item SandStoneSplitter;
+    public static Item RedSandStoneSplitter;
+    public static Item EndStoneSplitter;
+    public static Item NetherrackSplitter;
+    public static Item SoulSoilSplitter;
     public static List<ItemStack> groupItems = new ArrayList<>();
     public static ItemGroup RocksGroup;
     public static final RegistryKey<ItemGroup> ROCKS_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier.of(MOD_ID, "rocks"));
@@ -111,6 +112,16 @@ public class RocksMain implements ModInitializer {
         registerBlockWithItem(Identifier.of(MOD_ID,"seashell"), Seashell);
         registerBlockWithItem(Identifier.of(MOD_ID,"starfish"), Starfish);
 
+        CobblestoneSplitter = simpleItem();
+        GraniteSplitter = simpleItem();
+        DioriteSplitter = simpleItem();
+        AndesiteSplitter = simpleItem();
+        SandStoneSplitter = simpleItem();
+        RedSandStoneSplitter = simpleItem();
+        EndStoneSplitter = simpleItem();
+        NetherrackSplitter = simpleItem();
+        SoulSoilSplitter = simpleItem();
+
         registerItem(Identifier.of(MOD_ID,"cobblestone_splitter"), CobblestoneSplitter);
         registerItem(Identifier.of(MOD_ID,"granite_splitter"), GraniteSplitter);
         registerItem(Identifier.of(MOD_ID,"diorite_splitter"), DioriteSplitter);
@@ -121,15 +132,20 @@ public class RocksMain implements ModInitializer {
         registerItem(Identifier.of(MOD_ID,"netherrack_splitter"), NetherrackSplitter);
         registerItem(Identifier.of(MOD_ID,"soul_soil_splitter"), SoulSoilSplitter);
 
-        RocksGroup = FabricItemGroup.builder().displayName(Text.translatable("itemGroup.rocks.rocks")).icon(() -> new ItemStack(RocksMain.Rock)).entries(((displayContext, entries) -> {
-            List<ItemStack> visibleGroupItems = new ArrayList<>(groupItems);
-            entries.addAll(visibleGroupItems);
-        })).build();
-        Registry.register(Registries.ITEM_GROUP, ROCKS_GROUP, RocksGroup);
-        new FeatureRegistry<>();
+        registerItemGroup();
+
+        new FeatureRegistry();
         FeatureInjector.init();
         BlockEntityInit.init();
     }
-
-
+    public static Identifier id(String path) {
+        return Identifier.of(MOD_ID, path);
+    }
+    public static Item simpleItem() {
+        return new Item(new Item.Settings());
+    }
+    public static void registerItemGroup() {
+        RocksGroup = FabricItemGroup.builder().displayName(Text.translatable("itemGroup.rocks.rocks")).icon(() -> new ItemStack(RocksMain.Rock)).entries(((displayContext, entries) -> entries.addAll(groupItems))).build();
+        Registry.register(Registries.ITEM_GROUP, ROCKS_GROUP, RocksGroup);
+    }
 }

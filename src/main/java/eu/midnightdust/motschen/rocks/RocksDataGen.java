@@ -1,6 +1,5 @@
 package eu.midnightdust.motschen.rocks;
 
-import eu.midnightdust.motschen.rocks.world.FeatureInjector;
 import eu.midnightdust.motschen.rocks.world.configured_feature.MiscFeatures;
 import eu.midnightdust.motschen.rocks.world.configured_feature.NetherFeatures;
 import eu.midnightdust.motschen.rocks.world.configured_feature.RockFeatures;

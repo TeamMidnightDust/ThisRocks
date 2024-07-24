@@ -28,7 +28,7 @@ public class NetherGeyser extends BlockWithEntity implements BlockEntityProvider
     public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
 
     public NetherGeyser() {
-        super(AbstractBlock.Settings.copy(Blocks.STONE).strength(10).noCollision().nonOpaque().sounds(BlockSoundGroup.STONE));
+        super(AbstractBlock.Settings.copy(Blocks.STONE).strength(10).noCollision().dynamicBounds().nonOpaque().sounds(BlockSoundGroup.STONE));
         this.setDefaultState(this.stateManager.getDefaultState().with(ACTIVE, false));
     }
 

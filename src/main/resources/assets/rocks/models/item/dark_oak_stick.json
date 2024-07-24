@@ -1,3 +1,7 @@
 {
-	"parent": "rocks:block/large_dark_oak_stick"
+	"parent": "rocks:item/oak_stick",
+	"textures": {
+		"0": "block/dark_oak_log",
+		"particle": "block/dark_oak_log"
+	}
 }

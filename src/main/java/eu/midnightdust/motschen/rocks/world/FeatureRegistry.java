@@ -15,7 +15,7 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.FeatureConfig;
 import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
 
-public class FeatureRegistry<FC extends FeatureConfig> {
+public class FeatureRegistry {
 
     public static final UnderwaterFeature UNDERWATER_STARFISH_FEATURE;
     public static final UnderwaterFeature UNDERWATER_SEASHELL_FEATURE;

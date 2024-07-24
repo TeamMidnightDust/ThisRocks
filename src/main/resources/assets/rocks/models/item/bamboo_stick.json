@@ -1,3 +1,7 @@
 {
-	"parent": "rocks:block/large_bamboo_stick"
+	"parent": "rocks:item/oak_stick",
+	"textures": {
+		"0": "block/bamboo_stalk",
+		"particle": "block/bamboo_stalk"
+	}
 }

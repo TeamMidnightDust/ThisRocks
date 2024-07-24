@@ -1,3 +1,7 @@
 {
-	"parent": "rocks:block/large_acacia_stick"
+	"parent": "rocks:item/oak_stick",
+	"textures": {
+		"0": "block/acacia_log",
+		"particle": "block/acacia_log"
+	}
 }

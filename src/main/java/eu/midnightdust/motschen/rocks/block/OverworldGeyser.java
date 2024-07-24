@@ -32,7 +32,7 @@ public class OverworldGeyser extends BlockWithEntity implements BlockEntityProvi
     public static final BooleanProperty SNOWY = Properties.SNOWY;
 
     public OverworldGeyser() {
-        super(AbstractBlock.Settings.copy(Blocks.STONE).strength(10).noCollision().nonOpaque().sounds(BlockSoundGroup.STONE));
+        super(AbstractBlock.Settings.copy(Blocks.STONE).strength(10).noCollision().dynamicBounds().nonOpaque().sounds(BlockSoundGroup.STONE));
         this.setDefaultState(this.stateManager.getDefaultState().with(ACTIVE, false).with(SNOWY, false));
     }
 
