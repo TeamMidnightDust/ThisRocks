@@ -13,6 +13,7 @@ public class RocksConfig extends MidnightConfig {
     @Entry(category = rocks, name = "block.rocks.sand_rock") public static boolean sandRock = true;
     @Entry(category = rocks, name = "block.rocks.red_sand_rock") public static boolean redSandRock = true;
     @Entry(category = rocks, name = "block.rocks.gravel_rock") public static boolean gravelRock = true;
+    @Entry(category = rocks, name = "block.rocks.ice_rock") public static boolean iceRock = true;
     @Entry(category = rocks, name = "block.rocks.end_stone_rock") public static boolean endStoneRock = true;
     @Entry(category = rocks, name = "block.rocks.netherrack_rock") public static boolean netherrackRock = true;
     @Entry(category = rocks, name = "block.rocks.soul_soil_rock") public static boolean soulSoilRock = true;

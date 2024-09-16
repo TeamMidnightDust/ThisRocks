@@ -8,8 +8,11 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
+import net.minecraft.world.gen.structure.OceanRuinStructure;
 
 import java.util.function.Predicate;
 
@@ -31,6 +34,9 @@ public class FeatureInjector {
         Predicate<BiomeSelectionContext> red_sand_rocks = (ctx -> ctx.hasTag(BiomeTags.IS_BADLANDS) || ctx.hasTag(BiomeTags.DESERT_PYRAMID_HAS_STRUCTURE) || ctx.getBiomeKey().getValue().toString().contains("terrestria:lush_desert"));
 
         if (RocksConfig.redSandRock) BiomeModifications.addFeature(red_sand_rocks, GenerationStep.Feature.TOP_LAYER_MODIFICATION, getKey("red_sand_rock"));
+
+        Predicate<BiomeSelectionContext> ice_rocks = (ctx -> ctx.hasTag(BiomeTags.IGLOO_HAS_STRUCTURE) || ctx.getBiome().getTemperature() < 0.15F);
+        if (RocksConfig.iceRock) BiomeModifications.addFeature(ice_rocks, GenerationStep.Feature.TOP_LAYER_MODIFICATION, getKey("ice_rock"));
 
         if (RocksConfig.endStoneRock) BiomeModifications.addFeature(ctx -> ctx.getBiomeKey().getValue().toString().contains("the_end"), GenerationStep.Feature.TOP_LAYER_MODIFICATION, getKey("end_stone_rock"));
 
@@ -79,7 +85,7 @@ public class FeatureInjector {
         if (RocksConfig.seashell) BiomeModifications.addFeature(beach, GenerationStep.Feature.TOP_LAYER_MODIFICATION, getKey("seashell"));
         if (RocksConfig.starfish) BiomeModifications.addFeature(beach, GenerationStep.Feature.TOP_LAYER_MODIFICATION, getKey("starfish"));
 
-        if (RocksConfig.underwaterStarfish) BiomeModifications.addFeature(ctx -> ctx.hasTag(BiomeTags.IS_OCEAN), GenerationStep.Feature.TOP_LAYER_MODIFICATION, getKey("underwater_starfish"));
+        if (RocksConfig.underwaterStarfish) BiomeModifications.addFeature(ctx -> ctx.hasTag(BiomeTags.IS_OCEAN) && !ctx.getBiomeKey().toString().contains("cold"), GenerationStep.Feature.TOP_LAYER_MODIFICATION, getKey("underwater_starfish"));
         if (RocksConfig.underwaterSeashell) BiomeModifications.addFeature(ctx -> ctx.hasTag(BiomeTags.IS_OCEAN), GenerationStep.Feature.TOP_LAYER_MODIFICATION, getKey("underwater_seashell"));
 
         if (RocksConfig.netherrackRock) BiomeModifications.addFeature(ctx -> ctx.hasTag(BiomeTags.IS_NETHER), GenerationStep.Feature.TOP_LAYER_MODIFICATION, getKey("netherrack_rock"));

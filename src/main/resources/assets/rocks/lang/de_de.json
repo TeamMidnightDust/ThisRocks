@@ -11,6 +11,7 @@
 	"block.rocks.end_stone_rock":"Endsteinbrocken",
 	"block.rocks.netherrack_rock":"Netherrackbrocken",
 	"block.rocks.soul_soil_rock":"Seelenerdebrocken",
+	"block.rocks.ice_rock":"Eisbrocken",
 	
 	"block.rocks.oak_stick":"Eichenholzstock",
 	"block.rocks.birch_stick":"Birkenholzstock",
@@ -18,6 +19,9 @@
 	"block.rocks.jungle_stick":"Tropenholzstock",
 	"block.rocks.acacia_stick":"Akazienholzstock",
 	"block.rocks.dark_oak_stick":"Schwarzeichenholzstock",
+	"block.rocks.mangrove_stick":"Mangrovenholzstock",
+	"block.rocks.cherry_stick":"Kirschholzstock",
+	"block.rocks.bamboo_stick":"Bambusstock",
 	"block.rocks.crimson_stick":"Karmesinstock",
 	"block.rocks.warped_stick":"Wirrstock",
 	

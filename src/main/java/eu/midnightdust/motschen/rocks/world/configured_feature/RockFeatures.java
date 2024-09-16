@@ -77,8 +77,15 @@ public class RockFeatures {
                             .add(rocksByType.get(RockType.GRAVEL).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
                             .add(rocksByType.get(RockType.GRAVEL).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
     );
+    public static ConfiguredFeature<?, ?> ICE_ROCK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
+            new WeightedBlockStateProvider(DataPool.<BlockState>builder()
+                    .add(rocksByType.get(RockType.ICE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.TINY), 10)
+                    .add(rocksByType.get(RockType.ICE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
+                    .add(rocksByType.get(RockType.ICE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
+                    .add(rocksByType.get(RockType.ICE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
+    );
 
-    public static PlacedFeature ROCK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(ROCK_FEATURE), List.of(CountPlacementModifier.of(3), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.not(BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.ICE,Blocks.SAND,Blocks.RED_SAND,Blocks.END_STONE)))))));
+    public static PlacedFeature ROCK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(ROCK_FEATURE), List.of(CountPlacementModifier.of(3), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.not(BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.ICE, Blocks.PACKED_ICE, Blocks.SAND, Blocks.RED_SAND, Blocks.END_STONE)))))));
     public static PlacedFeature GRANITE_ROCK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(GRANITE_ROCK_FEATURE), List.of(CountPlacementModifier.of(3), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.GRANITE))))));
     public static PlacedFeature DIORITE_ROCK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(DIORITE_ROCK_FEATURE), List.of(CountPlacementModifier.of(3), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.DIORITE))))));
     public static PlacedFeature ANDESITE_ROCK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(ANDESITE_ROCK_FEATURE), List.of(CountPlacementModifier.of(3), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.ANDESITE))))));
@@ -86,6 +93,7 @@ public class RockFeatures {
     public static PlacedFeature RED_SAND_ROCK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(RED_SAND_ROCK_FEATURE), List.of(CountPlacementModifier.of(7), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.RED_SAND, Blocks.RED_SANDSTONE))))));
     public static PlacedFeature END_STONE_ROCK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(END_STONE_ROCK_FEATURE), List.of(CountPlacementModifier.of(3), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.END_STONE))))));
     public static PlacedFeature GRAVEL_ROCK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(GRAVEL_ROCK_FEATURE), List.of(CountPlacementModifier.of(3), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.GRAVEL))))));
+    public static PlacedFeature ICE_ROCK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(ICE_ROCK_FEATURE), List.of(CountPlacementModifier.of(3), RarityFilterPlacementModifier.of(5), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.ICE, Blocks.PACKED_ICE, Blocks.BLUE_ICE))))));
 
     public static void initConfigured(Registerable<ConfiguredFeature<?, ?>> context) {
         register(context, "rock", ROCK_FEATURE);
@@ -96,6 +104,7 @@ public class RockFeatures {
         register(context, "red_sand_rock", RED_SAND_ROCK_FEATURE);
         register(context, "end_stone_rock", END_STONE_ROCK_FEATURE);
         register(context, "gravel_rock", GRAVEL_ROCK_FEATURE);
+        register(context, "ice_rock", ICE_ROCK_FEATURE);
     }
     public static void initPlaced(Registerable<PlacedFeature> context) {
         register(context, "rock", ROCK_PLACED_FEATURE);
@@ -106,5 +115,6 @@ public class RockFeatures {
         register(context, "red_sand_rock", RED_SAND_ROCK_PLACED_FEATURE);
         register(context, "end_stone_rock", END_STONE_ROCK_PLACED_FEATURE);
         register(context, "gravel_rock", GRAVEL_ROCK_PLACED_FEATURE);
+        register(context, "ice_rock", ICE_ROCK_PLACED_FEATURE);
     }
 }

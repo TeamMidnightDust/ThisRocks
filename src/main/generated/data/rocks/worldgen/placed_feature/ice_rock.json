@@ -7,7 +7,7 @@
         "entries": [
           {
             "data": {
-              "Name": "rocks:rock",
+              "Name": "rocks:ice_rock",
               "Properties": {
                 "variation": "tiny"
               }
@@ -16,7 +16,7 @@
           },
           {
             "data": {
-              "Name": "rocks:rock",
+              "Name": "rocks:ice_rock",
               "Properties": {
                 "variation": "small"
               }
@@ -25,7 +25,7 @@
           },
           {
             "data": {
-              "Name": "rocks:rock",
+              "Name": "rocks:ice_rock",
               "Properties": {
                 "variation": "medium"
               }
@@ -34,7 +34,7 @@
           },
           {
             "data": {
-              "Name": "rocks:rock",
+              "Name": "rocks:ice_rock",
               "Properties": {
                 "variation": "large"
               }
@@ -52,7 +52,7 @@
     },
     {
       "type": "minecraft:rarity_filter",
-      "chance": 1
+      "chance": 5
     },
     {
       "type": "minecraft:in_square"
@@ -74,22 +74,17 @@
             "blocks": "minecraft:air"
           },
           {
-            "type": "minecraft:not",
-            "predicate": {
-              "type": "minecraft:matching_blocks",
-              "blocks": [
-                "minecraft:ice",
-                "minecraft:packed_ice",
-                "minecraft:sand",
-                "minecraft:red_sand",
-                "minecraft:end_stone"
-              ],
-              "offset": [
-                0,
-                -1,
-                0
-              ]
-            }
+            "type": "minecraft:matching_blocks",
+            "blocks": [
+              "minecraft:ice",
+              "minecraft:packed_ice",
+              "minecraft:blue_ice"
+            ],
+            "offset": [
+              0,
+              -1,
+              0
+            ]
           }
         ]
       }

@@ -11,6 +11,7 @@
 	"block.rocks.end_stone_rock":"End Stone Rock",
 	"block.rocks.netherrack_rock":"Netherrack Rock",
 	"block.rocks.soul_soil_rock":"Soul Soil Rock",
+	"block.rocks.ice_rock":"Ice Rock",
 	
 	"block.rocks.oak_stick":"Oak Stick",
 	"block.rocks.birch_stick":"Birch Stick",
@@ -40,6 +41,7 @@
 	"item.rocks.end_stone_splitter":"End Stone Splitter",
 	"item.rocks.netherrack_splitter":"Netherrack Splitter",
 	"item.rocks.soul_soil_splitter":"Soul Soil Splitter",
+	"item.rocks.ice_splitter":"Ice Splitter",
 
 	"rocks.midnightconfig.title":"This Rocks! Config",
 	"rocks.midnightconfig.category.rocks":"Rocks",
@@ -55,5 +57,8 @@
 	"rocks.midnightconfig.underwaterSeashell":"Underwater Seashell",
 	"rocks.midnightconfig.underwaterStarfish":"Underwater Starfish",
 	"rocks.midnightconfig.geyserLevitation":"Geyser Levitation",
-	"rocks.midnightconfig.netherGeyserDamage":"Nether Geyser Damage"
+	"rocks.midnightconfig.netherGeyserDamage":"Nether Geyser Damage",
+	"rocks.midnightconfig.enablePolymerMode":"Enable Polymer Mode",
+	"rocks.midnightconfig.enablePolymerMode.tooltip":"Allows the mod to work fully server-sided when used in combination with Polymer and FactoryTools",
+	"rocks.midnightconfig.polymerViewDistance":"Polymer View Distance"
 }
