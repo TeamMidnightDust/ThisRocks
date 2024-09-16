@@ -35,23 +35,12 @@ public class Rock extends Block {
     @Override
     public BlockState getPlacementState(ItemPlacementContext itemPlacementContext) {
         return Objects.requireNonNull(super.getPlacementState(itemPlacementContext))
-                .with(ROCK_VARIATION, RockVariation.TINY);
+                .with(ROCK_VARIATION, RockVariation.values()[itemPlacementContext.getWorld().random.nextBetween(0, 3)]);
     }
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (player.isCreative()) {
-            if (state.get(ROCK_VARIATION) == RockVariation.TINY) {
-                world.setBlockState(pos, state.with(ROCK_VARIATION, RockVariation.SMALL));
-            }
-            if (state.get(ROCK_VARIATION) == RockVariation.SMALL) {
-                world.setBlockState(pos, state.with(ROCK_VARIATION, RockVariation.MEDIUM));
-            }
-            if (state.get(ROCK_VARIATION) == RockVariation.MEDIUM) {
-                world.setBlockState(pos, state.with(ROCK_VARIATION, RockVariation.LARGE));
-            }
-            if (state.get(ROCK_VARIATION) == RockVariation.LARGE) {
-                world.setBlockState(pos, state.with(ROCK_VARIATION, RockVariation.TINY));
-            }
+            world.setBlockState(pos, state.with(ROCK_VARIATION, state.get(ROCK_VARIATION).next()));
             return ActionResult.SUCCESS;
         }
         else return ActionResult.FAIL;

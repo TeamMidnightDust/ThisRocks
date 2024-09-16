@@ -20,4 +20,10 @@ public enum StickVariation implements StringIdentifiable {
     public String asString() {
         return this.name;
     }
+
+    private static final StickVariation[] vals = values();
+
+    public StickVariation next() {
+        return vals[(this.ordinal() + 1) % vals.length];
+    }
 }

@@ -20,4 +20,10 @@ public enum StarfishVariation implements StringIdentifiable {
     public String asString() {
         return this.name;
     }
+
+    private static final StarfishVariation[] vals = values();
+
+    public StarfishVariation next() {
+        return vals[(this.ordinal() + 1) % vals.length];
+    }
 }

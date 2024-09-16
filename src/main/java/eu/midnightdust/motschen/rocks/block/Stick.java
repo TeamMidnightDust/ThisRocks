@@ -1,6 +1,7 @@
 package eu.midnightdust.motschen.rocks.block;
 
 import eu.midnightdust.motschen.rocks.RocksMain;
+import eu.midnightdust.motschen.rocks.blockstates.RockVariation;
 import eu.midnightdust.motschen.rocks.blockstates.StickVariation;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
@@ -38,19 +39,13 @@ public class Stick extends Block {
     @Override
     public BlockState getPlacementState(ItemPlacementContext itemPlacementContext) {
         return Objects.requireNonNull(super.getPlacementState(itemPlacementContext))
-                .with(STICK_VARIATION, StickVariation.SMALL).with(WATERLOGGED, false);
+                .with(STICK_VARIATION, StickVariation.values()[itemPlacementContext.getWorld().random.nextBetween(0, 2)])
+                .with(WATERLOGGED, false);
     }
+    @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (player.isCreative()) {
-            if (state.get(STICK_VARIATION) == StickVariation.SMALL) {
-                world.setBlockState(pos, state.with(STICK_VARIATION, StickVariation.MEDIUM));
-            }
-            if (state.get(STICK_VARIATION) == StickVariation.MEDIUM) {
-                world.setBlockState(pos, state.with(STICK_VARIATION, StickVariation.LARGE));
-            }
-            if (state.get(STICK_VARIATION) == StickVariation.LARGE) {
-                world.setBlockState(pos, state.with(STICK_VARIATION, StickVariation.SMALL));
-            }
+            world.setBlockState(pos, state.with(STICK_VARIATION, state.get(STICK_VARIATION).next()));
             return ActionResult.SUCCESS;
         }
         else return ActionResult.FAIL;

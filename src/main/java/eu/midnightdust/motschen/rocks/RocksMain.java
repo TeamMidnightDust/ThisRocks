@@ -1,5 +1,6 @@
 package eu.midnightdust.motschen.rocks;
 
+import eu.midnightdust.lib.util.PlatformFunctions;
 import eu.midnightdust.motschen.rocks.block.*;
 import eu.midnightdust.motschen.rocks.block.blockentity.BlockEntityInit;
 import eu.midnightdust.motschen.rocks.blockstates.RockVariation;
@@ -7,10 +8,17 @@ import eu.midnightdust.motschen.rocks.blockstates.SeashellVariation;
 import eu.midnightdust.motschen.rocks.blockstates.StarfishVariation;
 import eu.midnightdust.motschen.rocks.blockstates.StickVariation;
 import eu.midnightdust.motschen.rocks.config.RocksConfig;
+import eu.midnightdust.motschen.rocks.networking.HelloPayload;
+import eu.midnightdust.motschen.rocks.util.RockType;
+import eu.midnightdust.motschen.rocks.util.polymer.PolyUtil;
 import eu.midnightdust.motschen.rocks.world.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.Block;
+import net.minecraft.block.WoodType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -18,62 +26,40 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static eu.midnightdust.motschen.rocks.util.RegistryUtil.registerBlockWithItem;
 import static eu.midnightdust.motschen.rocks.util.RegistryUtil.registerItem;
+import static eu.midnightdust.motschen.rocks.util.polymer.PolyUtil.*;
 
 public class RocksMain implements ModInitializer {
     public static final String MOD_ID = "rocks";
+    public static boolean polymerMode = hasRequiredPolymerModules();
+    public static List<ServerPlayerEntity> playersWithMod = new ArrayList<>();
 
     public static final EnumProperty<RockVariation> ROCK_VARIATION = EnumProperty.of("variation", RockVariation.class);
     public static final EnumProperty<StickVariation> STICK_VARIATION = EnumProperty.of("variation", StickVariation.class);
     public static final EnumProperty<SeashellVariation> SEASHELL_VARIATION = EnumProperty.of("variation", SeashellVariation.class);
     public static final EnumProperty<StarfishVariation> STARFISH_VARIATION = EnumProperty.of("variation", StarfishVariation.class);
 
-    public static Block Rock = new Rock();
-    public static Block GraniteRock = new Rock();
-    public static Block DioriteRock = new Rock();
-    public static Block AndesiteRock = new Rock();
-    public static Block SandRock = new Rock();
-    public static Block RedSandRock = new Rock();
-    public static Block GravelRock = new Rock();
-    public static Block EndstoneRock = new Rock();
-    public static Block NetherrackRock = new Rock();
-    public static Block SoulSoilRock = new Rock();
+    public static Map<RockType, Rock> rocksByType = new HashMap<>();
+    public static Map<WoodType, Stick> sticksByType = new HashMap<>();
+    public static Map<RockType, Item> splittersByType = new HashMap<>();
 
-    public static Block OakStick = new Stick();
-    public static Block SpruceStick = new Stick();
-    public static Block BirchStick = new Stick();
-    public static Block AcaciaStick = new Stick();
-    public static Block JungleStick = new Stick();
-    public static Block DarkOakStick = new Stick();
-    public static Block MangroveStick = new Stick();
-    public static Block CherryStick = new Stick();
-    public static Block BambooStick = new Stick();
-    public static Block CrimsonStick = new Stick();
-    public static Block WarpedStick = new Stick();
+    public static Block Pinecone;
+    public static Block Seashell;
+    public static Block Starfish;
+    public static Block Geyser;
+    public static Block NetherGeyser;
 
-    public static Block Pinecone = new Pinecone();
-    public static Block Seashell = new Seashell();
-    public static Block Starfish = new Starfish();
-    public static Block Geyser = new OverworldGeyser();
-    public static Block NetherGeyser = new NetherGeyser();
-
-    public static Item CobblestoneSplitter;
-    public static Item GraniteSplitter;
-    public static Item DioriteSplitter;
-    public static Item AndesiteSplitter;
-    public static Item SandStoneSplitter;
-    public static Item RedSandStoneSplitter;
-    public static Item EndStoneSplitter;
-    public static Item NetherrackSplitter;
-    public static Item SoulSoilSplitter;
     public static List<ItemStack> groupItems = new ArrayList<>();
     public static ItemGroup RocksGroup;
     public static final RegistryKey<ItemGroup> ROCKS_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier.of(MOD_ID, "rocks"));
@@ -81,71 +67,66 @@ public class RocksMain implements ModInitializer {
     @Override
     public void onInitialize() {
         RocksConfig.init("rocks", RocksConfig.class);
+        if (polymerMode) polymerMode = RocksConfig.enablePolymerMode && !PlatformFunctions.isClientEnv();
 
-        registerBlockWithItem(Identifier.of(MOD_ID,"rock"), Rock);
-        registerBlockWithItem(Identifier.of(MOD_ID,"granite_rock"), GraniteRock);
-        registerBlockWithItem(Identifier.of(MOD_ID,"diorite_rock"), DioriteRock);
-        registerBlockWithItem(Identifier.of(MOD_ID,"andesite_rock"), AndesiteRock);
-        registerBlockWithItem(Identifier.of(MOD_ID,"sand_rock"), SandRock);
-        registerBlockWithItem(Identifier.of(MOD_ID,"red_sand_rock"), RedSandRock);
-        registerBlockWithItem(Identifier.of(MOD_ID,"gravel_rock"), GravelRock);
-        registerBlockWithItem(Identifier.of(MOD_ID,"end_stone_rock"), EndstoneRock);
-        registerBlockWithItem(Identifier.of(MOD_ID,"netherrack_rock"), NetherrackRock);
-        registerBlockWithItem(Identifier.of(MOD_ID,"soul_soil_rock"), SoulSoilRock);
+        PayloadTypeRegistry.playC2S().register(HelloPayload.PACKET_ID, HelloPayload.codec);
+        ServerPlayNetworking.registerGlobalReceiver(HelloPayload.PACKET_ID, (payload, context) -> {
+            playersWithMod.add(context.player());
+            if (polymerMode) PolyUtil.hideElementHolders(context.player());
+        });
+        ServerPlayConnectionEvents.DISCONNECT.register((playNetworkHandler, server) -> {
+            playersWithMod.remove(playNetworkHandler.player);
+        });
 
-        registerBlockWithItem(Identifier.of(MOD_ID,"oak_stick"), OakStick);
-        registerBlockWithItem(Identifier.of(MOD_ID,"spruce_stick"), SpruceStick);
-        registerBlockWithItem(Identifier.of(MOD_ID,"birch_stick"), BirchStick);
-        registerBlockWithItem(Identifier.of(MOD_ID,"acacia_stick"), AcaciaStick);
-        registerBlockWithItem(Identifier.of(MOD_ID,"jungle_stick"), JungleStick);
-        registerBlockWithItem(Identifier.of(MOD_ID,"dark_oak_stick"), DarkOakStick);
-        registerBlockWithItem(Identifier.of(MOD_ID,"mangrove_stick"), MangroveStick);
-        registerBlockWithItem(Identifier.of(MOD_ID,"cherry_stick"), CherryStick);
-        registerBlockWithItem(Identifier.of(MOD_ID,"bamboo_stick"), BambooStick);
-        registerBlockWithItem(Identifier.of(MOD_ID,"crimson_stick"), CrimsonStick);
-        registerBlockWithItem(Identifier.of(MOD_ID,"warped_stick"), WarpedStick);
+        if (polymerMode) PolyUtil.init();
 
-        registerBlockWithItem(Identifier.of(MOD_ID,"geyser"), Geyser);
-        registerBlockWithItem(Identifier.of(MOD_ID,"nether_geyser"), NetherGeyser);
+        for (RockType type : RockType.values()) {
+            rocksByType.put(type, registerBlockWithItem(id(type.getName()), polymerMode ? newRockPolymer() : new Rock()));
+        }
+        for (RockType type : RockType.values()) {
+            if (type != RockType.GRAVEL)
+                splittersByType.put(type, registerItem(id(type.getSplitterName()), simpleItem()));
+        }
+        for (WoodType type : WoodType.stream().toList()) {
+            sticksByType.put(type, registerBlockWithItem(id(type.name()+"_stick"), polymerMode ? newStickPolymer() : new Stick()));
+        }
 
-        registerBlockWithItem(Identifier.of(MOD_ID,"pinecone"), Pinecone);
-        registerBlockWithItem(Identifier.of(MOD_ID,"seashell"), Seashell);
-        registerBlockWithItem(Identifier.of(MOD_ID,"starfish"), Starfish);
 
-        CobblestoneSplitter = simpleItem();
-        GraniteSplitter = simpleItem();
-        DioriteSplitter = simpleItem();
-        AndesiteSplitter = simpleItem();
-        SandStoneSplitter = simpleItem();
-        RedSandStoneSplitter = simpleItem();
-        EndStoneSplitter = simpleItem();
-        NetherrackSplitter = simpleItem();
-        SoulSoilSplitter = simpleItem();
+        Pinecone = registerBlockWithItem(Identifier.of(MOD_ID,"pinecone"), polymerMode ? newPineconePolymer() : new Pinecone());
+        Seashell = registerBlockWithItem(Identifier.of(MOD_ID,"seashell"), polymerMode ? newSeashellPolymer() : new Seashell());
+        Starfish = registerBlockWithItem(Identifier.of(MOD_ID,"starfish"), polymerMode ? newStarfishPolymer() : new Starfish());
 
-        registerItem(Identifier.of(MOD_ID,"cobblestone_splitter"), CobblestoneSplitter);
-        registerItem(Identifier.of(MOD_ID,"granite_splitter"), GraniteSplitter);
-        registerItem(Identifier.of(MOD_ID,"diorite_splitter"), DioriteSplitter);
-        registerItem(Identifier.of(MOD_ID,"andesite_splitter"), AndesiteSplitter);
-        registerItem(Identifier.of(MOD_ID,"sandstone_splitter"), SandStoneSplitter);
-        registerItem(Identifier.of(MOD_ID,"red_sandstone_splitter"), RedSandStoneSplitter);
-        registerItem(Identifier.of(MOD_ID,"end_stone_splitter"), EndStoneSplitter);
-        registerItem(Identifier.of(MOD_ID,"netherrack_splitter"), NetherrackSplitter);
-        registerItem(Identifier.of(MOD_ID,"soul_soil_splitter"), SoulSoilSplitter);
+        Geyser = registerBlockWithItem(Identifier.of(MOD_ID,"geyser"), polymerMode ? newOverworldGeyserPolymer() : new OverworldGeyser());
+        NetherGeyser = registerBlockWithItem(Identifier.of(MOD_ID,"nether_geyser"), polymerMode ? newNetherGeyserPolymer() : new NetherGeyser());
 
         registerItemGroup();
 
-        new FeatureRegistry();
+        FeatureRegistry.init();
         FeatureInjector.init();
         BlockEntityInit.init();
     }
     public static Identifier id(String path) {
         return Identifier.of(MOD_ID, path);
     }
+
+    private static boolean hasRequiredPolymerModules() {
+        return PlatformFunctions.isModLoaded("polymer-core") &&
+                PlatformFunctions.isModLoaded("polymer-blocks") &&
+                PlatformFunctions.isModLoaded("polymer-resource-pack") &&
+                PlatformFunctions.isModLoaded("polymer-virtual-entity") &&
+                PlatformFunctions.isModLoaded("factorytools");
+    }
+
     public static Item simpleItem() {
+        if (polymerMode) return PolyUtil.simplePolymerItem();
         return new Item(new Item.Settings());
     }
+
     public static void registerItemGroup() {
-        RocksGroup = FabricItemGroup.builder().displayName(Text.translatable("itemGroup.rocks.rocks")).icon(() -> new ItemStack(RocksMain.Rock)).entries(((displayContext, entries) -> entries.addAll(groupItems))).build();
-        Registry.register(Registries.ITEM_GROUP, ROCKS_GROUP, RocksGroup);
+        if (polymerMode) PolyUtil.registerPolymerGroup();
+        else {
+            RocksGroup = FabricItemGroup.builder().displayName(Text.translatable("itemGroup.rocks.rocks")).icon(() -> new ItemStack(rocksByType.get(RockType.STONE))).entries(((displayContext, entries) -> entries.addAll(groupItems))).build();
+            Registry.register(Registries.ITEM_GROUP, ROCKS_GROUP, RocksGroup);
+        }
     }
 }

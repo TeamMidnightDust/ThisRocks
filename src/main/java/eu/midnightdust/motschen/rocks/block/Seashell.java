@@ -1,6 +1,7 @@
 package eu.midnightdust.motschen.rocks.block;
 
 import eu.midnightdust.motschen.rocks.RocksMain;
+import eu.midnightdust.motschen.rocks.blockstates.RockVariation;
 import eu.midnightdust.motschen.rocks.blockstates.SeashellVariation;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
@@ -46,21 +47,14 @@ public class Seashell extends Block implements Waterloggable {
     public BlockState getPlacementState(ItemPlacementContext itemPlacementContext) {
         FluidState fluidState = itemPlacementContext.getWorld().getFluidState(itemPlacementContext.getBlockPos());
         return Objects.requireNonNull(super.getPlacementState(itemPlacementContext))
-                .with(SEASHELL_VARIATION, SeashellVariation.PINK).with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
+                .with(SEASHELL_VARIATION, SeashellVariation.values()[itemPlacementContext.getWorld().random.nextBetween(0, 2)])
+                .with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
     }
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (player.isCreative()) {
-            if (state.get(SEASHELL_VARIATION) == SeashellVariation.YELLOW) {
-                world.setBlockState(pos, state.with(SEASHELL_VARIATION, SeashellVariation.WHITE));
-            }
-            if (state.get(SEASHELL_VARIATION) == SeashellVariation.WHITE) {
-                world.setBlockState(pos, state.with(SEASHELL_VARIATION, SeashellVariation.PINK));
-            }
-            if (state.get(SEASHELL_VARIATION) == SeashellVariation.PINK) {
-                world.setBlockState(pos, state.with(SEASHELL_VARIATION, SeashellVariation.YELLOW));
-            }
+            world.setBlockState(pos, state.with(SEASHELL_VARIATION, state.get(SEASHELL_VARIATION).next()));
             return ActionResult.SUCCESS;
         }
         else return ActionResult.FAIL;

@@ -35,6 +35,7 @@ repositories {
 	maven {
 		url = "https://api.modrinth.com/maven"
 	}
+	maven { url 'https://maven.nucleoid.xyz' }
 }
 
 dependencies {
@@ -46,8 +47,14 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation "maven.modrinth:midnightlib:${midnightlib_version}"
-	include "maven.modrinth:midnightlib:${midnightlib_version}"
+	modImplementation include("maven.modrinth:midnightlib:${midnightlib_version}")
+
+	modImplementation ("eu.pb4:polymer-core:${polymer_version}")
+	modImplementation ("eu.pb4:polymer-blocks:${polymer_version}")
+	modImplementation ("eu.pb4:polymer-resource-pack:${polymer_version}")
+	modImplementation ("eu.pb4:polymer-virtual-entity:${polymer_version}")
+	modImplementation ("eu.pb4:polymer-autohost:${polymer_version}")
+	modImplementation ("eu.pb4:factorytools:${factorytools_version}")
 }
 
 processResources {

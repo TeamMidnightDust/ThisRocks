@@ -21,4 +21,10 @@ public enum RockVariation implements StringIdentifiable {
     public String asString() {
         return this.name;
     }
+
+    private static final RockVariation[] vals = values();
+
+    public RockVariation next() {
+        return vals[(this.ordinal() + 1) % vals.length];
+    }
 }

@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "polymer-rocks:item/starfish_pink"
+	}
+}

@@ -13,7 +13,7 @@ public class MixinModelElementDeserializer {
      * @author Motschen
      * @reason Not cancellable
      * Unlimited rotation angles for starfish
-     * Inspired by https://github.com/CottonMC/ModelsUnlocked/blob/master/src/main/java/io/github/cottonmc/modelsunlocked/mixin/ModelElementDeserializerMixin.java
+     * Inspired by <a href="https://github.com/CottonMC/ModelsUnlocked/blob/master/src/main/java/io/github/cottonmc/modelsunlocked/mixin/ModelElementDeserializerMixin.java">ModelsUnlocked</a>
      */
     @Overwrite
     private float deserializeRotationAngle(JsonObject json) {

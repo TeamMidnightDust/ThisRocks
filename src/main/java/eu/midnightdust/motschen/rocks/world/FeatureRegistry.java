@@ -21,6 +21,8 @@ public class FeatureRegistry {
     public static final UnderwaterFeature UNDERWATER_SEASHELL_FEATURE;
     public static final SnowFeature SNOWY_GEYSER_FEATURE;
 
+    public static void init() {}
+
     private static <C extends FeatureConfig, F extends Feature<C>> F register(String name, F feature) {
         return Registry.register(Registries.FEATURE, name, feature);
     }

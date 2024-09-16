@@ -44,4 +44,7 @@ public class RocksConfig extends MidnightConfig {
     public final static String effects = "effects";
     @Entry(category = effects) public static boolean geyserLevitation = true;
     @Entry(category = effects) public static boolean netherGeyserDamage = true;
+
+    @Entry(category = effects) public static boolean enablePolymerMode = true;
+    @Entry(category = effects, min = 0, max = 200, isSlider = true) public static int polymerViewDistance = 100;
 }

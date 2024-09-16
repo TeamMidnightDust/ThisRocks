@@ -1,6 +1,7 @@
 package eu.midnightdust.motschen.rocks.block;
 
 import eu.midnightdust.motschen.rocks.RocksMain;
+import eu.midnightdust.motschen.rocks.blockstates.RockVariation;
 import eu.midnightdust.motschen.rocks.blockstates.StarfishVariation;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
@@ -52,6 +53,7 @@ public class Starfish extends Block implements Waterloggable {
     public BlockState getPlacementState(ItemPlacementContext itemPlacementContext) {
         FluidState fluidState = itemPlacementContext.getWorld().getFluidState(itemPlacementContext.getBlockPos());
         return Objects.requireNonNull(super.getPlacementState(itemPlacementContext))
+                .with(STARFISH_VARIATION, StarfishVariation.values()[itemPlacementContext.getWorld().random.nextBetween(0, 2)])
                 .with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
     }
     @Override
@@ -63,15 +65,7 @@ public class Starfish extends Block implements Waterloggable {
 
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (player.isCreative()) {
-            if (state.get(STARFISH_VARIATION) == StarfishVariation.RED) {
-                world.setBlockState(pos, state.with(STARFISH_VARIATION, StarfishVariation.PINK));
-            }
-            if (state.get(STARFISH_VARIATION) == StarfishVariation.PINK) {
-                world.setBlockState(pos, state.with(STARFISH_VARIATION, StarfishVariation.ORANGE));
-            }
-            if (state.get(STARFISH_VARIATION) == StarfishVariation.ORANGE) {
-                world.setBlockState(pos, state.with(STARFISH_VARIATION, StarfishVariation.RED));
-            }
+            world.setBlockState(pos, state.with(STARFISH_VARIATION, state.get(STARFISH_VARIATION).next()));
             return ActionResult.SUCCESS;
         }
         else return ActionResult.FAIL;

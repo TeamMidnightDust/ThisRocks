@@ -3,6 +3,7 @@ package eu.midnightdust.motschen.rocks.world.configured_feature;
 import com.google.common.collect.ImmutableList;
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.blockstates.RockVariation;
+import eu.midnightdust.motschen.rocks.util.RockType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.registry.*;
@@ -16,64 +17,65 @@ import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
 
 import java.util.List;
 
+import static eu.midnightdust.motschen.rocks.RocksMain.rocksByType;
 import static eu.midnightdust.motschen.rocks.util.RegistryUtil.register;
 
 public class RockFeatures {
     public static ConfiguredFeature<?, ?> ROCK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
                     new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                            .add(RocksMain.Rock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.TINY), 10)
-                            .add(RocksMain.Rock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
-                            .add(RocksMain.Rock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
-                            .add(RocksMain.Rock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
+                            .add(rocksByType.get(RockType.STONE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.TINY), 10)
+                            .add(rocksByType.get(RockType.STONE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
+                            .add(rocksByType.get(RockType.STONE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
+                            .add(rocksByType.get(RockType.STONE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
     );
     public static ConfiguredFeature<?, ?> GRANITE_ROCK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
                     new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                            .add(RocksMain.GraniteRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.TINY), 10)
-                            .add(RocksMain.GraniteRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
-                            .add(RocksMain.GraniteRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
-                            .add(RocksMain.GraniteRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
+                            .add(rocksByType.get(RockType.GRANITE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.TINY), 10)
+                            .add(rocksByType.get(RockType.GRANITE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
+                            .add(rocksByType.get(RockType.GRANITE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
+                            .add(rocksByType.get(RockType.GRANITE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
     );
     public static ConfiguredFeature<?, ?> DIORITE_ROCK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
                     new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                            .add(RocksMain.DioriteRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.TINY), 10)
-                            .add(RocksMain.DioriteRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
-                            .add(RocksMain.DioriteRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
-                            .add(RocksMain.DioriteRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
+                            .add(rocksByType.get(RockType.DIORITE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.TINY), 10)
+                            .add(rocksByType.get(RockType.DIORITE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
+                            .add(rocksByType.get(RockType.DIORITE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
+                            .add(rocksByType.get(RockType.DIORITE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
     );
     public static ConfiguredFeature<?, ?> ANDESITE_ROCK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
                     new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                            .add(RocksMain.AndesiteRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.TINY), 10)
-                            .add(RocksMain.AndesiteRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
-                            .add(RocksMain.AndesiteRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
-                            .add(RocksMain.AndesiteRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
+                            .add(rocksByType.get(RockType.ANDESITE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.TINY), 10)
+                            .add(rocksByType.get(RockType.ANDESITE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
+                            .add(rocksByType.get(RockType.ANDESITE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
+                            .add(rocksByType.get(RockType.ANDESITE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
     );
     public static ConfiguredFeature<?, ?> SAND_ROCK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
                     new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                            .add(RocksMain.SandRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.TINY), 10)
-                            .add(RocksMain.SandRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
-                            .add(RocksMain.SandRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
-                            .add(RocksMain.SandRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
+                            .add(rocksByType.get(RockType.SANDSTONE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.TINY), 10)
+                            .add(rocksByType.get(RockType.SANDSTONE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
+                            .add(rocksByType.get(RockType.SANDSTONE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
+                            .add(rocksByType.get(RockType.SANDSTONE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
     );
     public static ConfiguredFeature<?, ?> RED_SAND_ROCK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK,new SimpleBlockFeatureConfig(
                     new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                            .add(RocksMain.RedSandRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.TINY), 10)
-                            .add(RocksMain.RedSandRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
-                            .add(RocksMain.RedSandRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
-                            .add(RocksMain.RedSandRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
+                            .add(rocksByType.get(RockType.RED_SANDSTONE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.TINY), 10)
+                            .add(rocksByType.get(RockType.RED_SANDSTONE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
+                            .add(rocksByType.get(RockType.RED_SANDSTONE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
+                            .add(rocksByType.get(RockType.RED_SANDSTONE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
     );
     public static ConfiguredFeature<?, ?> END_STONE_ROCK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
                     new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                            .add(RocksMain.EndstoneRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.TINY), 10)
-                            .add(RocksMain.EndstoneRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
-                            .add(RocksMain.EndstoneRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
-                            .add(RocksMain.EndstoneRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build())
+                            .add(rocksByType.get(RockType.END_STONE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.TINY), 10)
+                            .add(rocksByType.get(RockType.END_STONE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
+                            .add(rocksByType.get(RockType.END_STONE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
+                            .add(rocksByType.get(RockType.END_STONE).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build())
                     ));
     public static ConfiguredFeature<?, ?> GRAVEL_ROCK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
                     new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                            .add(RocksMain.GravelRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.TINY), 10)
-                            .add(RocksMain.GravelRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
-                            .add(RocksMain.GravelRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
-                            .add(RocksMain.GravelRock.getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
+                            .add(rocksByType.get(RockType.GRAVEL).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.TINY), 10)
+                            .add(rocksByType.get(RockType.GRAVEL).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
+                            .add(rocksByType.get(RockType.GRAVEL).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
+                            .add(rocksByType.get(RockType.GRAVEL).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
     );
 
     public static PlacedFeature ROCK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(ROCK_FEATURE), List.of(CountPlacementModifier.of(3), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.not(BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.ICE,Blocks.SAND,Blocks.RED_SAND,Blocks.END_STONE)))))));

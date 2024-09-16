@@ -1,0 +1,6 @@
+{
+	"parent": "polymer-rocks:block/starfish_first_arm",
+	"textures": {
+		"0": "rocks:block/starfish_red"
+	}
+}

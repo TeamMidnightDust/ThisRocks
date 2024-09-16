@@ -2,6 +2,7 @@ package eu.midnightdust.motschen.rocks.util;
 
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.blockstates.StarfishVariation;
+import eu.midnightdust.motschen.rocks.util.polymer.PolyUtil;
 import net.minecraft.block.Block;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.DataComponentTypes;
@@ -19,33 +20,30 @@ import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.PlacedFeature;
 
 import static eu.midnightdust.motschen.rocks.RocksMain.STARFISH_VARIATION;
+import static eu.midnightdust.motschen.rocks.RocksMain.polymerMode;
 
 public class RegistryUtil {
-    public static void registerBlockWithItem(Identifier id, Block block) {
+    public static <T extends Block> T registerBlockWithItem(Identifier id, T block) {
         Registry.register(Registries.BLOCK, id, block);
         registerItem(id, blockItem(block));
+        return block;
     }
     public static Item blockItem(Block block) {
+        if (polymerMode) return PolyUtil.polymerBlockItem(block);
         return new BlockItem(block, new Item.Settings());
     }
-    public static void registerItem(Identifier id, Item item) {
+    public static Item registerItem(Identifier id, Item item) {
         Registry.register(Registries.ITEM, id, item);
         if (id.equals(Identifier.of(RocksMain.MOD_ID, "starfish"))) putStarfishItems(item);
-        else {
-            ItemStack itemStack = new ItemStack(item);
-            RocksMain.groupItems.add(itemStack);
-        }
+        else RocksMain.groupItems.add(new ItemStack(item));
+        return item;
     }
     private static void putStarfishItems(Item starfish) {
-        ItemStack redStarfish = new ItemStack(starfish);
-        redStarfish.applyComponentsFrom(ComponentMap.builder().add(DataComponentTypes.BLOCK_STATE, BlockStateComponent.DEFAULT.with(STARFISH_VARIATION, StarfishVariation.RED)).build());
-        RocksMain.groupItems.add(redStarfish);
-        ItemStack orangeStarfish = new ItemStack(starfish);
-        orangeStarfish.applyComponentsFrom(ComponentMap.builder().add(DataComponentTypes.BLOCK_STATE, BlockStateComponent.DEFAULT.with(STARFISH_VARIATION, StarfishVariation.ORANGE)).build());
-        RocksMain.groupItems.add(orangeStarfish);
-        ItemStack pinkStarfish = new ItemStack(starfish);
-        pinkStarfish.applyComponentsFrom(ComponentMap.builder().add(DataComponentTypes.BLOCK_STATE, BlockStateComponent.DEFAULT.with(STARFISH_VARIATION, StarfishVariation.PINK)).build());
-        RocksMain.groupItems.add(pinkStarfish);
+        for (StarfishVariation variation : StarfishVariation.values()) {
+            ItemStack starfishType = new ItemStack(starfish);
+            starfishType.applyComponentsFrom(ComponentMap.builder().add(DataComponentTypes.BLOCK_STATE, BlockStateComponent.DEFAULT.with(STARFISH_VARIATION, variation)).build());
+            RocksMain.groupItems.add(starfishType);
+        }
     }
     public static void register(Registerable<ConfiguredFeature<?, ?>> context, String name, ConfiguredFeature<?, ?> feature) {
         context.register(RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, Identifier.of(RocksMain.MOD_ID, name)), feature);

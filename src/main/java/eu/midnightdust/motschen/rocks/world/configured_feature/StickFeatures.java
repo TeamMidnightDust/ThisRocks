@@ -5,6 +5,7 @@ import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.blockstates.StickVariation;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.WoodType;
 import net.minecraft.registry.Registerable;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.collection.DataPool;
@@ -16,63 +17,64 @@ import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
 
 import java.util.List;
 
+import static eu.midnightdust.motschen.rocks.RocksMain.sticksByType;
 import static eu.midnightdust.motschen.rocks.util.RegistryUtil.register;
 
 public class StickFeatures {
     public static ConfiguredFeature<?, ?> OAK_STICK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
                     new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                            .add(RocksMain.OakStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.SMALL), 7)
-                            .add(RocksMain.OakStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.MEDIUM), 5)
-                            .add(RocksMain.OakStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1).build()))
+                            .add(sticksByType.get(WoodType.OAK).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.SMALL), 7)
+                            .add(sticksByType.get(WoodType.OAK).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.MEDIUM), 5)
+                            .add(sticksByType.get(WoodType.OAK).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1).build()))
             );
     public static ConfiguredFeature<?, ?> SPRUCE_STICK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
                     new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                            .add(RocksMain.SpruceStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.SMALL), 7)
-                            .add(RocksMain.SpruceStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.MEDIUM), 5)
-                            .add(RocksMain.SpruceStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1)
+                            .add(sticksByType.get(WoodType.SPRUCE).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.SMALL), 7)
+                            .add(sticksByType.get(WoodType.SPRUCE).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.MEDIUM), 5)
+                            .add(sticksByType.get(WoodType.SPRUCE).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1)
                             .add(RocksMain.Pinecone.getDefaultState(), 1).build()))
             );
     public static ConfiguredFeature<?, ?> BIRCH_STICK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
                     new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                            .add(RocksMain.BirchStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.SMALL), 7)
-                            .add(RocksMain.BirchStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.MEDIUM), 5)
-                            .add(RocksMain.BirchStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1).build()))
+                            .add(sticksByType.get(WoodType.BIRCH).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.SMALL), 7)
+                            .add(sticksByType.get(WoodType.BIRCH).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.MEDIUM), 5)
+                            .add(sticksByType.get(WoodType.BIRCH).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1).build()))
             );
     public static ConfiguredFeature<?, ?> ACACIA_STICK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
                     new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                            .add(RocksMain.AcaciaStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.SMALL), 7)
-                            .add(RocksMain.AcaciaStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.MEDIUM), 5)
-                            .add(RocksMain.AcaciaStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1).build()))
+                            .add(sticksByType.get(WoodType.ACACIA).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.SMALL), 7)
+                            .add(sticksByType.get(WoodType.ACACIA).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.MEDIUM), 5)
+                            .add(sticksByType.get(WoodType.ACACIA).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1).build()))
             );
     public static ConfiguredFeature<?, ?> JUNGLE_STICK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
                     new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                            .add(RocksMain.JungleStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.SMALL), 7)
-                            .add(RocksMain.JungleStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.MEDIUM), 5)
-                            .add(RocksMain.JungleStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1).build()))
+                            .add(sticksByType.get(WoodType.JUNGLE).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.SMALL), 7)
+                            .add(sticksByType.get(WoodType.JUNGLE).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.MEDIUM), 5)
+                            .add(sticksByType.get(WoodType.JUNGLE).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1).build()))
             );
     public static ConfiguredFeature<?, ?> DARK_OAK_STICK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
                     new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                            .add(RocksMain.DarkOakStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.SMALL), 7)
-                            .add(RocksMain.DarkOakStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.MEDIUM), 5)
-                            .add(RocksMain.DarkOakStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1).build()))
+                            .add(sticksByType.get(WoodType.DARK_OAK).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.SMALL), 7)
+                            .add(sticksByType.get(WoodType.DARK_OAK).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.MEDIUM), 5)
+                            .add(sticksByType.get(WoodType.DARK_OAK).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1).build()))
             );
     public static ConfiguredFeature<?, ?> MANGROVE_STICK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
             new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                    .add(RocksMain.MangroveStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.SMALL), 7)
-                    .add(RocksMain.MangroveStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.MEDIUM), 5)
-                    .add(RocksMain.MangroveStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1).build()))
+                    .add(sticksByType.get(WoodType.MANGROVE).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.SMALL), 7)
+                    .add(sticksByType.get(WoodType.MANGROVE).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.MEDIUM), 5)
+                    .add(sticksByType.get(WoodType.MANGROVE).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1).build()))
     );
     public static ConfiguredFeature<?, ?> CHERRY_STICK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
             new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                    .add(RocksMain.CherryStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.SMALL), 7)
-                    .add(RocksMain.CherryStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.MEDIUM), 5)
-                    .add(RocksMain.CherryStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1).build()))
+                    .add(sticksByType.get(WoodType.CHERRY).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.SMALL), 7)
+                    .add(sticksByType.get(WoodType.CHERRY).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.MEDIUM), 5)
+                    .add(sticksByType.get(WoodType.CHERRY).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1).build()))
     );
     public static ConfiguredFeature<?, ?> BAMBOO_STICK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
             new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                    .add(RocksMain.BambooStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.SMALL), 7)
-                    .add(RocksMain.BambooStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.MEDIUM), 5)
-                    .add(RocksMain.BambooStick.getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1).build()))
+                    .add(sticksByType.get(WoodType.BAMBOO).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.SMALL), 7)
+                    .add(sticksByType.get(WoodType.BAMBOO).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.MEDIUM), 5)
+                    .add(sticksByType.get(WoodType.BAMBOO).getDefaultState().with(RocksMain.STICK_VARIATION,StickVariation.LARGE), 1).build()))
     );
 
     public static final List<PlacementModifier> modifiers = List.of(CountPlacementModifier.of(3), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.GRASS_BLOCK, Blocks.MUD, Blocks.PODZOL)))));
