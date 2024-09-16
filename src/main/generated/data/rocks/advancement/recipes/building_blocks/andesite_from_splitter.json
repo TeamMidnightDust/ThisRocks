@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_andesite_splitter": {
+      "conditions": {
+        "items": [
+          {
+            "items": "rocks:andesite_splitter"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:andesite_from_splitter"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_andesite_splitter"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:andesite_from_splitter"
+    ]
+  }
+}

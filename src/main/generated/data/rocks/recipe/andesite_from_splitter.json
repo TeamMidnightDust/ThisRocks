@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "rocks:andesite_splitter"
+    },
+    {
+      "item": "rocks:andesite_splitter"
+    },
+    {
+      "item": "rocks:andesite_splitter"
+    },
+    {
+      "item": "rocks:andesite_splitter"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:andesite"
+  }
+}

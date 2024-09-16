@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "rocks:granite_splitter"
+    },
+    {
+      "item": "rocks:granite_splitter"
+    },
+    {
+      "item": "rocks:granite_splitter"
+    },
+    {
+      "item": "rocks:granite_splitter"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:granite"
+  }
+}

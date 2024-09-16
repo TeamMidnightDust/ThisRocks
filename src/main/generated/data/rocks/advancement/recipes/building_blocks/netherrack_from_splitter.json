@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_netherrack_splitter": {
+      "conditions": {
+        "items": [
+          {
+            "items": "rocks:netherrack_splitter"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:netherrack_from_splitter"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_netherrack_splitter"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:netherrack_from_splitter"
+    ]
+  }
+}

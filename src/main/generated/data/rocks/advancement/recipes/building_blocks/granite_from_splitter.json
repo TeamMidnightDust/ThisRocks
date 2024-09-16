@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_granite_splitter": {
+      "conditions": {
+        "items": [
+          {
+            "items": "rocks:granite_splitter"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:granite_from_splitter"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_granite_splitter"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:granite_from_splitter"
+    ]
+  }
+}

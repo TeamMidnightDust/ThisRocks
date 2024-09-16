@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cobblestone_splitter": {
+      "conditions": {
+        "items": [
+          {
+            "items": "rocks:cobblestone_splitter"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:stone_from_splitter"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_cobblestone_splitter"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:stone_from_splitter"
+    ]
+  }
+}

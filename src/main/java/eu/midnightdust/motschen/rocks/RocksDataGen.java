@@ -1,5 +1,8 @@
 package eu.midnightdust.motschen.rocks;
 
+import eu.midnightdust.motschen.rocks.datagen.LootTables;
+import eu.midnightdust.motschen.rocks.datagen.Recipes;
+import eu.midnightdust.motschen.rocks.datagen.Tags;
 import eu.midnightdust.motschen.rocks.world.configured_feature.MiscFeatures;
 import eu.midnightdust.motschen.rocks.world.configured_feature.NetherFeatures;
 import eu.midnightdust.motschen.rocks.world.configured_feature.RockFeatures;
@@ -19,6 +22,9 @@ public class RocksDataGen implements DataGeneratorEntrypoint {
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
         pack.addProvider(WorldGenData::new);
+        pack.addProvider(LootTables.BlockLootTables::new);
+        pack.addProvider(Tags.Blocks::new);
+        pack.addProvider(Recipes::new);
         System.out.println("out");
     }
     @Override
