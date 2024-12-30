@@ -76,7 +76,8 @@ public class PolyUtil {
     }
 
     public static void registerPolymerGroup() {
-        RocksMain.RocksGroup = PolymerItemGroupUtils.builder().displayName(Text.translatable("itemGroup.rocks.rocks")).icon(() -> new ItemStack(rocksByType.get(RockType.STONE))).entries((displayContext, entries) -> entries.addAll(RocksMain.groupItems)).build();
+        RocksMain.RocksGroup = PolymerItemGroupUtils.builder().displayName(Text.translatable("itemGroup.rocks.rocks")).icon(() ->
+                new ItemStack(rocksByType.get(RockType.STONE))).entries((displayContext, entries) -> entries.addAll(RocksMain.groupItems)).build();
         PolymerItemGroupUtils.registerPolymerItemGroup(id("rocks"), RocksMain.RocksGroup);
     }
 

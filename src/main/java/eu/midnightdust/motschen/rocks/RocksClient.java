@@ -18,9 +18,10 @@ public class RocksClient implements ClientModInitializer {
     public void onInitializeClient() {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> sender.sendPacket(new HelloPayload()));
 
-        ModelPredicateProviderRegistry.register(RocksMain.Starfish.asItem(), Identifier.of("red"), (stack, world, entity, seed) -> matchesVariation(stack, StarfishVariation.RED));
-        ModelPredicateProviderRegistry.register(RocksMain.Starfish.asItem(), Identifier.of("pink"), (stack, world, entity, seed) -> matchesVariation(stack, StarfishVariation.PINK));
-        ModelPredicateProviderRegistry.register(RocksMain.Starfish.asItem(), Identifier.of("orange"), (stack, world, entity, seed) -> matchesVariation(stack, StarfishVariation.ORANGE));
+        for (StarfishVariation variation : StarfishVariation.values()) {
+            ModelPredicateProviderRegistry.register(RocksMain.Starfish.asItem(), Identifier.of(variation.toString()),
+                    (stack, world, entity, seed) -> matchesVariation(stack, variation));
+        }
     }
     private static Integer matchesVariation(ItemStack stack, StarfishVariation variation) {
         var blockStateData = stack.getComponents().get(DataComponentTypes.BLOCK_STATE);

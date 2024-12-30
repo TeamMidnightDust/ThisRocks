@@ -34,12 +34,8 @@ public class StarfishItemPolymer extends BlockItem implements AutoModeledPolymer
     public int getPolymerCustomModelData(ItemStack itemStack, @Nullable ServerPlayerEntity player) {
         var state = itemStack.getComponents().get(DataComponentTypes.BLOCK_STATE);
         if (state != null && !state.isEmpty()) {
-            return switch (state.getValue(RocksMain.STARFISH_VARIATION)) {
-                case RED -> MODELS.get(StarfishVariation.RED).value();
-                case PINK -> MODELS.get(StarfishVariation.PINK).value();
-                case ORANGE -> MODELS.get(StarfishVariation.ORANGE).value();
-                case null -> MODELS.get(this).value();
-            };
+            StarfishVariation variation = state.getValue(RocksMain.STARFISH_VARIATION);
+            if (variation != null) return MODELS.get(variation).value();
         }
         return MODELS.get(this).value();
     }
@@ -48,9 +44,9 @@ public class StarfishItemPolymer extends BlockItem implements AutoModeledPolymer
     public void onRegistered(Identifier selfId) {
         var item = Identifier.of(selfId.getNamespace(), "item/" + selfId.getPath());
         MODELS.put(this, PolymerResourcePackUtils.requestModel(this.getPolymerItem(), item));
-        MODELS.put(StarfishVariation.RED, PolymerResourcePackUtils.requestModel(this.getPolymerItem(), polymerId("item/" + "red_" + selfId.getPath())));
-        MODELS.put(StarfishVariation.PINK, PolymerResourcePackUtils.requestModel(this.getPolymerItem(), polymerId("item/" + "pink_" + selfId.getPath())));
-        MODELS.put(StarfishVariation.ORANGE, PolymerResourcePackUtils.requestModel(this.getPolymerItem(), polymerId("item/" + "orange_" + selfId.getPath())));
+        for (StarfishVariation variation : StarfishVariation.values()) {
+            MODELS.put(variation, PolymerResourcePackUtils.requestModel(this.getPolymerItem(), polymerId("item/" + variation.toString() + "_" + selfId.getPath())));
+        }
     }
 
     @Override
