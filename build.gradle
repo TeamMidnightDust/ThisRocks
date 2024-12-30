@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.6-SNAPSHOT'
+	id 'fabric-loom' version '1.9-SNAPSHOT'
 	id 'maven-publish'
 	id "me.shedaniel.unified-publishing" version "0.1.+"
 }
@@ -13,19 +13,10 @@ group = project.maven_group
 
 loom {
 	accessWidenerPath =  file("src/main/resources/thisrocks.accesswidener")
-	runs {
-		//
-		// This adds a new gradle task that runs the datagen API: "gradlew runDatagenClient"
-		//
-		datagenClient {
-			inherit client
-			name "Data Generation"
-			vmArg "-Dfabric-api.datagen"
-			vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
-			vmArg "-Dfabric-api.datagen.modid=rocks"
-
-			runDir "build/datagen"
-		}
+}
+fabricApi {
+	configureDataGeneration {
+		client = true
 	}
 }
 
@@ -52,6 +43,7 @@ dependencies {
 	modImplementation ("eu.pb4:polymer-core:${polymer_version}")
 	modImplementation ("eu.pb4:polymer-blocks:${polymer_version}")
 	modImplementation ("eu.pb4:polymer-resource-pack:${polymer_version}")
+	modImplementation ("eu.pb4:polymer-resource-pack-extras:${polymer_version}")
 	modImplementation ("eu.pb4:polymer-virtual-entity:${polymer_version}")
 	modImplementation ("eu.pb4:polymer-autohost:${polymer_version}")
 	modImplementation ("eu.pb4:factorytools:${factorytools_version}")
@@ -73,15 +65,6 @@ tasks.withType(JavaCompile).configureEach {
 	it.options.encoding = "UTF-8"
 
 	it.options.release = 21
-}
-sourceSets {
-	main {
-		resources {
-			srcDirs += [
-					'src/main/generated'
-			]
-		}
-	}
 }
 
 java {

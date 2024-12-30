@@ -25,12 +25,12 @@ import static eu.midnightdust.motschen.rocks.RocksMain.polymerMode;
 public class RegistryUtil {
     public static <T extends Block> T registerBlockWithItem(Identifier id, T block) {
         Registry.register(Registries.BLOCK, id, block);
-        registerItem(id, blockItem(block));
+        registerItem(id, blockItem(block, id));
         return block;
     }
-    public static Item blockItem(Block block) {
-        if (polymerMode) return PolyUtil.polymerBlockItem(block);
-        return new BlockItem(block, new Item.Settings());
+    public static Item blockItem(Block block, Identifier id) {
+        if (polymerMode) return PolyUtil.polymerBlockItem(block, id);
+        return new BlockItem(block, new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, id)));
     }
     public static Item registerItem(Identifier id, Item item) {
         Registry.register(Registries.ITEM, id, item);

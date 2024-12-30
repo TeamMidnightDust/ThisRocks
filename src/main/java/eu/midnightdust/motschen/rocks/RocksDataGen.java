@@ -1,8 +1,6 @@
 package eu.midnightdust.motschen.rocks;
 
-import eu.midnightdust.motschen.rocks.datagen.LootTables;
-import eu.midnightdust.motschen.rocks.datagen.Recipes;
-import eu.midnightdust.motschen.rocks.datagen.Tags;
+import eu.midnightdust.motschen.rocks.datagen.*;
 import eu.midnightdust.motschen.rocks.world.configured_feature.MiscFeatures;
 import eu.midnightdust.motschen.rocks.world.configured_feature.NetherFeatures;
 import eu.midnightdust.motschen.rocks.world.configured_feature.RockFeatures;
@@ -25,7 +23,10 @@ public class RocksDataGen implements DataGeneratorEntrypoint {
         pack.addProvider(LootTables.BlockLootTables::new);
         pack.addProvider(Tags.Blocks::new);
         pack.addProvider(Recipes::new);
-        System.out.println("out");
+        pack.addProvider(Language.English::new);
+        pack.addProvider(Language.German::new);
+
+        pack.addProvider(Models::new);
     }
     @Override
     public String getEffectiveModId() {
@@ -34,7 +35,6 @@ public class RocksDataGen implements DataGeneratorEntrypoint {
 
     @Override
     public void buildRegistry(RegistryBuilder registryBuilder) {
-        System.out.println("building registry");
         registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, RockFeatures::initConfigured);
         registryBuilder.addRegistry(RegistryKeys.PLACED_FEATURE, RockFeatures::initPlaced);
         registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, StickFeatures::initConfigured);
@@ -52,9 +52,8 @@ public class RocksDataGen implements DataGeneratorEntrypoint {
 
         @Override
         protected void configure(RegistryWrapper.WrapperLookup registries, Entries entries) {
-            System.out.println("configure");
-            entries.addAll(registries.getWrapperOrThrow(RegistryKeys.CONFIGURED_FEATURE));
-            entries.addAll(registries.getWrapperOrThrow(RegistryKeys.PLACED_FEATURE));
+            entries.addAll(registries.getOrThrow(RegistryKeys.CONFIGURED_FEATURE));
+            entries.addAll(registries.getOrThrow(RegistryKeys.PLACED_FEATURE));
         }
 
         @Override

@@ -9,12 +9,12 @@ import eu.midnightdust.motschen.rocks.block.polymer.model.*;
 import eu.midnightdust.motschen.rocks.item.polymer.StarfishItemPolymer;
 import eu.midnightdust.motschen.rocks.util.RockType;
 import eu.pb4.factorytools.api.item.FactoryBlockItem;
-import eu.pb4.factorytools.api.item.ModeledItem;
 import eu.pb4.polymer.blocks.api.BlockModelType;
 import eu.pb4.polymer.blocks.api.PolymerBlockResourceUtils;
 import eu.pb4.polymer.core.api.block.PolymerBlock;
 import eu.pb4.polymer.core.api.block.PolymerBlockUtils;
 import eu.pb4.polymer.core.api.item.PolymerItemGroupUtils;
+import eu.pb4.polymer.core.api.item.SimplePolymerItem;
 import eu.pb4.polymer.core.api.utils.PolymerSyncUtils;
 import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
 import eu.pb4.polymer.virtualentity.api.ElementHolder;
@@ -27,6 +27,8 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -66,13 +68,14 @@ public class PolyUtil {
         return playersWithMod.contains(player);
     }
 
-    public static Item polymerBlockItem(Block block) {
-        if (block instanceof Starfish) return new StarfishItemPolymer((Block & PolymerBlock) block, new Item.Settings(), Items.KELP);
-        else return new FactoryBlockItem((Block & PolymerBlock) block, new Item.Settings(), Items.KELP);
+    public static Item polymerBlockItem(Block block, Identifier id) {
+        if (block instanceof Starfish) return new StarfishItemPolymer((Block & PolymerBlock) block, new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, id)), Items.KELP);
+        else return new FactoryBlockItem((Block & PolymerBlock) block, new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, id)), Items.KELP);
     }
 
-    public static Item simplePolymerItem() {
-        return new ModeledItem(Items.FLINT, new Item.Settings());
+    public static Item simplePolymerItem(Identifier id) {
+        return new SimplePolymerItem(new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, id)), Items.FLINT, true);
+        //return new ModeledItem(Items.FLINT, new Item.Settings());
     }
 
     public static void registerPolymerGroup() {
@@ -100,11 +103,11 @@ public class PolyUtil {
         }
     }
 
-    public static Rock newRockPolymer() {return new RockPolymer();}
-    public static Stick newStickPolymer() {return new StickPolymer();}
-    public static Block newPineconePolymer() {return new PineconePolymer();}
-    public static Block newSeashellPolymer() {return new SeashellPolymer();}
-    public static Block newStarfishPolymer() {return new StarfishPolymer();}
-    public static Block newOverworldGeyserPolymer() {return new OverworldGeyserPolymer();}
-    public static Block newNetherGeyserPolymer() {return new NetherGeyserPolymer();}
+    public static Rock newRockPolymer(Identifier id) {return new RockPolymer(id);}
+    public static Stick newStickPolymer(Identifier id) {return new StickPolymer(id);}
+    public static Block newPineconePolymer(Identifier id) {return new PineconePolymer(id);}
+    public static Block newSeashellPolymer(Identifier id) {return new SeashellPolymer(id);}
+    public static Block newStarfishPolymer(Identifier id) {return new StarfishPolymer(id);}
+    public static Block newOverworldGeyserPolymer(Identifier id) {return new OverworldGeyserPolymer(id);}
+    public static Block newNetherGeyserPolymer(Identifier id) {return new NetherGeyserPolymer(id);}
 }

@@ -11,24 +11,29 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
+import xyz.nucleoid.packettweaker.PacketContext;
 
 import static eu.midnightdust.motschen.rocks.util.polymer.PolyUtil.hasModOnClient;
 
 public class OverworldGeyserPolymer extends OverworldGeyser implements PolymerBlock, PolymerTexturedBlock, BlockWithElementHolder {
-    @Override
+    public OverworldGeyserPolymer(Identifier blockId) {
+        super(blockId);
+    }
+
     public BlockState getPolymerBlockState(BlockState state) {
         return state.get(SNOWY) ? Blocks.SNOW.getDefaultState() : PolyUtil.SMALL_BLOCK;
     }
     @Override
-    public BlockState getPolymerBlockState(BlockState state, ServerPlayerEntity player) {
-        return hasModOnClient(player) ? state : getPolymerBlockState(state);
+    public BlockState getPolymerBlockState(BlockState state, PacketContext context) {
+        return hasModOnClient(context.getPlayer()) ? state : getPolymerBlockState(state);
     }
 
     @Override
-    public BlockState getPolymerBreakEventBlockState(BlockState state, ServerPlayerEntity player) {
-        return hasModOnClient(player) ? state : Blocks.SNOW.getDefaultState();
+    public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
+        return hasModOnClient(context.getPlayer()) ? state : Blocks.SNOW.getDefaultState();
     }
 
     @Override
@@ -37,7 +42,7 @@ public class OverworldGeyserPolymer extends OverworldGeyser implements PolymerBl
     }
 
     @Override
-    public boolean canSyncRawToClient(@Nullable ServerPlayerEntity player) {
-        return hasModOnClient(player);
+    public boolean canSyncRawToClient(PacketContext context) {
+        return hasModOnClient(context.getPlayer());
     }
 }

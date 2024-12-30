@@ -1,0 +1,6 @@
+{
+  "parent": "rocks:item/rock_base",
+  "textures": {
+    "0": "minecraft:block/ice"
+  }
+}

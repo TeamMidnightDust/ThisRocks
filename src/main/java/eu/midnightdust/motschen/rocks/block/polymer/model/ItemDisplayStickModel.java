@@ -3,7 +3,6 @@ package eu.midnightdust.motschen.rocks.block.polymer.model;
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.config.RocksConfig;
 import eu.midnightdust.motschen.rocks.util.StickType;
-import eu.pb4.factorytools.api.resourcepack.BaseItemProvider;
 import eu.pb4.factorytools.api.virtualentity.ItemDisplayElementUtil;
 import eu.pb4.polymer.virtualentity.api.attachment.BlockAwareAttachment;
 import eu.pb4.polymer.virtualentity.api.attachment.HolderAttachment;
@@ -25,9 +24,9 @@ public class ItemDisplayStickModel extends ConditionalBlockModel {
     public static void initModels() {
         for (WoodType type : WoodType.stream().toList()) {
             var stacks = new ItemStack[3];
-            stacks[0] = BaseItemProvider.requestModel(RocksMain.id("block/small_"+type.name()+"_stick"));
-            stacks[1] = BaseItemProvider.requestModel(RocksMain.id("block/medium_"+type.name()+"_stick"));
-            stacks[2] = BaseItemProvider.requestModel(RocksMain.id("block/large_"+type.name()+"_stick"));
+            stacks[0] = ItemDisplayElementUtil.getModel(RocksMain.id("block/small_"+type.name()+"_stick"));
+            stacks[1] = ItemDisplayElementUtil.getModel(RocksMain.id("block/medium_"+type.name()+"_stick"));
+            stacks[2] = ItemDisplayElementUtil.getModel(RocksMain.id("block/large_"+type.name()+"_stick"));
             models.put(type, stacks);
         }
     }

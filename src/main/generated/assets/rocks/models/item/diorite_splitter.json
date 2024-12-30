@@ -1,0 +1,6 @@
+{
+  "parent": "rocks:item/splitter_base",
+  "textures": {
+    "0": "minecraft:block/diorite"
+  }
+}

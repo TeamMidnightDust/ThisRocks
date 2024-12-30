@@ -1,7 +1,0 @@
-{
-	"parent": "rocks:item/cobblestone_splitter",
-	"textures": {
-		"0": "block/sandstone",
-		"particle": "block/sandstone"
-	}
-}

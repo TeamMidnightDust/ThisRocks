@@ -1,0 +1,6 @@
+{
+  "parent": "rocks:block/small_stick",
+  "textures": {
+    "0": "minecraft:block/mangrove_log"
+  }
+}

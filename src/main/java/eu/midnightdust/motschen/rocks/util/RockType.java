@@ -1,5 +1,7 @@
 package eu.midnightdust.motschen.rocks.util;
 
+import net.minecraft.block.Block;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
 import java.util.Arrays;
@@ -25,6 +27,12 @@ public enum RockType {
         String splitterName = this.name().toLowerCase()+ "_splitter";
         if (this.equals(RockType.STONE)) splitterName = "cobblestone_splitter";
         return splitterName;
+    }
+    public Identifier getStoneId() {
+        return Identifier.ofVanilla(this.toString().toLowerCase());
+    }
+    public Block getStoneBlock() {
+        return Registries.BLOCK.get(getStoneId());
     }
 
     public Identifier[] getVariations() {

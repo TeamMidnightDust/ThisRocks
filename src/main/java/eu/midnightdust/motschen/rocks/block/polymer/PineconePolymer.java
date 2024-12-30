@@ -13,24 +13,29 @@ import net.minecraft.block.enums.BlockFace;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
+import xyz.nucleoid.packettweaker.PacketContext;
 
 import static eu.midnightdust.motschen.rocks.util.polymer.PolyUtil.hasModOnClient;
 
 public class PineconePolymer extends Pinecone implements PolymerBlock, PolymerTexturedBlock, BlockWithElementHolder {
-    @Override
+    public PineconePolymer(Identifier blockId) {
+        super(blockId);
+    }
+
     public BlockState getPolymerBlockState(BlockState state) {
         return PolyUtil.SMALL_BLOCK;
     }
     @Override
-    public BlockState getPolymerBlockState(BlockState state, ServerPlayerEntity player) {
-        return hasModOnClient(player) ? state : getPolymerBlockState(state);
+    public BlockState getPolymerBlockState(BlockState state, PacketContext context) {
+        return hasModOnClient(context.getPlayer()) ? state : getPolymerBlockState(state);
     }
 
     @Override
-    public BlockState getPolymerBreakEventBlockState(BlockState state, ServerPlayerEntity player) {
-        return hasModOnClient(player) ? state : Blocks.SPRUCE_BUTTON.getDefaultState().with(Properties.BLOCK_FACE, BlockFace.FLOOR);
+    public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
+        return hasModOnClient(context.getPlayer()) ? state : Blocks.SPRUCE_BUTTON.getDefaultState().with(Properties.BLOCK_FACE, BlockFace.FLOOR);
     }
 
     @Override
@@ -39,7 +44,7 @@ public class PineconePolymer extends Pinecone implements PolymerBlock, PolymerTe
     }
 
     @Override
-    public boolean canSyncRawToClient(@Nullable ServerPlayerEntity player) {
-        return hasModOnClient(player);
+    public boolean canSyncRawToClient(PacketContext context) {
+        return hasModOnClient(context.getPlayer());
     }
 }

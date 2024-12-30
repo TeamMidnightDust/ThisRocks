@@ -3,16 +3,18 @@ package eu.midnightdust.motschen.rocks.block;
 import com.mojang.serialization.MapCodec;
 import eu.midnightdust.motschen.rocks.block.blockentity.BlockEntityInit;
 import eu.midnightdust.motschen.rocks.block.blockentity.OverworldGeyserBlockEntity;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -31,8 +33,8 @@ public class OverworldGeyser extends BlockWithEntity implements BlockEntityProvi
     public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
     public static final BooleanProperty SNOWY = Properties.SNOWY;
 
-    public OverworldGeyser() {
-        super(AbstractBlock.Settings.copy(Blocks.STONE).strength(10).noCollision().dynamicBounds().nonOpaque().sounds(BlockSoundGroup.STONE));
+    public OverworldGeyser(Identifier blockId) {
+        super(AbstractBlock.Settings.copy(Blocks.STONE).registryKey(RegistryKey.of(RegistryKeys.BLOCK, blockId)).strength(10).noCollision().dynamicBounds().nonOpaque().sounds(BlockSoundGroup.STONE));
         this.setDefaultState(this.stateManager.getDefaultState().with(ACTIVE, false).with(SNOWY, false));
     }
 
@@ -78,6 +80,7 @@ public class OverworldGeyser extends BlockWithEntity implements BlockEntityProvi
         SNOWY_SHAPE = snowy;
     }
 
+    @Override
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
         return world.getBlockState(pos.down()).isSideSolidFullSquare(world,pos,Direction.UP);
     }

@@ -9,6 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -30,10 +31,10 @@ public class NetherGeyserBlockEntity extends BlockEntity {
             if (player != null) {
                 world.setBlockState(pos, state.with(NetherGeyser.ACTIVE, true));
 
-                if (RocksConfig.netherGeyserDamage) {
-                    player.damage(world.getDamageSources().onFire(), 1);
+                if (RocksConfig.netherGeyserDamage && world instanceof ServerWorld serverWorld) {
+                    player.damage(serverWorld, world.getDamageSources().onFire(), 1);
                     if (player2 != null) {
-                        player2.damage(world.getDamageSources().onFire(), 4);
+                        player2.damage(serverWorld, world.getDamageSources().onFire(), 4);
                     }
                 }
                 blockEntity.countdown = 1000;

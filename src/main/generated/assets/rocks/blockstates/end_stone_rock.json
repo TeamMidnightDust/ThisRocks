@@ -1,0 +1,76 @@
+{
+  "variants": {
+    "variation=large": [
+      {
+        "model": "rocks:block/end_stone_rock_large",
+        "y": 0
+      },
+      {
+        "model": "rocks:block/end_stone_rock_large",
+        "y": 90
+      },
+      {
+        "model": "rocks:block/end_stone_rock_large",
+        "y": 180
+      },
+      {
+        "model": "rocks:block/end_stone_rock_large",
+        "y": 270
+      }
+    ],
+    "variation=medium": [
+      {
+        "model": "rocks:block/end_stone_rock_medium",
+        "y": 0
+      },
+      {
+        "model": "rocks:block/end_stone_rock_medium",
+        "y": 90
+      },
+      {
+        "model": "rocks:block/end_stone_rock_medium",
+        "y": 180
+      },
+      {
+        "model": "rocks:block/end_stone_rock_medium",
+        "y": 270
+      }
+    ],
+    "variation=small": [
+      {
+        "model": "rocks:block/end_stone_rock_small",
+        "y": 0
+      },
+      {
+        "model": "rocks:block/end_stone_rock_small",
+        "y": 90
+      },
+      {
+        "model": "rocks:block/end_stone_rock_small",
+        "y": 180
+      },
+      {
+        "model": "rocks:block/end_stone_rock_small",
+        "y": 270
+      }
+    ],
+    "variation=tiny": [
+      {
+        "model": "rocks:block/end_stone_rock_tiny",
+        "y": 0
+      },
+      {
+        "model": "rocks:block/end_stone_rock_tiny",
+        "y": 90
+      },
+      {
+        "model": "rocks:block/end_stone_rock_tiny",
+        "y": 180
+      },
+      {
+        "model": "rocks:block/end_stone_rock_tiny",
+        "y": 270
+      }
+    ]
+  }
+}

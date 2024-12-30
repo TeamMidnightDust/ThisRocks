@@ -2,7 +2,6 @@ package eu.midnightdust.motschen.rocks.block.polymer.model;
 
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.config.RocksConfig;
-import eu.pb4.factorytools.api.resourcepack.BaseItemProvider;
 import eu.pb4.factorytools.api.virtualentity.ItemDisplayElementUtil;
 import eu.pb4.polymer.virtualentity.api.elements.ItemDisplayElement;
 import net.minecraft.block.BlockState;
@@ -17,7 +16,7 @@ public class ItemDisplayPineconeModel extends ConditionalBlockModel {
     private static ItemStack PINECONE_MODEL;
 
     public static void initModels() {
-        PINECONE_MODEL = BaseItemProvider.requestModel(RocksMain.id("block/pinecone"));
+        PINECONE_MODEL = ItemDisplayElementUtil.getModel(RocksMain.id("block/pinecone"));
     }
 
     public ItemDisplayPineconeModel(BlockState state, BlockPos pos) {

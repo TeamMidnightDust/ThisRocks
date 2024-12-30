@@ -2,22 +2,22 @@ package eu.midnightdust.motschen.rocks.item.polymer;
 
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.blockstates.StarfishVariation;
-import eu.pb4.factorytools.api.item.AutoModeledPolymerItem;
 import eu.pb4.polymer.core.api.block.PolymerBlock;
-import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
+import eu.pb4.polymer.core.api.item.PolymerItem;
+import eu.pb4.polymer.resourcepack.extras.api.ResourcePackExtras;
 import net.minecraft.block.Block;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
+import xyz.nucleoid.packettweaker.PacketContext;
 
 import static eu.midnightdust.motschen.rocks.util.polymer.PolyUtil.hasModOnClient;
 import static eu.midnightdust.motschen.rocks.util.polymer.PolyUtil.polymerId;
 
-public class StarfishItemPolymer extends BlockItem implements AutoModeledPolymerItem {
+public class StarfishItemPolymer extends BlockItem implements PolymerItem {
     private final Item polymerItem;
 
     public <T extends Block & PolymerBlock> StarfishItemPolymer(T block, Settings settings, Item item) {
@@ -26,31 +26,22 @@ public class StarfishItemPolymer extends BlockItem implements AutoModeledPolymer
     }
 
     @Override
-    public Item getPolymerItem() {
-        return polymerItem;
-    }
-
-    @Override
-    public int getPolymerCustomModelData(ItemStack itemStack, @Nullable ServerPlayerEntity player) {
+    public @Nullable Identifier getPolymerItemModel(ItemStack itemStack, PacketContext context) {
         var state = itemStack.getComponents().get(DataComponentTypes.BLOCK_STATE);
         if (state != null && !state.isEmpty()) {
             StarfishVariation variation = state.getValue(RocksMain.STARFISH_VARIATION);
-            if (variation != null) return MODELS.get(variation).value();
+            if (variation != null) return ResourcePackExtras.bridgeModel(polymerId(variation + "_starfish"));
         }
-        return MODELS.get(this).value();
+        return itemStack.get(DataComponentTypes.ITEM_MODEL);
     }
 
     @Override
-    public void onRegistered(Identifier selfId) {
-        var item = Identifier.of(selfId.getNamespace(), "item/" + selfId.getPath());
-        MODELS.put(this, PolymerResourcePackUtils.requestModel(this.getPolymerItem(), item));
-        for (StarfishVariation variation : StarfishVariation.values()) {
-            MODELS.put(variation, PolymerResourcePackUtils.requestModel(this.getPolymerItem(), polymerId("item/" + variation.toString() + "_" + selfId.getPath())));
-        }
+    public boolean canSyncRawToClient(PacketContext context) {
+        return hasModOnClient(context.getPlayer());
     }
 
     @Override
-    public boolean canSyncRawToClient(@Nullable ServerPlayerEntity player) {
-        return hasModOnClient(player);
+    public Item getPolymerItem(ItemStack itemStack, PacketContext packetContext) {
+        return polymerItem;
     }
 }

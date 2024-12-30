@@ -1,7 +1,0 @@
-{
-	"parent": "rocks:item/oak_stick",
-	"textures": {
-		"0": "block/jungle_log",
-		"particle": "block/jungle_log"
-	}
-}

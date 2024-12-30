@@ -3,7 +3,6 @@ package eu.midnightdust.motschen.rocks.block.polymer.model;
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.block.NetherGeyser;
 import eu.midnightdust.motschen.rocks.config.RocksConfig;
-import eu.pb4.factorytools.api.resourcepack.BaseItemProvider;
 import eu.pb4.factorytools.api.virtualentity.ItemDisplayElementUtil;
 import eu.pb4.polymer.virtualentity.api.attachment.BlockAwareAttachment;
 import eu.pb4.polymer.virtualentity.api.attachment.HolderAttachment;
@@ -23,7 +22,7 @@ public class ItemDisplayNetherGeyserModel extends ConditionalBlockModel {
     public static ItemStack NETHER;
 
     public static void initModels() {
-        NETHER = BaseItemProvider.requestModel(RocksMain.id("block/nether_geyser_off"));
+        NETHER = ItemDisplayElementUtil.getModel(RocksMain.id("block/nether_geyser_off"));
     }
 
     public ItemDisplayNetherGeyserModel(BlockState state, BlockPos pos) {

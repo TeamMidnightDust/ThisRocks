@@ -1,0 +1,58 @@
+{
+  "variants": {
+    "variation=large": [
+      {
+        "model": "rocks:block/cherry_stick_large",
+        "y": 0
+      },
+      {
+        "model": "rocks:block/cherry_stick_large",
+        "y": 90
+      },
+      {
+        "model": "rocks:block/cherry_stick_large",
+        "y": 180
+      },
+      {
+        "model": "rocks:block/cherry_stick_large",
+        "y": 270
+      }
+    ],
+    "variation=medium": [
+      {
+        "model": "rocks:block/cherry_stick_medium",
+        "y": 0
+      },
+      {
+        "model": "rocks:block/cherry_stick_medium",
+        "y": 90
+      },
+      {
+        "model": "rocks:block/cherry_stick_medium",
+        "y": 180
+      },
+      {
+        "model": "rocks:block/cherry_stick_medium",
+        "y": 270
+      }
+    ],
+    "variation=small": [
+      {
+        "model": "rocks:block/cherry_stick_small",
+        "y": 0
+      },
+      {
+        "model": "rocks:block/cherry_stick_small",
+        "y": 90
+      },
+      {
+        "model": "rocks:block/cherry_stick_small",
+        "y": 180
+      },
+      {
+        "model": "rocks:block/cherry_stick_small",
+        "y": 270
+      }
+    ]
+  }
+}

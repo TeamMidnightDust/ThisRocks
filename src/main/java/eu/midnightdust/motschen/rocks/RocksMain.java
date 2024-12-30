@@ -54,6 +54,12 @@ public class RocksMain implements ModInitializer {
     public static Map<WoodType, Stick> sticksByType = new HashMap<>();
     public static Map<RockType, Item> splittersByType = new HashMap<>();
 
+    public static final Identifier PINECONE = id("pinecone");
+    public static final Identifier SEASHELL = id("seashell");
+    public static final Identifier STARFISH = id("starfish");
+    public static final Identifier GEYSER = id("geyser");
+    public static final Identifier NETHER_GEYSER = id("nether_geyser");
+
     public static Block Pinecone;
     public static Block Seashell;
     public static Block Starfish;
@@ -66,7 +72,7 @@ public class RocksMain implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        RocksConfig.init("rocks", RocksConfig.class);
+        RocksConfig.init(MOD_ID, RocksConfig.class);
         if (polymerMode) polymerMode = RocksConfig.enablePolymerMode && !PlatformFunctions.isClientEnv();
 
         PayloadTypeRegistry.playC2S().register(HelloPayload.PACKET_ID, HelloPayload.codec);
@@ -81,23 +87,24 @@ public class RocksMain implements ModInitializer {
         if (polymerMode) PolyUtil.init();
 
         for (RockType type : RockType.values()) {
-            rocksByType.put(type, registerBlockWithItem(id(type.getName()), polymerMode ? newRockPolymer() : new Rock()));
-        }
-        for (RockType type : RockType.values()) {
+            Identifier id = id(type.getName());
+            rocksByType.put(type, registerBlockWithItem(id, polymerMode ? newRockPolymer(id) : new Rock(id)));
+
             if (type != RockType.GRAVEL)
-                splittersByType.put(type, registerItem(id(type.getSplitterName()), simpleItem()));
+                splittersByType.put(type, registerItem(id(type.getSplitterName()), simpleItem(id(type.getSplitterName()))));
         }
         for (WoodType type : WoodType.stream().toList()) {
-            sticksByType.put(type, registerBlockWithItem(id(type.name()+"_stick"), polymerMode ? newStickPolymer() : new Stick()));
+            Identifier id = id(type.name()+"_stick");
+            sticksByType.put(type, registerBlockWithItem(id, polymerMode ? newStickPolymer(id) : new Stick(id)));
         }
 
 
-        Pinecone = registerBlockWithItem(Identifier.of(MOD_ID,"pinecone"), polymerMode ? newPineconePolymer() : new Pinecone());
-        Seashell = registerBlockWithItem(Identifier.of(MOD_ID,"seashell"), polymerMode ? newSeashellPolymer() : new Seashell());
-        Starfish = registerBlockWithItem(Identifier.of(MOD_ID,"starfish"), polymerMode ? newStarfishPolymer() : new Starfish());
+        Pinecone = registerBlockWithItem(PINECONE, polymerMode ? newPineconePolymer(PINECONE) : new Pinecone(PINECONE));
+        Seashell = registerBlockWithItem(SEASHELL, polymerMode ? newSeashellPolymer(SEASHELL) : new Seashell(SEASHELL));
+        Starfish = registerBlockWithItem(STARFISH, polymerMode ? newStarfishPolymer(STARFISH) : new Starfish(STARFISH));
 
-        Geyser = registerBlockWithItem(Identifier.of(MOD_ID,"geyser"), polymerMode ? newOverworldGeyserPolymer() : new OverworldGeyser());
-        NetherGeyser = registerBlockWithItem(Identifier.of(MOD_ID,"nether_geyser"), polymerMode ? newNetherGeyserPolymer() : new NetherGeyser());
+        Geyser = registerBlockWithItem(GEYSER, polymerMode ? newOverworldGeyserPolymer(GEYSER) : new OverworldGeyser(GEYSER));
+        NetherGeyser = registerBlockWithItem(NETHER_GEYSER, polymerMode ? newNetherGeyserPolymer(NETHER_GEYSER) : new NetherGeyser(NETHER_GEYSER));
 
         registerItemGroup();
 
@@ -117,9 +124,9 @@ public class RocksMain implements ModInitializer {
                 PlatformFunctions.isModLoaded("factorytools");
     }
 
-    public static Item simpleItem() {
-        if (polymerMode) return PolyUtil.simplePolymerItem();
-        return new Item(new Item.Settings());
+    public static Item simpleItem(Identifier id) {
+        if (polymerMode) return PolyUtil.simplePolymerItem(id);
+        return new Item(new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, id)));
     }
 
     public static void registerItemGroup() {

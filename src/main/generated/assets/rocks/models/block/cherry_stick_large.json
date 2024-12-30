@@ -1,0 +1,6 @@
+{
+  "parent": "rocks:block/large_stick",
+  "textures": {
+    "0": "minecraft:block/cherry_log"
+  }
+}
