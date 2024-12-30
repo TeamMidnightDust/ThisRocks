@@ -38,5 +38,12 @@
   "depends": {
     "fabricloader": ">=0.7.2",
     "fabric": "*"
+  },
+  "suggests": {
+    "polymer-core": "*",
+    "polymer-blocks": "*",
+    "polymer-resource-pack": "*",
+    "polymer-virtual-entity": "*",
+    "factorytools": "*"
   }
 }
