@@ -66,6 +66,8 @@
   "item.rocks.starfish": "Starfish",
   "item.rocks.warped_stick": "Warped Stick",
   "itemGroup.rocks.rocks": "This Rocks!",
+  "rocks.midnightconfig.biomeExclusions": "Excluded biomes",
+  "rocks.midnightconfig.biomeExclusions.tooltip": "No feature will generate in these biomes.\nFormat: modid:biome_name",
   "rocks.midnightconfig.category.effects": "Effects",
   "rocks.midnightconfig.category.misc": "Miscellaneous",
   "rocks.midnightconfig.category.rocks": "Rocks",
@@ -78,6 +80,8 @@
   "rocks.midnightconfig.needs_restart2": "§cRestart the game after changing options here!",
   "rocks.midnightconfig.netherGeyserDamage": "Nether Geyser Damage",
   "rocks.midnightconfig.polymerViewDistance": "Polymer View Distance",
+  "rocks.midnightconfig.rockMix": "Mixed Rocks",
+  "rocks.midnightconfig.rockMix.tooltip": "Adds small batches of Granite, Andesite and Diorite rocks to all biomes",
   "rocks.midnightconfig.title": "This Rocks! Config",
   "rocks.midnightconfig.underwaterSeashell": "Underwater Seashell",
   "rocks.midnightconfig.underwaterStarfish": "Underwater Starfish"

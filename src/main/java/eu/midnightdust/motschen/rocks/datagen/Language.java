@@ -112,11 +112,17 @@ public abstract class Language extends FabricLanguageProvider {
                 midnightconfig(translationBuilder, key, "§cRestart the game after changing options here!");
             }
 
+            midnightconfig(translationBuilder, "rockMix", "Mixed Rocks");
+            midnightconfig(translationBuilder, "rockMix.tooltip", "Adds small batches of Granite, Andesite and Diorite rocks to all biomes");
             midnightconfig(translationBuilder, "underwaterSeashell", "Underwater Seashell");
             midnightconfig(translationBuilder, "underwaterStarfish", "Underwater Starfish");
 
             midnightconfig(translationBuilder, "geyserLevitation", "Geyser Levitation");
             midnightconfig(translationBuilder, "netherGeyserDamage", "Nether Geyser Damage");
+
+            midnightconfig(translationBuilder, "biomeExclusions", "Excluded biomes");
+            midnightconfig(translationBuilder, "biomeExclusions.tooltip", "No feature will generate in these biomes.\nFormat: modid:biome_name");
+
             midnightconfig(translationBuilder, "enablePolymerMode", "Enable Polymer Mode");
             midnightconfig(translationBuilder, "enablePolymerMode.tooltip", "Allows the mod to work fully server-sided when used in combination with Polymer and FactoryTools");
             midnightconfig(translationBuilder, "polymerViewDistance", "Polymer View Distance");
@@ -151,13 +157,18 @@ public abstract class Language extends FabricLanguageProvider {
                 midnightconfig(translationBuilder, key, "§cStarte das Spiel neu, nachdem du Änderungen vorgenommen hast!");
             }
 
+            midnightconfig(translationBuilder, "rockMix", "Gemischte Brocken");
+            midnightconfig(translationBuilder, "rockMix.tooltip", "Fügt kleine Mengen an Granit-, Andesit- und Diorit-Brocken zu allen Biomen hinzu");
             midnightconfig(translationBuilder, "underwaterSeashell", "Unterwasser-Muschel");
             midnightconfig(translationBuilder, "underwaterStarfish", "Unterwasser-Seestern");
 
             midnightconfig(translationBuilder, "geyserLevitation", "Geysir Schwebeeffekt");
             midnightconfig(translationBuilder, "netherGeyserDamage", "Nether Geysir Schaden");
-            midnightconfig(translationBuilder, "enablePolymerMode", "Aktiviere Polymer-Modus");
 
+            midnightconfig(translationBuilder, "biomeExclusions", "Ausgeschlosene Biome");
+            midnightconfig(translationBuilder, "biomeExclusions.tooltip", "In diesen Biomen werden keine Features der Mod generiert.\nFormat: modid:biome_name");
+
+            midnightconfig(translationBuilder, "enablePolymerMode", "Aktiviere Polymer-Modus");
             midnightconfig(translationBuilder, "enablePolymerMode.tooltip", "Erlaubt der Mod, komplett serverseitig zu funktionieren, wenn Polymer und FactoryTools installiert sind");
             midnightconfig(translationBuilder, "polymerViewDistance", "Polymer-Sichtweite");
         }

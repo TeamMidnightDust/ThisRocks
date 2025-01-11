@@ -2,11 +2,15 @@ package eu.midnightdust.motschen.rocks.config;
 
 import eu.midnightdust.lib.config.MidnightConfig;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RocksConfig extends MidnightConfig {
     public final static String rocks = "rocks";
 
     @Comment(category = rocks, centered = true) public static Comment needs_restart;
     @Entry(category = rocks, name = "block.rocks.rock") public static boolean rock = true;
+    @Entry(category = rocks) public static boolean rockMix = true;
     @Entry(category = rocks, name = "block.rocks.granite_rock") public static boolean graniteRock = true;
     @Entry(category = rocks, name = "block.rocks.diorite_rock") public static boolean dioriteRock = true;
     @Entry(category = rocks, name = "block.rocks.andesite_rock") public static boolean andesiteRock = true;
@@ -49,4 +53,5 @@ public class RocksConfig extends MidnightConfig {
 
     @Entry(category = effects) public static boolean enablePolymerMode = true;
     @Entry(category = effects, requiredMod = "factorytools", min = 0, max = 200, isSlider = true) public static int polymerViewDistance = 100;
+    @Entry(category = effects) public static List<String> biomeExclusions = new ArrayList<>();
 }

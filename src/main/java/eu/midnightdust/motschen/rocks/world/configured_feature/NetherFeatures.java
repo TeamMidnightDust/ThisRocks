@@ -2,12 +2,8 @@ package eu.midnightdust.motschen.rocks.world.configured_feature;
 
 import com.google.common.collect.ImmutableList;
 import eu.midnightdust.motschen.rocks.RocksMain;
-import eu.midnightdust.motschen.rocks.blockstates.RockVariation;
-import eu.midnightdust.motschen.rocks.blockstates.StickVariation;
-import eu.midnightdust.motschen.rocks.util.RockType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.WoodType;
 import net.minecraft.registry.Registerable;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.collection.DataPool;
@@ -19,52 +15,23 @@ import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
 
 import java.util.List;
 
-import static eu.midnightdust.motschen.rocks.RocksMain.rocksByType;
-import static eu.midnightdust.motschen.rocks.RocksMain.sticksByType;
 import static eu.midnightdust.motschen.rocks.util.RegistryUtil.register;
 
 public class NetherFeatures {
-
-    public static ConfiguredFeature<?, ?> NETHERRACK_ROCK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
-                    new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                            .add(rocksByType.get(RockType.NETHERRACK).getDefaultState().with(RocksMain.ROCK_VARIATION, RockVariation.TINY), 10)
-                            .add(rocksByType.get(RockType.NETHERRACK).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
-                            .add(rocksByType.get(RockType.NETHERRACK).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
-                            .add(rocksByType.get(RockType.NETHERRACK).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
-    );
-    public static ConfiguredFeature<?, ?> SOUL_SOIL_ROCK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
-                    new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                            .add(rocksByType.get(RockType.SOUL_SOIL).getDefaultState().with(RocksMain.ROCK_VARIATION, RockVariation.TINY), 10)
-                            .add(rocksByType.get(RockType.SOUL_SOIL).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
-                            .add(rocksByType.get(RockType.SOUL_SOIL).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
-                            .add(rocksByType.get(RockType.SOUL_SOIL).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
-    );
-    public static ConfiguredFeature<?, ?> NETHER_GRAVEL_ROCK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
-                    new WeightedBlockStateProvider(DataPool.<BlockState>builder()
-                            .add(rocksByType.get(RockType.GRAVEL).getDefaultState().with(RocksMain.ROCK_VARIATION, RockVariation.TINY), 10)
-                            .add(rocksByType.get(RockType.GRAVEL).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
-                            .add(rocksByType.get(RockType.GRAVEL).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
-                            .add(rocksByType.get(RockType.GRAVEL).getDefaultState().with(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
-    );
     public static ConfiguredFeature<?, ?> NETHER_GEYSER_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
                     new WeightedBlockStateProvider(DataPool.<BlockState>builder().add(RocksMain.NetherGeyser.getDefaultState(), 1)))
     );
 
-    public static PlacedFeature NETHERRACK_ROCK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(NETHERRACK_ROCK_FEATURE), List.of(CountPlacementModifier.of(90), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.BOTTOM_TO_TOP_RANGE, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate .bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.NETHERRACK,Blocks.WARPED_NYLIUM,Blocks.CRIMSON_NYLIUM))))));
-    public static PlacedFeature SOUL_SOIL_ROCK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(SOUL_SOIL_ROCK_FEATURE), List.of(CountPlacementModifier.of(60), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.BOTTOM_TO_TOP_RANGE, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.SOUL_SOIL,Blocks.SOUL_SAND))))));
-    public static PlacedFeature NETHER_GRAVEL_ROCK_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(NETHER_GRAVEL_ROCK_FEATURE), List.of(CountPlacementModifier.of(30), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.BOTTOM_TO_TOP_RANGE, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.GRAVEL))))));
-    public static PlacedFeature NETHER_GEYSER_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(NETHER_GEYSER_FEATURE), List.of(CountPlacementModifier.of(15), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.BOTTOM_TO_TOP_RANGE, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.NETHERRACK))))));
+    public static PlacedFeature NETHER_GEYSER_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(NETHER_GEYSER_FEATURE),
+            List.of(CountPlacementModifier.of(15), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(),
+                    PlacedFeatures.BOTTOM_TO_TOP_RANGE, BiomePlacementModifier.of(),
+                    BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR,
+                            BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.NETHERRACK))))));
 
     public static void initConfigured(Registerable<ConfiguredFeature<?, ?>> context) {
-        register(context, "netherrack_rock", NETHERRACK_ROCK_FEATURE);
-        register(context, "soul_soil_rock", SOUL_SOIL_ROCK_FEATURE);
-        register(context, "nether_gravel_rock", NETHER_GRAVEL_ROCK_FEATURE);
         register(context, "nether_geyser", NETHER_GEYSER_FEATURE);
     }
     public static void initPlaced(Registerable<PlacedFeature> context) {
-        register(context, "netherrack_rock", NETHERRACK_ROCK_PLACED_FEATURE);
-        register(context, "soul_soil_rock", SOUL_SOIL_ROCK_PLACED_FEATURE);
-        register(context, "nether_gravel_rock", NETHER_GRAVEL_ROCK_PLACED_FEATURE);
         register(context, "nether_geyser", NETHER_GEYSER_PLACED_FEATURE);
     }
 }

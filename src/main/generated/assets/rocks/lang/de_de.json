@@ -66,6 +66,8 @@
   "item.rocks.starfish": "Seestern",
   "item.rocks.warped_stick": "Wirrstock",
   "itemGroup.rocks.rocks": "This Rocks!",
+  "rocks.midnightconfig.biomeExclusions": "Ausgeschlosene Biome",
+  "rocks.midnightconfig.biomeExclusions.tooltip": "In diesen Biomen werden keine Features der Mod generiert.\nFormat: modid:biome_name",
   "rocks.midnightconfig.category.effects": "Effekte",
   "rocks.midnightconfig.category.misc": "Sonstiges",
   "rocks.midnightconfig.category.rocks": "Brocken",
@@ -78,6 +80,8 @@
   "rocks.midnightconfig.needs_restart2": "§cStarte das Spiel neu, nachdem du Änderungen vorgenommen hast!",
   "rocks.midnightconfig.netherGeyserDamage": "Nether Geysir Schaden",
   "rocks.midnightconfig.polymerViewDistance": "Polymer-Sichtweite",
+  "rocks.midnightconfig.rockMix": "Gemischte Brocken",
+  "rocks.midnightconfig.rockMix.tooltip": "Fügt kleine Mengen an Granit-, Andesit- und Diorit-Brocken zu allen Biomen hinzu",
   "rocks.midnightconfig.title": "This Rocks! Config",
   "rocks.midnightconfig.underwaterSeashell": "Unterwasser-Muschel",
   "rocks.midnightconfig.underwaterStarfish": "Unterwasser-Seestern"
