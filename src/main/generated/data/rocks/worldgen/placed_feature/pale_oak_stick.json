@@ -7,7 +7,7 @@
         "entries": [
           {
             "data": {
-              "Name": "rocks:spruce_stick",
+              "Name": "rocks:pale_oak_stick",
               "Properties": {
                 "variation": "small",
                 "waterlogged": "false"
@@ -17,7 +17,7 @@
           },
           {
             "data": {
-              "Name": "rocks:spruce_stick",
+              "Name": "rocks:pale_oak_stick",
               "Properties": {
                 "variation": "medium",
                 "waterlogged": "false"
@@ -27,7 +27,7 @@
           },
           {
             "data": {
-              "Name": "rocks:spruce_stick",
+              "Name": "rocks:pale_oak_stick",
               "Properties": {
                 "variation": "large",
                 "waterlogged": "false"
@@ -42,7 +42,7 @@
   "placement": [
     {
       "type": "minecraft:count",
-      "count": 3
+      "count": 20
     },
     {
       "type": "minecraft:rarity_filter",
@@ -71,8 +71,7 @@
             "type": "minecraft:matching_blocks",
             "blocks": [
               "minecraft:grass_block",
-              "minecraft:mud",
-              "minecraft:podzol"
+              "minecraft:pale_moss_block"
             ],
             "offset": [
               0,

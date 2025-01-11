@@ -6,7 +6,7 @@
       "entries": [
         {
           "data": {
-            "Name": "rocks:spruce_stick",
+            "Name": "rocks:pale_oak_stick",
             "Properties": {
               "variation": "small",
               "waterlogged": "false"
@@ -16,7 +16,7 @@
         },
         {
           "data": {
-            "Name": "rocks:spruce_stick",
+            "Name": "rocks:pale_oak_stick",
             "Properties": {
               "variation": "medium",
               "waterlogged": "false"
@@ -26,7 +26,7 @@
         },
         {
           "data": {
-            "Name": "rocks:spruce_stick",
+            "Name": "rocks:pale_oak_stick",
             "Properties": {
               "variation": "large",
               "waterlogged": "false"

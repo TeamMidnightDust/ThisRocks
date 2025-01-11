@@ -6,7 +6,6 @@ import eu.midnightdust.motschen.rocks.util.StickType;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.block.Block;
-import net.minecraft.block.WoodType;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
@@ -71,11 +70,11 @@ public abstract class Language extends FabricLanguageProvider {
                 translationBuilder.add(splitter, baseTranslation+splitterWord);
             }
         }
-        for (WoodType type : WoodType.stream().toList()) {
-            Block block = Registries.BLOCK.get(RocksMain.id(type.name()+"_stick"));
-            if (StickType.getBaseBlock(type) instanceof Block logBlock &&
-                    Registries.BLOCK.get(Identifier.ofVanilla(type.name()+"_planks")) instanceof Block plankBlock &&
-                    Registries.BLOCK.get(Identifier.ofVanilla(type.name()+"_stairs")) instanceof Block stairBlock) {
+        for (StickType type : StickType.values()) {
+            Block block = Registries.BLOCK.get(RocksMain.id(type.getName()+"_stick"));
+            if (type.getBaseBlock() instanceof Block logBlock &&
+                    Registries.BLOCK.get(Identifier.ofVanilla(type.getName()+"_planks")) instanceof Block plankBlock &&
+                    Registries.BLOCK.get(Identifier.ofVanilla(type.getName()+"_stairs")) instanceof Block stairBlock) {
                 String logTranslation = langHelper.translate(logBlock.getTranslationKey());
                 String plankTranslation = langHelper.translate(plankBlock.getTranslationKey());
                 String stairTranslation = langHelper.translate(stairBlock.getTranslationKey());

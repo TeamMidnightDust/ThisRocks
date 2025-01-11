@@ -10,6 +10,7 @@ import eu.midnightdust.motschen.rocks.blockstates.StickVariation;
 import eu.midnightdust.motschen.rocks.config.RocksConfig;
 import eu.midnightdust.motschen.rocks.networking.HelloPayload;
 import eu.midnightdust.motschen.rocks.util.RockType;
+import eu.midnightdust.motschen.rocks.util.StickType;
 import eu.midnightdust.motschen.rocks.util.polymer.PolyUtil;
 import eu.midnightdust.motschen.rocks.world.*;
 import net.fabricmc.api.ModInitializer;
@@ -18,7 +19,6 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.Block;
-import net.minecraft.block.WoodType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -51,7 +51,7 @@ public class RocksMain implements ModInitializer {
     public static final EnumProperty<StarfishVariation> STARFISH_VARIATION = EnumProperty.of("variation", StarfishVariation.class);
 
     public static Map<RockType, Rock> rocksByType = new HashMap<>();
-    public static Map<WoodType, Stick> sticksByType = new HashMap<>();
+    public static Map<StickType, Stick> sticksByType = new HashMap<>();
     public static Map<RockType, Item> splittersByType = new HashMap<>();
 
     public static final Identifier PINECONE = id("pinecone");
@@ -93,8 +93,8 @@ public class RocksMain implements ModInitializer {
             if (type != RockType.GRAVEL)
                 splittersByType.put(type, registerItem(id(type.getSplitterName()), simpleItem(id(type.getSplitterName()))));
         }
-        for (WoodType type : WoodType.stream().toList()) {
-            Identifier id = id(type.name()+"_stick");
+        for (StickType type : StickType.values()) {
+            Identifier id = id(type.getName()+"_stick");
             sticksByType.put(type, registerBlockWithItem(id, polymerMode ? newStickPolymer(id) : new Stick(id)));
         }
 

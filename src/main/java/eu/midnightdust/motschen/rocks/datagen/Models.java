@@ -7,10 +7,8 @@ import eu.midnightdust.motschen.rocks.util.StickType;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
-import net.minecraft.block.WoodType;
 import net.minecraft.client.data.*;
 import net.minecraft.client.render.item.model.ItemModel;
-import net.minecraft.client.render.item.model.SelectItemModel;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
@@ -38,9 +36,9 @@ public class Models extends FabricModelProvider {
             Block block = Registries.BLOCK.get(RocksMain.id(type.getName()));
             RockModel.registerBlockModel(bsModelGenerator, block, type.getStoneBlock());
         }
-        for (WoodType type : WoodType.stream().toList()) {
-            Block block = Registries.BLOCK.get(RocksMain.id(type.name()+"_stick"));
-            StickModel.registerBlockModel(bsModelGenerator, block, StickType.getBaseBlock(type));
+        for (StickType type : StickType.values()) {
+            Block block = Registries.BLOCK.get(RocksMain.id(type.getName()+"_stick"));
+            StickModel.registerBlockModel(bsModelGenerator, block, type.getBaseBlock());
         }
     }
 
@@ -55,9 +53,9 @@ public class Models extends FabricModelProvider {
                 registerParentedItemModel(itemModelGenerator, splitter, getItemId("splitter_base"), type.getStoneBlock());
             }
         }
-        for (WoodType type : WoodType.stream().toList()) {
-            Item item = Registries.ITEM.get(RocksMain.id(type.name()+"_stick"));
-            registerParentedItemModel(itemModelGenerator, item, getItemId("stick_base"), StickType.getBaseBlock(type));
+        for (StickType type : StickType.values()) {
+            Item item = Registries.ITEM.get(RocksMain.id(type.getName()+"_stick"));
+            registerParentedItemModel(itemModelGenerator, item, getItemId("stick_base"), type.getBaseBlock());
         }
         itemModelGenerator.register(RocksMain.Geyser.asItem());
         itemModelGenerator.register(RocksMain.NetherGeyser.asItem());

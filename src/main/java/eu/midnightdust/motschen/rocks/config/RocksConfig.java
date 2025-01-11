@@ -26,6 +26,7 @@ public class RocksConfig extends MidnightConfig {
     @Entry(category = sticks, name = "block.rocks.acacia_stick") public static boolean acaciaStick = true;
     @Entry(category = sticks, name = "block.rocks.jungle_stick") public static boolean jungleStick = true;
     @Entry(category = sticks, name = "block.rocks.dark_oak_stick") public static boolean darkOakStick = true;
+    @Entry(category = sticks, name = "block.rocks.pale_oak_stick") public static boolean paleOakStick = true;
     @Entry(category = sticks, name = "block.rocks.mangrove_stick") public static boolean mangroveStick = true;
     @Entry(category = sticks, name = "block.rocks.cherry_stick") public static boolean cherryStick = true;
     @Entry(category = sticks, name = "block.rocks.bamboo_stick") public static boolean bambooStick = true;

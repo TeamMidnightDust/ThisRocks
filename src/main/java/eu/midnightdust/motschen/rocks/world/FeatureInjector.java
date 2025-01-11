@@ -58,11 +58,13 @@ public class FeatureInjector {
             String name = ctx.getBiomeKey().getValue().toString();
         return name.contains("minecraft:wooded_mountains") || ctx.hasTag(BiomeTags.IS_TAIGA);});
         if (RocksConfig.spruceStick) BiomeModifications.addFeature(spruce_sticks, GenerationStep.Feature.TOP_LAYER_MODIFICATION, getKey("spruce_stick"));
+        if (RocksConfig.pinecone) BiomeModifications.addFeature(spruce_sticks, GenerationStep.Feature.TOP_LAYER_MODIFICATION, getKey("pinecone"));
 
         if (RocksConfig.acaciaStick) BiomeModifications.addFeature(ctx -> ctx.hasTag(BiomeTags.VILLAGE_SAVANNA_HAS_STRUCTURE), GenerationStep.Feature.TOP_LAYER_MODIFICATION, getKey("acacia_stick"));
 
         if (RocksConfig.jungleStick) BiomeModifications.addFeature(ctx -> ctx.hasTag(BiomeTags.IS_JUNGLE), GenerationStep.Feature.TOP_LAYER_MODIFICATION, getKey("jungle_stick"));
         if (RocksConfig.bambooStick) BiomeModifications.addFeature(ctx -> ctx.hasTag(BiomeTags.IS_JUNGLE), GenerationStep.Feature.TOP_LAYER_MODIFICATION, getKey("bamboo_stick"));
+        if (RocksConfig.paleOakStick) BiomeModifications.addFeature(ctx -> ctx.getBiomeKey().equals(BiomeKeys.PALE_GARDEN), GenerationStep.Feature.TOP_LAYER_MODIFICATION, getKey("pale_oak_stick"));
 
         Predicate<BiomeSelectionContext> dark_oak_sticks = (ctx -> {
             String name = ctx.getBiomeKey().getValue().toString();

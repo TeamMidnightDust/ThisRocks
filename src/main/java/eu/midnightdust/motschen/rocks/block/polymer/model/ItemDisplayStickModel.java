@@ -8,7 +8,6 @@ import eu.pb4.polymer.virtualentity.api.attachment.BlockAwareAttachment;
 import eu.pb4.polymer.virtualentity.api.attachment.HolderAttachment;
 import eu.pb4.polymer.virtualentity.api.elements.ItemDisplayElement;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.WoodType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RotationAxis;
@@ -19,10 +18,10 @@ import java.util.Map;
 
 public class ItemDisplayStickModel extends ConditionalBlockModel {
     private final ItemDisplayElement main;
-    public static Map<WoodType, ItemStack[]> models = new HashMap<>();
+    public static Map<StickType, ItemStack[]> models = new HashMap<>();
 
     public static void initModels() {
-        for (WoodType type : WoodType.stream().toList()) {
+        for (StickType type : StickType.values()) {
             var stacks = new ItemStack[3];
             stacks[0] = ItemDisplayElementUtil.getModel(RocksMain.id("block/small_"+type.name()+"_stick"));
             stacks[1] = ItemDisplayElementUtil.getModel(RocksMain.id("block/medium_"+type.name()+"_stick"));

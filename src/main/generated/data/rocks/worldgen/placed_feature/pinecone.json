@@ -7,31 +7,7 @@
         "entries": [
           {
             "data": {
-              "Name": "rocks:spruce_stick",
-              "Properties": {
-                "variation": "small",
-                "waterlogged": "false"
-              }
-            },
-            "weight": 7
-          },
-          {
-            "data": {
-              "Name": "rocks:spruce_stick",
-              "Properties": {
-                "variation": "medium",
-                "waterlogged": "false"
-              }
-            },
-            "weight": 5
-          },
-          {
-            "data": {
-              "Name": "rocks:spruce_stick",
-              "Properties": {
-                "variation": "large",
-                "waterlogged": "false"
-              }
+              "Name": "rocks:pinecone"
             },
             "weight": 1
           }
@@ -42,11 +18,11 @@
   "placement": [
     {
       "type": "minecraft:count",
-      "count": 3
+      "count": 1
     },
     {
       "type": "minecraft:rarity_filter",
-      "chance": 1
+      "chance": 5
     },
     {
       "type": "minecraft:in_square"
@@ -71,8 +47,9 @@
             "type": "minecraft:matching_blocks",
             "blocks": [
               "minecraft:grass_block",
-              "minecraft:mud",
-              "minecraft:podzol"
+              "minecraft:podzol",
+              "minecraft:cobblestone",
+              "minecraft:mossy_cobblestone"
             ],
             "offset": [
               0,

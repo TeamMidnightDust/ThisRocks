@@ -37,6 +37,7 @@ public class RocksDataGen implements DataGeneratorEntrypoint {
     public void buildRegistry(RegistryBuilder registryBuilder) {
         registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, RockFeatures::initConfigured);
         registryBuilder.addRegistry(RegistryKeys.PLACED_FEATURE, RockFeatures::initPlaced);
+        StickFeatures.initFeatures();
         registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, StickFeatures::initConfigured);
         registryBuilder.addRegistry(RegistryKeys.PLACED_FEATURE, StickFeatures::initPlaced);
         registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, NetherFeatures::initConfigured);

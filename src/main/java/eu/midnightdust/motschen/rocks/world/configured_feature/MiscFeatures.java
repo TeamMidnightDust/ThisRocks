@@ -22,9 +22,6 @@ import java.util.List;
 import static eu.midnightdust.motschen.rocks.util.RegistryUtil.register;
 
 public class MiscFeatures {
-    public static List<PlacementModifier> placementModifiers = List.of(RarityFilterPlacementModifier.of(1),
-            SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of());
-
     private static final ConfiguredFeature<?, ?> SEASHELL_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
                     new WeightedBlockStateProvider(DataPool.<BlockState>builder()
                             .add(RocksMain.Seashell.getDefaultState().with(RocksMain.SEASHELL_VARIATION,SeashellVariation.YELLOW), 7)
@@ -37,6 +34,10 @@ public class MiscFeatures {
                             .add(RocksMain.Starfish.getDefaultState().with(RocksMain.STARFISH_VARIATION,StarfishVariation.PINK), 6)
                             .add(RocksMain.Starfish.getDefaultState().with(RocksMain.STARFISH_VARIATION,StarfishVariation.ORANGE), 7).build()))
     );
+    public static ConfiguredFeature<?, ?> PINECONE_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
+            new WeightedBlockStateProvider(DataPool.<BlockState>builder()
+                    .add(RocksMain.Pinecone.getDefaultState(), 1).build()))
+    );
 
     public static ConfiguredFeature<?, ?> UNDERWATER_STARFISH_FEATURE = new ConfiguredFeature<>(FeatureRegistry.UNDERWATER_STARFISH_FEATURE, new ProbabilityConfig(1));
     public static ConfiguredFeature<?, ?> UNDERWATER_SEASHELL_FEATURE = new ConfiguredFeature<>(FeatureRegistry.UNDERWATER_SEASHELL_FEATURE, new ProbabilityConfig(1));
@@ -44,6 +45,7 @@ public class MiscFeatures {
 
     public static PlacedFeature SEASHELL_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(SEASHELL_FEATURE), List.of(CountPlacementModifier.of(1), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.SAND, Blocks.SANDSTONE, Blocks.RED_SAND, Blocks.RED_SANDSTONE))))));
     public static PlacedFeature STARFISH_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(STARFISH_FEATURE), List.of(CountPlacementModifier.of(1), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), BlockFilterPlacementModifier.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.SAND, Blocks.SANDSTONE, Blocks.RED_SAND, Blocks.RED_SANDSTONE))))));
+    public static PlacedFeature PINECONE_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(PINECONE_FEATURE), StickFeatures.getModifiers(1, 5, Blocks.GRASS_BLOCK, Blocks.PODZOL, Blocks.COBBLESTONE, Blocks.MOSSY_COBBLESTONE));
     public static PlacedFeature UNDERWATER_SEASHELL_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(UNDERWATER_SEASHELL_FEATURE), List.of(CountPlacementModifier.of(3), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of()));
     public static PlacedFeature UNDERWATER_STARFISH_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(UNDERWATER_STARFISH_FEATURE), List.of(CountPlacementModifier.of(3), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of()));
     public static PlacedFeature SNOWY_GEYSER_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(SNOWY_GEYSER_FEATURE), List.of(CountPlacementModifier.of(3), RarityFilterPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of()));
@@ -51,6 +53,7 @@ public class MiscFeatures {
     public static void initConfigured(Registerable<ConfiguredFeature<?, ?>> context) {
         register(context, "seashell", SEASHELL_FEATURE);
         register(context, "starfish", STARFISH_FEATURE);
+        register(context, "pinecone", PINECONE_FEATURE);
         register(context, "underwater_seashell", UNDERWATER_SEASHELL_FEATURE);
         register(context, "underwater_starfish", UNDERWATER_STARFISH_FEATURE);
         register(context, "snowy_geyser", SNOWY_GEYSER_FEATURE);
@@ -58,6 +61,7 @@ public class MiscFeatures {
     public static void initPlaced(Registerable<PlacedFeature> context) {
         register(context, "seashell", SEASHELL_PLACED_FEATURE);
         register(context, "starfish", STARFISH_PLACED_FEATURE);
+        register(context, "pinecone", PINECONE_PLACED_FEATURE);
         register(context, "underwater_seashell", UNDERWATER_SEASHELL_PLACED_FEATURE);
         register(context, "underwater_starfish", UNDERWATER_STARFISH_PLACED_FEATURE);
         register(context, "snowy_geyser", SNOWY_GEYSER_PLACED_FEATURE);
