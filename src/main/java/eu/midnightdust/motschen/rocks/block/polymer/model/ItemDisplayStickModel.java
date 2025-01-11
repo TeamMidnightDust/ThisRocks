@@ -23,9 +23,9 @@ public class ItemDisplayStickModel extends ConditionalBlockModel {
     public static void initModels() {
         for (StickType type : StickType.values()) {
             var stacks = new ItemStack[3];
-            stacks[0] = ItemDisplayElementUtil.getModel(RocksMain.id("block/small_"+type.name()+"_stick"));
-            stacks[1] = ItemDisplayElementUtil.getModel(RocksMain.id("block/medium_"+type.name()+"_stick"));
-            stacks[2] = ItemDisplayElementUtil.getModel(RocksMain.id("block/large_"+type.name()+"_stick"));
+            for (int i = 0; i < 3; i++) {
+                stacks[i] = ItemDisplayElementUtil.getModel(RocksMain.id("block/"+type.getVariations()[i].getPath()));
+            }
             models.put(type, stacks);
         }
     }

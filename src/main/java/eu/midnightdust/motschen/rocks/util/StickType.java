@@ -5,6 +5,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import static eu.midnightdust.motschen.rocks.RocksMain.id;
 
@@ -32,18 +33,15 @@ public enum StickType {
 
     public Identifier[] getVariations() {
         var variations = new Identifier[3];
-        variations[0] = id("small_"+name);
-        variations[1] = id("medium_"+name);
-        variations[2] = id("large_"+name);
+        variations[0] = id(name+"_stick_small");
+        variations[1] = id(name+"_stick_medium");
+        variations[2] = id(name+"_stick_large");
         return variations;
     }
 
     public static StickType fromBlockName(String name) {
-        return Arrays.stream(values()).filter(type -> name
-                .replace("block.rocks.", "")
-                .replace("small_", "")
-                .replace("medium_", "")
-                .replace("large_", "")
-                .equals(type.getName())).findFirst().orElse(StickType.OAK);
+        return Arrays.stream(StickType.values()).filter(woodType -> Objects.equals(woodType.getName(), name
+                .replace("block.rocks.", "").replace("_stick", "")
+        )).findFirst().orElse(StickType.OAK);
     }
 }

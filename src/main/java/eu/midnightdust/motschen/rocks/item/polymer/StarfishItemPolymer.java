@@ -30,7 +30,7 @@ public class StarfishItemPolymer extends BlockItem implements PolymerItem {
         var state = itemStack.getComponents().get(DataComponentTypes.BLOCK_STATE);
         if (state != null && !state.isEmpty()) {
             StarfishVariation variation = state.getValue(RocksMain.STARFISH_VARIATION);
-            if (variation != null) return ResourcePackExtras.bridgeModel(polymerId(variation + "_starfish"));
+            if (variation != null) return ResourcePackExtras.bridgeModel(polymerId("item/"+variation + "_starfish"));
         }
         return itemStack.get(DataComponentTypes.ITEM_MODEL);
     }

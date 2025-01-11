@@ -37,10 +37,10 @@ public enum RockType {
 
     public Identifier[] getVariations() {
         var variations = new Identifier[4];
-        variations[0] = id("tiny_"+name);
-        variations[1] = id("small_"+name);
-        variations[2] = id("medium_"+name);
-        variations[3] = id("large_"+name);
+        variations[0] = id(name+"_tiny");
+        variations[1] = id(name+"_small");
+        variations[2] = id(name+"_medium");
+        variations[3] = id(name+"_large");
         return variations;
     }
 
