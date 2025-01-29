@@ -30,7 +30,6 @@
     ]
   },
 
-  "accessWidener" : "thisrocks.accesswidener",
   "mixins": [
     "rocks.mixins.json"
   ],

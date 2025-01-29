@@ -11,6 +11,7 @@ import eu.midnightdust.motschen.rocks.config.RocksConfig;
 import eu.midnightdust.motschen.rocks.networking.HelloPayload;
 import eu.midnightdust.motschen.rocks.util.RockType;
 import eu.midnightdust.motschen.rocks.util.StickType;
+import eu.midnightdust.motschen.rocks.util.geyser.GeyserUtil;
 import eu.midnightdust.motschen.rocks.util.polymer.PolyUtil;
 import eu.midnightdust.motschen.rocks.world.*;
 import net.fabricmc.api.ModInitializer;
@@ -19,6 +20,7 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -43,6 +45,7 @@ import static eu.midnightdust.motschen.rocks.util.polymer.PolyUtil.*;
 public class RocksMain implements ModInitializer {
     public static final String MOD_ID = "rocks";
     public static boolean polymerMode = hasRequiredPolymerModules();
+    public static boolean hasGeyserMC = PlatformFunctions.isModLoaded("geyser-fabric") || PlatformFunctions.isModLoaded("geyser-neoforge");
     public static List<ServerPlayerEntity> playersWithMod = new ArrayList<>();
 
     public static final EnumProperty<RockVariation> ROCK_VARIATION = EnumProperty.of("variation", RockVariation.class);
@@ -85,6 +88,7 @@ public class RocksMain implements ModInitializer {
         });
 
         if (polymerMode) PolyUtil.init();
+        if (hasGeyserMC) GeyserUtil.init(this);
 
         for (RockType type : RockType.values()) {
             Identifier id = id(type.getName());
@@ -135,5 +139,8 @@ public class RocksMain implements ModInitializer {
             RocksGroup = FabricItemGroup.builder().displayName(Text.translatable("itemGroup.rocks.rocks")).icon(() -> new ItemStack(rocksByType.get(RockType.STONE))).entries(((displayContext, entries) -> entries.addAll(groupItems))).build();
             Registry.register(Registries.ITEM_GROUP, ROCKS_GROUP, RocksGroup);
         }
+    }
+    public static boolean isOnBedrock(PlayerEntity player) {
+        return player != null && hasGeyserMC && GeyserUtil.isOnBedrock(player.getUuid());
     }
 }

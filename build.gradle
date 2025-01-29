@@ -27,6 +27,9 @@ repositories {
 		url = "https://api.modrinth.com/maven"
 	}
 	maven { url 'https://maven.nucleoid.xyz' }
+	maven {
+		url = uri("https://repo.opencollab.dev/main/")
+	}
 }
 
 dependencies {
@@ -47,6 +50,7 @@ dependencies {
 	modImplementation ("eu.pb4:polymer-virtual-entity:${polymer_version}")
 	modImplementation ("eu.pb4:polymer-autohost:${polymer_version}")
 	modImplementation ("eu.pb4:factorytools:${factorytools_version}")
+	compileOnly('org.geysermc.geyser:api:2.4.2-SNAPSHOT')
 }
 
 processResources {

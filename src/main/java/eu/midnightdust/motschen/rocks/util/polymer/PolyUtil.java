@@ -69,7 +69,7 @@ public class PolyUtil {
     }
 
     public static boolean hasModOnClient(ServerPlayerEntity player) {
-        return playersWithMod.contains(player);
+        return playersWithMod.contains(player) || isOnBedrock(player);
     }
 
     public static Item polymerBlockItem(Block block, Identifier id) {

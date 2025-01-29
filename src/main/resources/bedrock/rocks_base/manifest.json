@@ -1,0 +1,17 @@
+{
+    "format_version": 2,
+    "header": {
+        "name": "pack.rocks",
+        "description": "pack.description",
+        "uuid": "420e8521-598a-428d-9a44-ed3e2f1b303d",
+        "version": [1, 0, 0],
+        "min_engine_version": [1, 16, 0]
+    },
+    "modules": [
+        {
+            "type": "resources",
+            "uuid": "517e7279-6a76-4956-b34d-f2e126d3187a",
+            "version": [1, 0, 0]
+        }
+    ]
+}
