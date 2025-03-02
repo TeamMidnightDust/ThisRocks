@@ -2,6 +2,7 @@ package eu.midnightdust.motschen.rocks.block.polymer.model;
 
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.config.RocksConfig;
+import eu.pb4.factorytools.api.resourcepack.BaseItemProvider;
 import eu.pb4.factorytools.api.virtualentity.ItemDisplayElementUtil;
 import eu.pb4.polymer.virtualentity.api.attachment.BlockAwareAttachment;
 import eu.pb4.polymer.virtualentity.api.attachment.HolderAttachment;
@@ -28,12 +29,12 @@ public class ItemDisplayStarfishModel extends ConditionalBlockModel {
     public static ItemStack PINK_FIRST;
 
     public static void initModels() {
-        RED = ItemDisplayElementUtil.getModel(polymerId("block/starfish_red_arm"));
-        ORANGE = ItemDisplayElementUtil.getModel(polymerId("block/starfish_orange_arm"));
-        PINK = ItemDisplayElementUtil.getModel(polymerId("block/starfish_pink_arm"));
-        RED_FIRST = ItemDisplayElementUtil.getModel(polymerId("block/starfish_red_first_arm"));
-        ORANGE_FIRST = ItemDisplayElementUtil.getModel(polymerId("block/starfish_orange_first_arm"));
-        PINK_FIRST = ItemDisplayElementUtil.getModel(polymerId("block/starfish_pink_first_arm"));
+        RED = BaseItemProvider.requestModel(polymerId("block/starfish_red_arm"));
+        ORANGE = BaseItemProvider.requestModel(polymerId("block/starfish_orange_arm"));
+        PINK = BaseItemProvider.requestModel(polymerId("block/starfish_pink_arm"));
+        RED_FIRST = BaseItemProvider.requestModel(polymerId("block/starfish_red_first_arm"));
+        ORANGE_FIRST = BaseItemProvider.requestModel(polymerId("block/starfish_orange_first_arm"));
+        PINK_FIRST = BaseItemProvider.requestModel(polymerId("block/starfish_pink_first_arm"));
     }
 
     public ItemDisplayStarfishModel(BlockState state, BlockPos pos) {

@@ -52,7 +52,7 @@ public abstract class Language extends FabricLanguageProvider {
 
     protected static void addBlock(TranslationBuilder translationBuilder, Block block, String value) {
         translationBuilder.add(block, value);
-        translationBuilder.add(block.asItem(), value);
+        //translationBuilder.add(block.asItem(), value);
     }
 
     protected static void midnightconfig(TranslationBuilder translationBuilder, String key, String value) {
@@ -62,12 +62,14 @@ public abstract class Language extends FabricLanguageProvider {
     public void createRepeatedTranslations(TranslationBuilder translationBuilder, String rockWord, String splitterWord, String stickWord) {
         for (RockType type : RockType.values()) {
             Block block = Registries.BLOCK.get(RocksMain.id(type.getName()));
-            String baseTranslation = langHelper.translate(type.getStoneBlock().getTranslationKey());
+            String baseTranslation = langHelper.translate(Registries.BLOCK.get(Identifier.ofVanilla(type.name().toLowerCase())).getTranslationKey());
+
             addBlock(translationBuilder, block, baseTranslation+rockWord);
 
             if (type != RockType.GRAVEL) {
                 Item splitter = Registries.ITEM.get(RocksMain.id(type.getSplitterName()));
-                translationBuilder.add(splitter, baseTranslation+splitterWord);
+                String splitterBaseTranslation = langHelper.translate(type.getStoneBlock().getTranslationKey());
+                translationBuilder.add(splitter, splitterBaseTranslation+splitterWord);
             }
         }
         for (StickType type : StickType.values()) {
@@ -94,7 +96,7 @@ public abstract class Language extends FabricLanguageProvider {
         public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
             translationBuilder.add("itemGroup.rocks.rocks","This Rocks!");
 
-            createRepeatedTranslations(translationBuilder, " Rock", " Splitter", " Stick");
+            createRepeatedTranslations(translationBuilder, " Rock", " Fragment", " Stick");
 
             addBlock(translationBuilder, RocksMain.Geyser, "Geyser");
             addBlock(translationBuilder, RocksMain.NetherGeyser, "Nether Geyser");

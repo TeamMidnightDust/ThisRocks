@@ -3,6 +3,7 @@ package eu.midnightdust.motschen.rocks.block.polymer.model;
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.block.NetherGeyser;
 import eu.midnightdust.motschen.rocks.config.RocksConfig;
+import eu.pb4.factorytools.api.resourcepack.BaseItemProvider;
 import eu.pb4.factorytools.api.virtualentity.ItemDisplayElementUtil;
 import eu.pb4.polymer.virtualentity.api.attachment.BlockAwareAttachment;
 import eu.pb4.polymer.virtualentity.api.attachment.HolderAttachment;
@@ -22,7 +23,7 @@ public class ItemDisplayNetherGeyserModel extends ConditionalBlockModel {
     public static ItemStack NETHER;
 
     public static void initModels() {
-        NETHER = ItemDisplayElementUtil.getModel(RocksMain.id("block/nether_geyser_off"));
+        NETHER = BaseItemProvider.requestModel(RocksMain.id("block/nether_geyser_off"));
     }
 
     public ItemDisplayNetherGeyserModel(BlockState state, BlockPos pos) {
@@ -30,7 +31,6 @@ public class ItemDisplayNetherGeyserModel extends ConditionalBlockModel {
         this.main.setDisplaySize(1, 1);
         this.main.setScale(new Vector3f(2));
         int rotation = pos.hashCode() % 360;
-        System.out.println(pos.hashCode() + " " + rotation + " " + pos.hashCode() % 360);
         this.main.setRightRotation(RotationAxis.POSITIVE_Y.rotationDegrees(rotation));
         this.main.setViewRange(0.75f * (RocksConfig.polymerViewDistance / 100f));
         this.addElement(this.main);

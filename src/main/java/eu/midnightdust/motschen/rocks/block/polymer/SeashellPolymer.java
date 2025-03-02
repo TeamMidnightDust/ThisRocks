@@ -28,13 +28,13 @@ public class SeashellPolymer extends Seashell implements PolymerBlock, PolymerTe
         else return PolyUtil.SMALL_BLOCK;
     }
     @Override
-    public BlockState getPolymerBlockState(BlockState state, PacketContext context) {
-        return hasModOnClient(context.getPlayer()) ? state : getPolymerBlockState(state);
+    public BlockState getPolymerBlockState(BlockState state, ServerPlayerEntity player) {
+        return hasModOnClient(player) ? state : getPolymerBlockState(state);
     }
 
     @Override
-    public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
-        return hasModOnClient(context.getPlayer()) ? state : Blocks.WHITE_CANDLE.getDefaultState();
+    public BlockState getPolymerBreakEventBlockState(BlockState state, ServerPlayerEntity player) {
+        return hasModOnClient(player) ? state : Blocks.WHITE_CANDLE.getDefaultState();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class SeashellPolymer extends Seashell implements PolymerBlock, PolymerTe
     }
 
     @Override
-    public boolean canSyncRawToClient(PacketContext context) {
-        return hasModOnClient(context.getPlayer());
+    public boolean canSyncRawToClient(ServerPlayerEntity player) {
+        return hasModOnClient(player);
     }
 }

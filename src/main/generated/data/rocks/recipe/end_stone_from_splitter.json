@@ -2,10 +2,18 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    "rocks:end_stone_splitter",
-    "rocks:end_stone_splitter",
-    "rocks:end_stone_splitter",
-    "rocks:end_stone_splitter"
+    {
+      "item": "rocks:end_stone_splitter"
+    },
+    {
+      "item": "rocks:end_stone_splitter"
+    },
+    {
+      "item": "rocks:end_stone_splitter"
+    },
+    {
+      "item": "rocks:end_stone_splitter"
+    }
   ],
   "result": {
     "count": 1,
