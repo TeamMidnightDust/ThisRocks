@@ -73,12 +73,14 @@ public class RocksMain implements ModInitializer {
     @Override
     public void onInitialize() {
         RocksConfig.init(MOD_ID, RocksConfig.class);
-        if (polymerMode) polymerMode = RocksConfig.enablePolymerMode && !PlatformFunctions.isClientEnv();
+        if (polymerMode) polymerMode = RocksConfig.enablePolymerMode && (RocksConfig.forcePolymerMode || !PlatformFunctions.isClientEnv());
 
         PayloadTypeRegistry.playC2S().register(HelloPayload.PACKET_ID, HelloPayload.codec);
         ServerPlayNetworking.registerGlobalReceiver(HelloPayload.PACKET_ID, (payload, context) -> {
-            playersWithMod.add(context.player());
-            if (polymerMode) PolyUtil.hideElementHolders(context.player());
+            if (!RocksConfig.forcePolymerMode) {
+                playersWithMod.add(context.player());
+                if (polymerMode) PolyUtil.hideElementHolders(context.player());
+            }
         });
         ServerPlayConnectionEvents.DISCONNECT.register((playNetworkHandler, server) -> {
             playersWithMod.remove(playNetworkHandler.player);

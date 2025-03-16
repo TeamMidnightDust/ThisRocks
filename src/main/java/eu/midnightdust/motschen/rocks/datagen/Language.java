@@ -127,6 +127,8 @@ public abstract class Language extends FabricLanguageProvider {
 
             midnightconfig(translationBuilder, "enablePolymerMode", "Enable Polymer Mode");
             midnightconfig(translationBuilder, "enablePolymerMode.tooltip", "Allows the mod to work fully server-sided when used in combination with Polymer and FactoryTools");
+            midnightconfig(translationBuilder, "forcePolymerMode", "Force Polymer Mode");
+            midnightconfig(translationBuilder, "forcePolymerMode.tooltip", "Also enables Polymer mode for clients that have ThisRocks! installed");
             midnightconfig(translationBuilder, "polymerViewDistance", "Polymer View Distance");
         }
     }
@@ -172,6 +174,8 @@ public abstract class Language extends FabricLanguageProvider {
 
             midnightconfig(translationBuilder, "enablePolymerMode", "Aktiviere Polymer-Modus");
             midnightconfig(translationBuilder, "enablePolymerMode.tooltip", "Erlaubt der Mod, komplett serverseitig zu funktionieren, wenn Polymer und FactoryTools installiert sind");
+            midnightconfig(translationBuilder, "forcePolymerMode", "Erzwinge Polymer-Modus");
+            midnightconfig(translationBuilder, "forcePolymerMode.tooltip", "Aktiviert den Polymer-Modus auch für Clients, die die ThisRocks! installiert haben");
             midnightconfig(translationBuilder, "polymerViewDistance", "Polymer-Sichtweite");
         }
     }

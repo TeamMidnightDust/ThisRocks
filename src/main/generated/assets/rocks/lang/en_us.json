@@ -45,6 +45,8 @@
   "rocks.midnightconfig.category.sticks": "Sticks",
   "rocks.midnightconfig.enablePolymerMode": "Enable Polymer Mode",
   "rocks.midnightconfig.enablePolymerMode.tooltip": "Allows the mod to work fully server-sided when used in combination with Polymer and FactoryTools",
+  "rocks.midnightconfig.forcePolymerMode": "Force Polymer Mode",
+  "rocks.midnightconfig.forcePolymerMode.tooltip": "Also enables Polymer mode for clients that have ThisRocks! installed",
   "rocks.midnightconfig.geyserLevitation": "Geyser Levitation",
   "rocks.midnightconfig.needs_restart": "§cRestart the game after changing options here!",
   "rocks.midnightconfig.needs_restart1": "§cRestart the game after changing options here!",

@@ -45,6 +45,8 @@
   "rocks.midnightconfig.category.sticks": "Stöcke",
   "rocks.midnightconfig.enablePolymerMode": "Aktiviere Polymer-Modus",
   "rocks.midnightconfig.enablePolymerMode.tooltip": "Erlaubt der Mod, komplett serverseitig zu funktionieren, wenn Polymer und FactoryTools installiert sind",
+  "rocks.midnightconfig.forcePolymerMode": "Erzwinge Polymer-Modus",
+  "rocks.midnightconfig.forcePolymerMode.tooltip": "Aktiviert den Polymer-Modus auch für Clients, die die ThisRocks! installiert haben",
   "rocks.midnightconfig.geyserLevitation": "Geysir Schwebeeffekt",
   "rocks.midnightconfig.needs_restart": "§cStarte das Spiel neu, nachdem du Änderungen vorgenommen hast!",
   "rocks.midnightconfig.needs_restart1": "§cStarte das Spiel neu, nachdem du Änderungen vorgenommen hast!",
