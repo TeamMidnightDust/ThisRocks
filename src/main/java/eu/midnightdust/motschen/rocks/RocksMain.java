@@ -128,7 +128,7 @@ public class RocksMain implements ModInitializer {
 
     public static Item simpleItem(Identifier id) {
         if (polymerMode) return PolyUtil.simplePolymerItem(id);
-        return new Item(new Item.Settings());
+        return new Item(new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, id)));
     }
 
     public static void registerItemGroup() {

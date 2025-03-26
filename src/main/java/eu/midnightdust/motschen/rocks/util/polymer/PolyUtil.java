@@ -17,6 +17,7 @@ import eu.pb4.polymer.core.api.block.PolymerBlockUtils;
 import eu.pb4.polymer.core.api.item.PolymerItemGroupUtils;
 import eu.pb4.polymer.core.api.utils.PolymerSyncUtils;
 import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
+import eu.pb4.polymer.resourcepack.extras.api.ResourcePackExtras;
 import eu.pb4.polymer.virtualentity.api.ElementHolder;
 import eu.pb4.polymer.virtualentity.api.attachment.BlockBoundAttachment;
 import eu.pb4.polymer.virtualentity.impl.HolderHolder;
@@ -49,6 +50,10 @@ public class PolyUtil {
         if (PASSABLE_WATERLOGGED_BLOCK == null) SMALL_BLOCK = Blocks.BARRIER.getDefaultState().with(WATERLOGGED, true);
 
         PolymerResourcePackUtils.addModAssets(MOD_ID);
+        ResourcePackExtras.forDefault().addBridgedModelsFolder(id("block"), id("rocks"));
+        ResourcePackExtras.forDefault().addBridgedModelsFolder(polymerId("block"), polymerId("polymer-rocks"));
+        ResourcePackExtras.forDefault().addBridgedModelsFolder(polymerId("item"), polymerId("polymer-rocks"));
+
         ItemDisplayNetherGeyserModel.initModels();
         ItemDisplayOverworldGeyserModel.initModels();
         ItemDisplayPineconeModel.initModels();
@@ -66,8 +71,8 @@ public class PolyUtil {
     }
 
     public static Item polymerBlockItem(Block block, Identifier id) {
-        if (block instanceof Starfish) return new StarfishItemPolymer((Block & PolymerBlock) block, new Item.Settings(), Items.KELP);
-        else return new FactoryBlockItem((Block & PolymerBlock) block, new Item.Settings(), Items.KELP);
+        if (block instanceof Starfish) return new StarfishItemPolymer((Block & PolymerBlock) block, new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, id)), Items.KELP);
+        else return new FactoryBlockItem((Block & PolymerBlock) block, new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, id)), Items.KELP);
     }
 
     public static Item simplePolymerItem(Identifier id) {

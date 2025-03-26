@@ -61,6 +61,7 @@ public class StickFeatures {
             PlacedFeature STICK_PLACED_FEATURE = switch (type) {
                 case CRIMSON -> new PlacedFeature(RegistryEntry.of(CONFIGURED_FEATURES.get(type)), getNetherModifiers(90, 1, Blocks.CRIMSON_NYLIUM));
                 case WARPED -> new PlacedFeature(RegistryEntry.of(CONFIGURED_FEATURES.get(type)), getNetherModifiers(90, 1, Blocks.WARPED_NYLIUM));
+                case PALE_OAK -> new PlacedFeature(RegistryEntry.of(CONFIGURED_FEATURES.get(type)), getModifiers(20, 1, Blocks.GRASS_BLOCK, Blocks.PALE_MOSS_BLOCK));
                 case SPRUCE -> new PlacedFeature(RegistryEntry.of(CONFIGURED_FEATURES.get(type)), getModifiers(3, 1, Blocks.GRASS_BLOCK, Blocks.SNOW_BLOCK, Blocks.PODZOL));
                 default -> new PlacedFeature(RegistryEntry.of(CONFIGURED_FEATURES.get(type)), getModifiers(3, 1, Blocks.GRASS_BLOCK, Blocks.MUD, Blocks.PODZOL));
             };

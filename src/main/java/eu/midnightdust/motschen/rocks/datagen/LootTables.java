@@ -49,7 +49,7 @@ public class LootTables {
             addDrop(block, this.dropsWithSilkTouch(block, ItemEntry.builder(alternative)));
         }
         public void addSilkTouchOrRareDrop(Block block, Item alternative, float... chances) {
-            RegistryWrapper.Impl<Enchantment> impl = this.registryLookup.getWrapperOrThrow(RegistryKeys.ENCHANTMENT);
+            RegistryWrapper.Impl<Enchantment> impl = this.registries.getOrThrow(RegistryKeys.ENCHANTMENT);
             addDrop(block, this.dropsWithSilkTouch(block, ItemEntry.builder(alternative).conditionally(TableBonusLootCondition.builder(impl.getOrThrow(Enchantments.FORTUNE), chances))));
         }
     }

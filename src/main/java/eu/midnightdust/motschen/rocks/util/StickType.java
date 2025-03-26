@@ -12,7 +12,7 @@ import static eu.midnightdust.motschen.rocks.RocksMain.id;
 public enum StickType {
     OAK("oak", Blocks.OAK_LOG), SPRUCE("spruce", Blocks.SPRUCE_LOG), BIRCH("birch", Blocks.BIRCH_LOG),
     JUNGLE("jungle", Blocks.JUNGLE_LOG), ACACIA("acacia", Blocks.ACACIA_LOG), DARK_OAK("dark_oak", Blocks.DARK_OAK_LOG),
-    CHERRY("cherry", Blocks.CHERRY_LOG), MANGROVE("mangrove", Blocks.MANGROVE_LOG),
+    CHERRY("cherry", Blocks.CHERRY_LOG), MANGROVE("mangrove", Blocks.MANGROVE_LOG), PALE_OAK("pale_oak", Blocks.PALE_OAK_LOG),
 
     BAMBOO("bamboo", Blocks.BAMBOO_BLOCK), WARPED("warped", Blocks.WARPED_STEM), CRIMSON("crimson", Blocks.CRIMSON_STEM);
 

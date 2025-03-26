@@ -2,7 +2,6 @@ package eu.midnightdust.motschen.rocks.block.polymer.model;
 
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.config.RocksConfig;
-import eu.pb4.factorytools.api.resourcepack.BaseItemProvider;
 import eu.pb4.factorytools.api.virtualentity.ItemDisplayElementUtil;
 import eu.pb4.polymer.virtualentity.api.attachment.BlockAwareAttachment;
 import eu.pb4.polymer.virtualentity.api.attachment.HolderAttachment;
@@ -20,9 +19,9 @@ public class ItemDisplaySeashellModel extends ConditionalBlockModel {
     public static ItemStack YELLOW;
 
     public static void initModels() {
-        PINK = BaseItemProvider.requestModel(RocksMain.id("block/seashell_pink"));
-        WHITE = BaseItemProvider.requestModel(RocksMain.id("block/seashell_white"));
-        YELLOW = BaseItemProvider.requestModel(RocksMain.id("block/seashell_yellow"));
+        PINK = ItemDisplayElementUtil.getModel(RocksMain.id("block/seashell_pink"));
+        WHITE = ItemDisplayElementUtil.getModel(RocksMain.id("block/seashell_white"));
+        YELLOW = ItemDisplayElementUtil.getModel(RocksMain.id("block/seashell_yellow"));
     }
 
     public ItemDisplaySeashellModel(BlockState state, BlockPos pos) {

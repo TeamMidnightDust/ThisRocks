@@ -25,6 +25,8 @@ public class RocksDataGen implements DataGeneratorEntrypoint {
         pack.addProvider(Recipes::new);
         pack.addProvider(Language.English::new);
         pack.addProvider(Language.German::new);
+
+        pack.addProvider(Models::new);
     }
     @Override
     public String getEffectiveModId() {
@@ -52,8 +54,8 @@ public class RocksDataGen implements DataGeneratorEntrypoint {
 
         @Override
         protected void configure(RegistryWrapper.WrapperLookup registries, Entries entries) {
-            entries.addAll(registries.getWrapperOrThrow(RegistryKeys.CONFIGURED_FEATURE));
-            entries.addAll(registries.getWrapperOrThrow(RegistryKeys.PLACED_FEATURE));
+            entries.addAll(registries.getOrThrow(RegistryKeys.CONFIGURED_FEATURE));
+            entries.addAll(registries.getOrThrow(RegistryKeys.PLACED_FEATURE));
         }
 
         @Override

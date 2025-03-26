@@ -1,0 +1,40 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "rocks:pale_oak_stick",
+            "Properties": {
+              "variation": "small",
+              "waterlogged": "false"
+            }
+          },
+          "weight": 7
+        },
+        {
+          "data": {
+            "Name": "rocks:pale_oak_stick",
+            "Properties": {
+              "variation": "medium",
+              "waterlogged": "false"
+            }
+          },
+          "weight": 5
+        },
+        {
+          "data": {
+            "Name": "rocks:pale_oak_stick",
+            "Properties": {
+              "variation": "large",
+              "waterlogged": "false"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  }
+}

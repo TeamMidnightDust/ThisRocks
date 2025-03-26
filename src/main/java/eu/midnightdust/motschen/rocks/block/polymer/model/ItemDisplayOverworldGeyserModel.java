@@ -3,7 +3,6 @@ package eu.midnightdust.motschen.rocks.block.polymer.model;
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.block.OverworldGeyser;
 import eu.midnightdust.motschen.rocks.config.RocksConfig;
-import eu.pb4.factorytools.api.resourcepack.BaseItemProvider;
 import eu.pb4.factorytools.api.virtualentity.ItemDisplayElementUtil;
 import eu.pb4.polymer.virtualentity.api.attachment.BlockAwareAttachment;
 import eu.pb4.polymer.virtualentity.api.attachment.HolderAttachment;
@@ -24,7 +23,7 @@ public class ItemDisplayOverworldGeyserModel extends ConditionalBlockModel {
     public static ItemStack OVERWORLD;
 
     public static void initModels() {
-        OVERWORLD = BaseItemProvider.requestModel(RocksMain.id("block/geyser_off"));
+        OVERWORLD = ItemDisplayElementUtil.getModel(RocksMain.id("block/geyser_off"));
     }
 
     public ItemDisplayOverworldGeyserModel(BlockState state, BlockPos pos) {

@@ -3,7 +3,6 @@ package eu.midnightdust.motschen.rocks.block.polymer.model;
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.config.RocksConfig;
 import eu.midnightdust.motschen.rocks.util.RockType;
-import eu.pb4.factorytools.api.resourcepack.BaseItemProvider;
 import eu.pb4.factorytools.api.virtualentity.ItemDisplayElementUtil;
 import eu.pb4.polymer.virtualentity.api.attachment.BlockAwareAttachment;
 import eu.pb4.polymer.virtualentity.api.attachment.HolderAttachment;
@@ -25,7 +24,7 @@ public class ItemDisplayRockModel extends ConditionalBlockModel {
         for (RockType type : RockType.values()) {
             var stacks = new ItemStack[4];
             for (int i = 0; i < 4; i++) {
-                stacks[i] = BaseItemProvider.requestModel(RocksMain.id("block/"+type.getVariations()[i].getPath()));
+                stacks[i] = ItemDisplayElementUtil.getModel(RocksMain.id("block/"+type.getVariations()[i].getPath()));
             }
             models.put(type, stacks);
         }
