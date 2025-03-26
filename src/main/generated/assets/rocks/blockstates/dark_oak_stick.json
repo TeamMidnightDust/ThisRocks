@@ -2,8 +2,7 @@
   "variants": {
     "variation=large": [
       {
-        "model": "rocks:block/dark_oak_stick_large",
-        "y": 0
+        "model": "rocks:block/dark_oak_stick_large"
       },
       {
         "model": "rocks:block/dark_oak_stick_large",
@@ -20,8 +19,7 @@
     ],
     "variation=medium": [
       {
-        "model": "rocks:block/dark_oak_stick_medium",
-        "y": 0
+        "model": "rocks:block/dark_oak_stick_medium"
       },
       {
         "model": "rocks:block/dark_oak_stick_medium",
@@ -38,8 +36,7 @@
     ],
     "variation=small": [
       {
-        "model": "rocks:block/dark_oak_stick_small",
-        "y": 0
+        "model": "rocks:block/dark_oak_stick_small"
       },
       {
         "model": "rocks:block/dark_oak_stick_small",

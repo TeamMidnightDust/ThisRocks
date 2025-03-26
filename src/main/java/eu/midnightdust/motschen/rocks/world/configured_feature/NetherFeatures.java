@@ -6,7 +6,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.registry.Registerable;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.collection.DataPool;
+import net.minecraft.util.collection.Pool;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.gen.blockpredicate.BlockPredicate;
 import net.minecraft.world.gen.feature.*;
@@ -19,7 +19,7 @@ import static eu.midnightdust.motschen.rocks.util.RegistryUtil.register;
 
 public class NetherFeatures {
     public static ConfiguredFeature<?, ?> NETHER_GEYSER_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
-                    new WeightedBlockStateProvider(DataPool.<BlockState>builder().add(RocksMain.NetherGeyser.getDefaultState(), 1)))
+                    new WeightedBlockStateProvider(Pool.<BlockState>builder().add(RocksMain.NetherGeyser.getDefaultState(), 1)))
     );
 
     public static PlacedFeature NETHER_GEYSER_PLACED_FEATURE = new PlacedFeature(RegistryEntry.of(NETHER_GEYSER_FEATURE),

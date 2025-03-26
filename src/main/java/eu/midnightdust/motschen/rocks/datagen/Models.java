@@ -9,9 +9,13 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
 import net.minecraft.client.data.*;
 import net.minecraft.client.render.item.model.ItemModel;
+import net.minecraft.client.render.model.json.ModelVariant;
+import net.minecraft.client.render.model.json.WeightedVariant;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.collection.Pool;
+import net.minecraft.util.math.AxisRotation;
 
 import java.util.*;
 
@@ -77,13 +81,13 @@ public class Models extends FabricModelProvider {
         modelGenerator.output.accept(starfish.asItem(), ItemModels.select(RocksMain.STARFISH_VARIATION, ItemModels.basic(ModelIds.getItemModelId(starfish.asItem())), variantMap));
     }
 
-    public static <T> List<BlockStateVariant> getRandomRotationVariants(VariantSetting<T> baseSettings, T value) {
-        List<BlockStateVariant> list = new ArrayList<>();
-        for (VariantSettings.Rotation rotation : VariantSettings.Rotation.values()) {
-            BlockStateVariant rotatedVariant = BlockStateVariant.create().put(baseSettings, value);
-            list.add(rotatedVariant.put(VariantSettings.Y, rotation));
+    public static WeightedVariant getRandomRotationWeightedVariant(Identifier modelId) {
+        Pool.Builder<ModelVariant> list = Pool.builder();
+        for (AxisRotation rotation : AxisRotation.values()) {
+            ModelVariant rotatedVariant = new ModelVariant(modelId, ModelVariant.ModelState.DEFAULT.setRotationY(rotation));
+            list.add(rotatedVariant);
         }
-        return list;
+        return new WeightedVariant(list.build());
     }
 
     private static class RockModel {
@@ -97,10 +101,10 @@ public class Models extends FabricModelProvider {
             modelGenerator.blockStateCollector.accept(createBlockState(rockBlock, new Identifier[]{largeRock, mediumRock, smallRock, tinyRock}));
         }
 
-        private static BlockStateSupplier createBlockState(Block rockBlock, Identifier[] modelIds) {
-            return VariantsBlockStateSupplier.create(rockBlock)
-                    .coordinate(BlockStateVariantMap.create(RocksMain.ROCK_VARIATION)
-                            .registerVariants(variation -> getRandomRotationVariants(VariantSettings.MODEL, modelIds[3 - variation.ordinal()]))
+        private static BlockModelDefinitionCreator createBlockState(Block rockBlock, Identifier[] modelIds) {
+            return VariantsBlockModelDefinitionCreator.of(rockBlock)
+                    .with(BlockStateVariantMap.models(RocksMain.ROCK_VARIATION)
+                            .generate(variation -> getRandomRotationWeightedVariant(modelIds[3 - variation.ordinal()]))
                     );
         }
     }
@@ -114,10 +118,10 @@ public class Models extends FabricModelProvider {
             modelGenerator.blockStateCollector.accept(createBlockState(stickBlock, new Identifier[]{largeRock, mediumRock, smallRock}));
         }
 
-        private static BlockStateSupplier createBlockState(Block stickBlock, Identifier[] modelIds) {
-            return VariantsBlockStateSupplier.create(stickBlock)
-                    .coordinate(BlockStateVariantMap.create(RocksMain.STICK_VARIATION)
-                            .registerVariants(variation -> getRandomRotationVariants(VariantSettings.MODEL, modelIds[2 - variation.ordinal()]))
+        private static BlockModelDefinitionCreator createBlockState(Block stickBlock, Identifier[] modelIds) {
+            return VariantsBlockModelDefinitionCreator.of(stickBlock)
+                    .with(BlockStateVariantMap.models(RocksMain.STICK_VARIATION)
+                            .generate(variation -> getRandomRotationWeightedVariant(modelIds[2 - variation.ordinal()]))
                     );
         }
     }

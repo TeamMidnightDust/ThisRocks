@@ -2,8 +2,7 @@
   "variants": {
     "variation=large": [
       {
-        "model": "rocks:block/red_sand_rock_large",
-        "y": 0
+        "model": "rocks:block/red_sand_rock_large"
       },
       {
         "model": "rocks:block/red_sand_rock_large",
@@ -20,8 +19,7 @@
     ],
     "variation=medium": [
       {
-        "model": "rocks:block/red_sand_rock_medium",
-        "y": 0
+        "model": "rocks:block/red_sand_rock_medium"
       },
       {
         "model": "rocks:block/red_sand_rock_medium",
@@ -38,8 +36,7 @@
     ],
     "variation=small": [
       {
-        "model": "rocks:block/red_sand_rock_small",
-        "y": 0
+        "model": "rocks:block/red_sand_rock_small"
       },
       {
         "model": "rocks:block/red_sand_rock_small",
@@ -56,8 +53,7 @@
     ],
     "variation=tiny": [
       {
-        "model": "rocks:block/red_sand_rock_tiny",
-        "y": 0
+        "model": "rocks:block/red_sand_rock_tiny"
       },
       {
         "model": "rocks:block/red_sand_rock_tiny",

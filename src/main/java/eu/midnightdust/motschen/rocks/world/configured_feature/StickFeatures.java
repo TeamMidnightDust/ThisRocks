@@ -7,7 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.registry.Registerable;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.collection.DataPool;
+import net.minecraft.util.collection.Pool;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.gen.blockpredicate.BlockPredicate;
 import net.minecraft.world.gen.feature.*;
@@ -41,7 +41,7 @@ public class StickFeatures {
     public static void init() {
         for (StickType type : StickType.values()) {
             ConfiguredFeature<?, ?> STICK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
-                    new WeightedBlockStateProvider(DataPool.<BlockState>builder()
+                    new WeightedBlockStateProvider(Pool.<BlockState>builder()
                             .add(sticksByType.get(type).getDefaultState().with(STICK_VARIATION, StickVariation.SMALL), 7)
                             .add(sticksByType.get(type).getDefaultState().with(STICK_VARIATION, StickVariation.MEDIUM), 5)
                             .add(sticksByType.get(type).getDefaultState().with(STICK_VARIATION, StickVariation.LARGE), 1).build()))

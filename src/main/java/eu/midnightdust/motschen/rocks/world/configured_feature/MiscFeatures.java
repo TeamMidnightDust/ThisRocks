@@ -9,7 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.registry.Registerable;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.collection.DataPool;
+import net.minecraft.util.collection.Pool;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.gen.ProbabilityConfig;
 import net.minecraft.world.gen.blockpredicate.BlockPredicate;
@@ -23,19 +23,19 @@ import static eu.midnightdust.motschen.rocks.util.RegistryUtil.register;
 
 public class MiscFeatures {
     private static final ConfiguredFeature<?, ?> SEASHELL_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
-                    new WeightedBlockStateProvider(DataPool.<BlockState>builder()
+                    new WeightedBlockStateProvider(Pool.<BlockState>builder()
                             .add(RocksMain.Seashell.getDefaultState().with(RocksMain.SEASHELL_VARIATION,SeashellVariation.YELLOW), 7)
                             .add(RocksMain.Seashell.getDefaultState().with(RocksMain.SEASHELL_VARIATION,SeashellVariation.PINK), 2)
                             .add(RocksMain.Seashell.getDefaultState().with(RocksMain.SEASHELL_VARIATION,SeashellVariation.WHITE), 6).build()
             )));
     public static ConfiguredFeature<?, ?> STARFISH_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
-                    new WeightedBlockStateProvider(DataPool.<BlockState>builder()
+                    new WeightedBlockStateProvider(Pool.<BlockState>builder()
                             .add(RocksMain.Starfish.getDefaultState().with(RocksMain.STARFISH_VARIATION,StarfishVariation.RED), 2)
                             .add(RocksMain.Starfish.getDefaultState().with(RocksMain.STARFISH_VARIATION,StarfishVariation.PINK), 6)
                             .add(RocksMain.Starfish.getDefaultState().with(RocksMain.STARFISH_VARIATION,StarfishVariation.ORANGE), 7).build()))
     );
     public static ConfiguredFeature<?, ?> PINECONE_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockFeatureConfig(
-            new WeightedBlockStateProvider(DataPool.<BlockState>builder()
+            new WeightedBlockStateProvider(Pool.<BlockState>builder()
                     .add(RocksMain.Pinecone.getDefaultState(), 1).build()))
     );
 
