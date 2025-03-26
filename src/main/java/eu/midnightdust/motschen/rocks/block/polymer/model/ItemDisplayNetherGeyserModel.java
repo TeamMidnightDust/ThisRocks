@@ -30,7 +30,6 @@ public class ItemDisplayNetherGeyserModel extends ConditionalBlockModel {
         this.main.setDisplaySize(1, 1);
         this.main.setScale(new Vector3f(2));
         int rotation = pos.hashCode() % 360;
-        System.out.println(pos.hashCode() + " " + rotation + " " + pos.hashCode() % 360);
         this.main.setRightRotation(RotationAxis.POSITIVE_Y.rotationDegrees(rotation));
         this.main.setViewRange(0.75f * (RocksConfig.polymerViewDistance / 100f));
         this.addElement(this.main);
