@@ -29,6 +29,7 @@ public enum RockType {
         return splitterName;
     }
     public Identifier getStoneId() {
+        if (this==STONE) return Identifier.ofVanilla("cobblestone");
         return Identifier.ofVanilla(this.toString().toLowerCase());
     }
     public Block getStoneBlock() {

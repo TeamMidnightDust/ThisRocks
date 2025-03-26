@@ -27,13 +27,13 @@ public class OverworldGeyserPolymer extends OverworldGeyser implements PolymerBl
         return state.get(SNOWY) ? Blocks.SNOW.getDefaultState() : PolyUtil.SMALL_BLOCK;
     }
     @Override
-    public BlockState getPolymerBlockState(BlockState state, PacketContext context) {
-        return hasModOnClient(context.getPlayer()) ? state : getPolymerBlockState(state);
+    public BlockState getPolymerBlockState(BlockState state, ServerPlayerEntity player) {
+        return hasModOnClient(player) ? state : getPolymerBlockState(state);
     }
 
     @Override
-    public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
-        return hasModOnClient(context.getPlayer()) ? state : Blocks.SNOW.getDefaultState();
+    public BlockState getPolymerBreakEventBlockState(BlockState state, ServerPlayerEntity player) {
+        return hasModOnClient(player) ? state : Blocks.SNOW.getDefaultState();
     }
 
     @Override
@@ -42,7 +42,7 @@ public class OverworldGeyserPolymer extends OverworldGeyser implements PolymerBl
     }
 
     @Override
-    public boolean canSyncRawToClient(PacketContext context) {
-        return hasModOnClient(context.getPlayer());
+    public boolean canSyncRawToClient(ServerPlayerEntity player) {
+        return hasModOnClient(player);
     }
 }

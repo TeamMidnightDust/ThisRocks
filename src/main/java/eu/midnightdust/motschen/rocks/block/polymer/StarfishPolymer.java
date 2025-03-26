@@ -28,13 +28,13 @@ public class StarfishPolymer extends Starfish implements PolymerBlock, PolymerTe
         else return PolyUtil.SMALL_BLOCK;
     }
     @Override
-    public BlockState getPolymerBlockState(BlockState state, PacketContext context) {
-        return hasModOnClient(context.getPlayer()) ? state : getPolymerBlockState(state);
+    public BlockState getPolymerBlockState(BlockState state, ServerPlayerEntity player) {
+        return hasModOnClient(player) ? state : getPolymerBlockState(state);
     }
 
     @Override
-    public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
-        return hasModOnClient(context.getPlayer()) ? state : Blocks.SEA_PICKLE.getDefaultState();
+    public BlockState getPolymerBreakEventBlockState(BlockState state, ServerPlayerEntity player) {
+        return hasModOnClient(player) ? state : Blocks.SEA_PICKLE.getDefaultState();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class StarfishPolymer extends Starfish implements PolymerBlock, PolymerTe
     }
 
     @Override
-    public boolean canSyncRawToClient(PacketContext context) {
-        return hasModOnClient(context.getPlayer());
+    public boolean canSyncRawToClient(ServerPlayerEntity player) {
+        return hasModOnClient(player);
     }
 }

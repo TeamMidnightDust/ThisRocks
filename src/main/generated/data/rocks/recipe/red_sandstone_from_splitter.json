@@ -2,10 +2,18 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    "rocks:red_sandstone_splitter",
-    "rocks:red_sandstone_splitter",
-    "rocks:red_sandstone_splitter",
-    "rocks:red_sandstone_splitter"
+    {
+      "item": "rocks:red_sandstone_splitter"
+    },
+    {
+      "item": "rocks:red_sandstone_splitter"
+    },
+    {
+      "item": "rocks:red_sandstone_splitter"
+    },
+    {
+      "item": "rocks:red_sandstone_splitter"
+    }
   ],
   "result": {
     "count": 1,

@@ -30,7 +30,7 @@ public class RegistryUtil {
     }
     public static Item blockItem(Block block, Identifier id) {
         if (polymerMode) return PolyUtil.polymerBlockItem(block, id);
-        return new BlockItem(block, new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, id)));
+        return new BlockItem(block, new Item.Settings());
     }
     public static Item registerItem(Identifier id, Item item) {
         Registry.register(Registries.ITEM, id, item);

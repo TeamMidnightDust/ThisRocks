@@ -2,10 +2,18 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    "rocks:ice_splitter",
-    "rocks:ice_splitter",
-    "rocks:ice_splitter",
-    "rocks:ice_splitter"
+    {
+      "item": "rocks:ice_splitter"
+    },
+    {
+      "item": "rocks:ice_splitter"
+    },
+    {
+      "item": "rocks:ice_splitter"
+    },
+    {
+      "item": "rocks:ice_splitter"
+    }
   ],
   "result": {
     "count": 1,

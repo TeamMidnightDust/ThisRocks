@@ -2,13 +2,21 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    "rocks:cobblestone_splitter",
-    "rocks:cobblestone_splitter",
-    "rocks:cobblestone_splitter",
-    "rocks:cobblestone_splitter"
+    {
+      "item": "rocks:cobblestone_splitter"
+    },
+    {
+      "item": "rocks:cobblestone_splitter"
+    },
+    {
+      "item": "rocks:cobblestone_splitter"
+    },
+    {
+      "item": "rocks:cobblestone_splitter"
+    }
   ],
   "result": {
     "count": 1,
-    "id": "minecraft:stone"
+    "id": "minecraft:cobblestone"
   }
 }

@@ -2,10 +2,18 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    "rocks:netherrack_splitter",
-    "rocks:netherrack_splitter",
-    "rocks:netherrack_splitter",
-    "rocks:netherrack_splitter"
+    {
+      "item": "rocks:netherrack_splitter"
+    },
+    {
+      "item": "rocks:netherrack_splitter"
+    },
+    {
+      "item": "rocks:netherrack_splitter"
+    },
+    {
+      "item": "rocks:netherrack_splitter"
+    }
   ],
   "result": {
     "count": 1,

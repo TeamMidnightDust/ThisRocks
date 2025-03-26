@@ -52,6 +52,7 @@ public class RocksConfig extends MidnightConfig {
     @Entry(category = effects) public static boolean netherGeyserDamage = true;
 
     @Entry(category = effects) public static boolean enablePolymerMode = true;
+    @Entry(category = effects) public static boolean forcePolymerMode = false;
     @Entry(category = effects, requiredMod = "factorytools", min = 0, max = 200, isSlider = true) public static int polymerViewDistance = 100;
     @Entry(category = effects) public static List<String> biomeExclusions = new ArrayList<>();
 }

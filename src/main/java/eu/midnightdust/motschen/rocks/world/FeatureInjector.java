@@ -69,7 +69,6 @@ public class FeatureInjector {
 
         if (RocksConfig.jungleStick) BiomeModifications.addFeature(ctx -> isNotExcluded(ctx) && ctx.hasTag(BiomeTags.IS_JUNGLE), GenerationStep.Feature.TOP_LAYER_MODIFICATION, getKey("jungle_stick"));
         if (RocksConfig.bambooStick) BiomeModifications.addFeature(ctx -> isNotExcluded(ctx) && ctx.hasTag(BiomeTags.IS_JUNGLE), GenerationStep.Feature.TOP_LAYER_MODIFICATION, getKey("bamboo_stick"));
-        if (RocksConfig.paleOakStick) BiomeModifications.addFeature(ctx -> isNotExcluded(ctx) && ctx.getBiomeKey().equals(BiomeKeys.PALE_GARDEN), GenerationStep.Feature.TOP_LAYER_MODIFICATION, getKey("pale_oak_stick"));
 
         Predicate<BiomeSelectionContext> dark_oak_sticks = (ctx -> {
             String name = ctx.getBiomeKey().getValue().toString();
