@@ -93,7 +93,7 @@ public class RocksMain implements ModInitializer {
             rocksByType.put(type, registerBlockWithItem(id, polymerMode ? newRockPolymer(id) : new Rock(id)));
 
             if (type != RockType.GRAVEL)
-                splittersByType.put(type, registerItem(id(type.getSplitterName()), simpleItem(id(type.getSplitterName()))));
+                splittersByType.put(type, registerItem(id(type.getFragment().getName()), simpleItem(id(type.getFragment().getName()))));
         }
         for (StickType type : StickType.values()) {
             Identifier id = id(type.getName()+"_stick");

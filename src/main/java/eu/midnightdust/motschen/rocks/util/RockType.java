@@ -23,15 +23,11 @@ public enum RockType {
     public String getName() {
         return this.name;
     }
-    public String getSplitterName() {
-        String splitterName = this.name().toLowerCase()+ "_splitter";
-        if (this.equals(RockType.STONE)) splitterName = "cobblestone_splitter";
-        return splitterName;
-    }
+
     public Identifier getStoneId() {
-        if (this==STONE) return Identifier.ofVanilla("cobblestone");
         return Identifier.ofVanilla(this.toString().toLowerCase());
     }
+
     public Block getStoneBlock() {
         return Registries.BLOCK.get(getStoneId());
     }
@@ -53,5 +49,30 @@ public enum RockType {
                 .replace("medium_", "")
                 .replace("large_", "")
                 .equals(type.getName())).findFirst().orElse(RockType.STONE);
+    }
+
+    public Fragment getFragment() {
+        return new Fragment(this);
+    }
+
+    public static class Fragment {
+        private final RockType type;
+
+        Fragment(RockType type) {
+            this.type = type;
+        }
+
+        public String getName() {
+            String splitterName = type.name().toLowerCase()+ "_splitter";
+            if (type.equals(RockType.STONE)) splitterName = "cobblestone_splitter";
+            return splitterName;
+        }
+        public Identifier getStoneId() {
+            if (type==STONE) return Identifier.ofVanilla("cobblestone");
+            return Identifier.ofVanilla(type.toString().toLowerCase());
+        }
+        public Block getStoneBlock() {
+            return Registries.BLOCK.get(getStoneId());
+        }
     }
 }

@@ -49,8 +49,8 @@ public class Models extends FabricModelProvider {
             registerParentedItemModel(itemModelGenerator, item, getItemId("rock_base"), type.getStoneBlock());
 
             if (type != RockType.GRAVEL) {
-                Item splitter = Registries.ITEM.get(RocksMain.id(type.getSplitterName()));
-                registerParentedItemModel(itemModelGenerator, splitter, getItemId("splitter_base"), type.getStoneBlock());
+                Item splitter = Registries.ITEM.get(RocksMain.id(type.getFragment().getName()));
+                registerParentedItemModel(itemModelGenerator, splitter, getItemId("splitter_base"), type.getFragment().getStoneBlock());
             }
         }
         for (StickType type : StickType.values()) {
