@@ -76,7 +76,7 @@ public class Models extends FabricModelProvider {
     public final void registerStarfishItemVariations(ItemModelGenerator modelGenerator, Block starfish) {
         Map<StarfishVariation, ItemModel.Unbaked> variantMap = new HashMap<>();
         for (StarfishVariation variation : StarfishVariation.values()) {
-            variantMap.put(variation, ItemModels.basic(ModelIds.getBlockSubModelId(starfish, "_"+variation.toString())));
+            variantMap.put(variation, ItemModels.basic(ModelIds.getItemSubModelId(starfish.asItem(), "_"+variation.toString())));
         }
         modelGenerator.output.accept(starfish.asItem(), ItemModels.select(RocksMain.STARFISH_VARIATION, ItemModels.basic(ModelIds.getItemModelId(starfish.asItem())), variantMap));
     }
