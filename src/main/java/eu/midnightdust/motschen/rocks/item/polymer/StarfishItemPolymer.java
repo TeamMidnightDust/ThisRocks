@@ -14,8 +14,8 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import xyz.nucleoid.packettweaker.PacketContext;
 
+import static eu.midnightdust.motschen.rocks.RocksMain.id;
 import static eu.midnightdust.motschen.rocks.util.polymer.PolyUtil.hasModOnClient;
-import static eu.midnightdust.motschen.rocks.util.polymer.PolyUtil.polymerId;
 
 public class StarfishItemPolymer extends BlockItem implements PolymerItem {
     private final Item polymerItem;
@@ -30,7 +30,7 @@ public class StarfishItemPolymer extends BlockItem implements PolymerItem {
         var state = itemStack.getComponents().get(DataComponentTypes.BLOCK_STATE);
         if (state != null && !state.isEmpty()) {
             StarfishVariation variation = state.getValue(RocksMain.STARFISH_VARIATION);
-            if (variation != null) return ResourcePackExtras.bridgeModel(polymerId("item/"+variation + "_starfish"));
+            if (variation != null) return ResourcePackExtras.bridgeModel(id("item/starfish_"+variation));
         }
         return itemStack.get(DataComponentTypes.ITEM_MODEL);
     }

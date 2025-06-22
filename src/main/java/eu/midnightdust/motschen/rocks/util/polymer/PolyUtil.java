@@ -52,9 +52,7 @@ public class PolyUtil {
         if (PASSABLE_WATERLOGGED_BLOCK == null) SMALL_BLOCK = Blocks.BARRIER.getDefaultState().with(WATERLOGGED, true);
 
         PolymerResourcePackUtils.addModAssets(MOD_ID);
-        ResourcePackExtras.forDefault().addBridgedModelsFolder(id("block"), id("rocks"));
-        ResourcePackExtras.forDefault().addBridgedModelsFolder(polymerId("block"), polymerId("polymer-rocks"));
-        ResourcePackExtras.forDefault().addBridgedModelsFolder(polymerId("item"), polymerId("polymer-rocks"));
+        ResourcePackExtras.forDefault().addBridgedModelsFolder(id("block"), id("item"));
 
         ItemDisplayNetherGeyserModel.initModels();
         ItemDisplayOverworldGeyserModel.initModels();
@@ -63,9 +61,6 @@ public class PolyUtil {
         ItemDisplaySeashellModel.initModels();
         ItemDisplayStarfishModel.initModels();
         ItemDisplayStickModel.initModels();
-    }
-    public static Identifier polymerId(String path) {
-        return Identifier.of("polymer-rocks", path);
     }
 
     public static boolean hasModOnClient(ServerPlayerEntity player) {
