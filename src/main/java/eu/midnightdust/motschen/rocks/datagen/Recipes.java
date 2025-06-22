@@ -39,11 +39,12 @@ public class Recipes extends FabricRecipeProvider {
         }
         private void generateCrafting(RecipeExporter exporter) {
             RocksMain.splittersByType.forEach(((rockType, splitter) -> {
+                Identifier stoneID = rockType.getFragment().getStoneId();
 
-                ShapelessRecipeJsonBuilder.create(registries.getOrThrow(RegistryKeys.ITEM), RecipeCategory.BUILDING_BLOCKS, Registries.BLOCK.get(Identifier.ofVanilla(rockType.name().toLowerCase())).asItem())
+                ShapelessRecipeJsonBuilder.create(registries.getOrThrow(RegistryKeys.ITEM), RecipeCategory.BUILDING_BLOCKS, Registries.BLOCK.get(stoneID).asItem())
                         .input(splitter, 4)
                         .criterion(RecipeGenerator.hasItem(splitter), this.conditionsFromItem(splitter))
-                        .offerTo(exporter, rockType.name().toLowerCase()+"_from_splitter");
+                        .offerTo(exporter, stoneID.getPath()+"_from_splitter");
             }));
         }
     }
