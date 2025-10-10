@@ -28,11 +28,17 @@ public class OverworldGeyserPolymer extends OverworldGeyser implements PolymerBl
     }
     @Override
     public BlockState getPolymerBlockState(BlockState state, PacketContext context) {
+        if (context==null) {
+            return getPolymerBlockState(state);
+        }
         return hasModOnClient(context.getPlayer()) ? state : getPolymerBlockState(state);
     }
 
     @Override
     public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
+        if (context == null) {
+            return Blocks.SNOW.getDefaultState();
+        }
         return hasModOnClient(context.getPlayer()) ? state : Blocks.SNOW.getDefaultState();
     }
 
@@ -43,6 +49,9 @@ public class OverworldGeyserPolymer extends OverworldGeyser implements PolymerBl
 
     @Override
     public boolean canSyncRawToClient(PacketContext context) {
+        if (context == null) {
+            return false;
+        }
         return hasModOnClient(context.getPlayer());
     }
 }

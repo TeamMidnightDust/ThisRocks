@@ -29,11 +29,17 @@ public class StarfishPolymer extends Starfish implements PolymerBlock, PolymerTe
     }
     @Override
     public BlockState getPolymerBlockState(BlockState state, PacketContext context) {
+        if (context==null) {
+            return getPolymerBlockState(state);
+        }
         return hasModOnClient(context.getPlayer()) ? state : getPolymerBlockState(state);
     }
 
     @Override
     public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
+        if (context==null) {
+            return Blocks.SEA_PICKLE.getDefaultState();
+        }
         return hasModOnClient(context.getPlayer()) ? state : Blocks.SEA_PICKLE.getDefaultState();
     }
 
@@ -44,6 +50,9 @@ public class StarfishPolymer extends Starfish implements PolymerBlock, PolymerTe
 
     @Override
     public boolean canSyncRawToClient(PacketContext context) {
+        if (context == null) {
+            return false;
+        }
         return hasModOnClient(context.getPlayer());
     }
 }

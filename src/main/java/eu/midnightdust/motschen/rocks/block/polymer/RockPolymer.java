@@ -30,11 +30,17 @@ public class RockPolymer extends Rock implements PolymerBlock, PolymerTexturedBl
     }
     @Override
     public BlockState getPolymerBlockState(BlockState state, PacketContext context) {
+        if (context==null) {
+            return getPolymerBlockState(state);
+        }
         return hasModOnClient(context.getPlayer()) ? state : getPolymerBlockState(state);
     }
 
     @Override
     public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
+        if (context==null) {
+            return Blocks.STONE_BUTTON.getDefaultState().with(Properties.BLOCK_FACE, BlockFace.FLOOR);
+        }
         return hasModOnClient(context.getPlayer()) ? state : Blocks.STONE_BUTTON.getDefaultState().with(Properties.BLOCK_FACE, BlockFace.FLOOR);
     }
 
@@ -45,6 +51,9 @@ public class RockPolymer extends Rock implements PolymerBlock, PolymerTexturedBl
 
     @Override
     public boolean canSyncRawToClient(PacketContext context) {
+        if (context == null) {
+            return false;
+        }
         return hasModOnClient(context.getPlayer());
     }
 }
