@@ -22,7 +22,7 @@ public class NetherGeyserBlockEntity extends BlockEntity {
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, NetherGeyserBlockEntity blockEntity) {
-        if (world == null || world.isClient) return;
+        if (world == null || world.isClient()) return;
         if (world.getBlockState(pos).getBlock() == RocksMain.NetherGeyser) {
             PlayerEntity player = world.getClosestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3, true);
             PlayerEntity player2 = world.getClosestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, true);
