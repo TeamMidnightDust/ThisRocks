@@ -26,12 +26,12 @@ public class OverworldGeyserBlockEntity extends BlockEntity {
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, OverworldGeyserBlockEntity blockEntity) {
-        if (world == null || world.isClient) return;
+        if (world == null || world.isClient()) return;
         if (world.getBlockState(pos).getBlock() == RocksMain.Geyser) {
             PlayerEntity player = world.getClosestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3, true);
             PlayerEntity player2 = world.getClosestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 8, true);
 
-            if (RocksConfig.geyserLevitation && player2 != null && (player2.getBlockPos().equals(pos) || world.raycast(new BlockStateRaycastContext(pos.toCenterPos(), player2.getPos(), blockState -> !blockState.isAir() && !blockState.isOf(RocksMain.Geyser))).getType() == HitResult.Type.MISS) && player2.getY() >= pos.getY() && player2.getY() <= pos.getY() + 5 && (pos.getX() <= player2.getX() && pos.getX() + 1 >= player2.getX()) && (pos.getZ() <= player2.getZ() && pos.getZ() + 1 >= player2.getZ())) {
+            if (RocksConfig.geyserLevitation && player2 != null && (player2.getBlockPos().equals(pos) || world.raycast(new BlockStateRaycastContext(pos.toCenterPos(), player2.getEntityPos(), blockState -> !blockState.isAir() && !blockState.isOf(RocksMain.Geyser))).getType() == HitResult.Type.MISS) && player2.getY() >= pos.getY() && player2.getY() <= pos.getY() + 5 && (pos.getX() <= player2.getX() && pos.getX() + 1 >= player2.getX()) && (pos.getZ() <= player2.getZ() && pos.getZ() + 1 >= player2.getZ())) {
                 player2.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 2, 10, true, false, false));
             }
 
