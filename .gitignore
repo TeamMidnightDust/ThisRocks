@@ -26,3 +26,6 @@ run/
 
 # SDD workspace (scratch, plan-local)
 .superpowers/
+
+# port tooling
+.mapcache/
