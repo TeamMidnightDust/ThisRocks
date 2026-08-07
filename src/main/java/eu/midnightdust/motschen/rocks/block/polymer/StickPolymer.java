@@ -16,7 +16,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.resources.Identifier;
 import net.minecraft.core.BlockPos;
 import org.jetbrains.annotations.Nullable;
-import xyz.nucleoid.packettweaker.PacketContext;
+import eu.pb4.polymer.common.api.PolymerCommonUtils;
+import net.fabricmc.fabric.api.networking.v1.context.PacketContext;
 
 import static eu.midnightdust.motschen.rocks.util.polymer.PolyUtil.hasModOnClient;
 
@@ -30,12 +31,12 @@ public class StickPolymer extends Stick implements PolymerBlock, PolymerTextured
     }
     @Override
     public BlockState getPolymerBlockState(BlockState state, PacketContext context) {
-        return hasModOnClient(context.getPlayer()) ? state : getPolymerBlockState(state);
+        return hasModOnClient(PolymerCommonUtils.getPlayer(context)) ? state : getPolymerBlockState(state);
     }
 
     @Override
     public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
-        return hasModOnClient(context.getPlayer()) ? state : Blocks.OAK_BUTTON.getDefaultState().with(BlockStateProperties.BLOCK_FACE, AttachFace.FLOOR);
+        return hasModOnClient(PolymerCommonUtils.getPlayer(context)) ? state : Blocks.OAK_BUTTON.defaultBlockState().setValue(BlockStateProperties.ATTACH_FACE, AttachFace.FLOOR);
     }
 
     @Override
@@ -45,6 +46,6 @@ public class StickPolymer extends Stick implements PolymerBlock, PolymerTextured
 
     @Override
     public boolean canSyncRawToClient(PacketContext context) {
-        return hasModOnClient(context.getPlayer());
+        return hasModOnClient(PolymerCommonUtils.getPlayer(context));
     }
 }

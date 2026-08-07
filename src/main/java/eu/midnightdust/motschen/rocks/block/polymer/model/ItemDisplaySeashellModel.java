@@ -19,16 +19,16 @@ public class ItemDisplaySeashellModel extends ConditionalBlockModel {
     public static ItemStack YELLOW;
 
     public static void initModels() {
-        PINK = ItemDisplayElementUtil.getModel(RocksMain.id("block/seashell_pink"));
-        WHITE = ItemDisplayElementUtil.getModel(RocksMain.id("block/seashell_white"));
-        YELLOW = ItemDisplayElementUtil.getModel(RocksMain.id("block/seashell_yellow"));
+        PINK = ItemDisplayElementUtil.getModel(RocksMain.id("block/seashell_pink")).get();
+        WHITE = ItemDisplayElementUtil.getModel(RocksMain.id("block/seashell_white")).get();
+        YELLOW = ItemDisplayElementUtil.getModel(RocksMain.id("block/seashell_yellow")).get();
     }
 
     public ItemDisplaySeashellModel(BlockState state, BlockPos pos) {
         this.main = ItemDisplayElementUtil.createSimple(getModel(state));
         this.main.setDisplaySize(1, 1);
         this.main.setScale(new Vector3f(2));
-        this.main.setRightRotation(Axis.POSITIVE_Y.rotationDegrees(90 * (pos.hashCode() % 4)));
+        this.main.setRightRotation(Axis.YP.rotationDegrees(90 * (pos.hashCode() % 4)));
         this.main.setViewRange(0.5f * (RocksConfig.polymerViewDistance / 100f));
         this.addElement(this.main);
     }
@@ -43,7 +43,7 @@ public class ItemDisplaySeashellModel extends ConditionalBlockModel {
         }
     }
     private ItemStack getModel(BlockState state) {
-        return switch (state.get(RocksMain.SEASHELL_VARIATION)) {
+        return switch (state.getValue(RocksMain.SEASHELL_VARIATION)) {
             case PINK -> PINK;
             case WHITE -> WHITE;
             case YELLOW -> YELLOW;

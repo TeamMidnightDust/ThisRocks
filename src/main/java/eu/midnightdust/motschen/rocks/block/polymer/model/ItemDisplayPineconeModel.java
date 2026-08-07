@@ -16,14 +16,14 @@ public class ItemDisplayPineconeModel extends ConditionalBlockModel {
     private static ItemStack PINECONE_MODEL;
 
     public static void initModels() {
-        PINECONE_MODEL = ItemDisplayElementUtil.getModel(RocksMain.id("block/pinecone"));
+        PINECONE_MODEL = ItemDisplayElementUtil.getModel(RocksMain.id("block/pinecone")).get();
     }
 
     public ItemDisplayPineconeModel(BlockState state, BlockPos pos) {
         this.main = ItemDisplayElementUtil.createSimple(getModel(state));
         this.main.setDisplaySize(1, 1);
         this.main.setScale(new Vector3f(1));
-        this.main.setRightRotation(Axis.POSITIVE_Y.rotationDegrees(pos.hashCode() % 360));
+        this.main.setRightRotation(Axis.YP.rotationDegrees(pos.hashCode() % 360));
         this.main.setOffset(new Vec3(0, -0.25d, 0));
         this.main.setViewRange(0.75f * (RocksConfig.polymerViewDistance / 100f));
         this.addElement(this.main);

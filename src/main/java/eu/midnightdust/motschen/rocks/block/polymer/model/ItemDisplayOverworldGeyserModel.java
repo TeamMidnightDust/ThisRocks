@@ -23,7 +23,7 @@ public class ItemDisplayOverworldGeyserModel extends ConditionalBlockModel {
     public static ItemStack OVERWORLD;
 
     public static void initModels() {
-        OVERWORLD = ItemDisplayElementUtil.getModel(RocksMain.id("block/geyser_off"));
+        OVERWORLD = ItemDisplayElementUtil.getModel(RocksMain.id("block/geyser_off")).get();
     }
 
     public ItemDisplayOverworldGeyserModel(BlockState state, BlockPos pos) {
@@ -31,18 +31,18 @@ public class ItemDisplayOverworldGeyserModel extends ConditionalBlockModel {
         this.main.setDisplaySize(1, 1);
         this.main.setScale(new Vector3f(2));
         int rotation = pos.hashCode() % 360;
-        this.main.setRightRotation(Axis.POSITIVE_Y.rotationDegrees(rotation));
-        if (state.get(BlockStateProperties.SNOWY)) this.main.setOffset(new Vec3(0d, 0.125d, 0d));
+        this.main.setRightRotation(Axis.YP.rotationDegrees(rotation));
+        if (state.getValue(BlockStateProperties.SNOWY)) this.main.setOffset(new Vec3(0d, 0.125d, 0d));
         this.main.setViewRange(0.75f * (RocksConfig.polymerViewDistance / 100f));
         this.addElement(this.main);
 
         this.magma = ItemDisplayElementUtil.createSimple(new ItemStack(Items.MAGMA_BLOCK));
         this.magma.setDisplaySize(1, 1);
         this.magma.setScale(new Vector3f(0.73f, 0.01f, 0.73f));
-        this.magma.setRightRotation(Axis.POSITIVE_Y.rotationDegrees(rotation));
-        this.magma.setBrightness(Brightness.FULL);
-        this.magma.setOffset(new Vec3(0d, state.get(BlockStateProperties.SNOWY) ? -0.355d : -0.48d, 0d));
-        this.magma.setViewRange(state.get(OverworldGeyser.ACTIVE) ? (0.75f * (RocksConfig.polymerViewDistance / 100f)) : 0);
+        this.magma.setRightRotation(Axis.YP.rotationDegrees(rotation));
+        this.magma.setBrightness(Brightness.FULL_BRIGHT);
+        this.magma.setOffset(new Vec3(0d, state.getValue(BlockStateProperties.SNOWY) ? -0.355d : -0.48d, 0d));
+        this.magma.setViewRange(state.getValue(OverworldGeyser.ACTIVE) ? (0.75f * (RocksConfig.polymerViewDistance / 100f)) : 0);
         this.addElement(this.magma);
     }
 
@@ -50,7 +50,7 @@ public class ItemDisplayOverworldGeyserModel extends ConditionalBlockModel {
     public void notifyUpdate(HolderAttachment.UpdateType updateType) {
         if (updateType == BlockAwareAttachment.BLOCK_STATE_UPDATE) {
             var state = this.blockState();
-            if (state.get(BlockStateProperties.SNOWY)) {
+            if (state.getValue(BlockStateProperties.SNOWY)) {
                 this.main.setOffset(new Vec3(0d, 0.125d, 0d));
                 this.magma.setOffset(new Vec3(0d, -0.355d, 0d));
             }
@@ -58,7 +58,7 @@ public class ItemDisplayOverworldGeyserModel extends ConditionalBlockModel {
                 this.main.setOffset(new Vec3(0, 0, 0));
                 this.magma.setOffset(new Vec3(0, -0.48d, 0));
             }
-            this.magma.setViewRange(state.get(OverworldGeyser.ACTIVE) ? (0.75f * (RocksConfig.polymerViewDistance / 100f)) : 0);
+            this.magma.setViewRange(state.getValue(OverworldGeyser.ACTIVE) ? (0.75f * (RocksConfig.polymerViewDistance / 100f)) : 0);
 
             this.tick();
         }

@@ -24,7 +24,7 @@ public class ItemDisplayStickModel extends ConditionalBlockModel {
         for (StickType type : StickType.values()) {
             var stacks = new ItemStack[3];
             for (int i = 0; i < 3; i++) {
-                stacks[i] = ItemDisplayElementUtil.getModel(RocksMain.id("block/"+type.getVariations()[i].getPath()));
+                stacks[i] = ItemDisplayElementUtil.getModel(RocksMain.id("block/"+type.getVariations()[i].getPath())).get();
             }
             models.put(type, stacks);
         }
@@ -34,7 +34,7 @@ public class ItemDisplayStickModel extends ConditionalBlockModel {
         this.main = ItemDisplayElementUtil.createSimple(getModel(state));
         this.main.setDisplaySize(1, 1);
         this.main.setScale(new Vector3f(1));
-        this.main.setRightRotation(Axis.POSITIVE_Y.rotationDegrees(90 * (pos.hashCode() % 4)));
+        this.main.setRightRotation(Axis.YP.rotationDegrees(90 * (pos.hashCode() % 4)));
         this.main.setViewRange(0.75f * (RocksConfig.polymerViewDistance / 100f));
         this.addElement(this.main);
     }
@@ -49,6 +49,6 @@ public class ItemDisplayStickModel extends ConditionalBlockModel {
         }
     }
     private ItemStack getModel(BlockState state) {
-        return models.get(StickType.fromBlockName(state.getBlock().getTranslationKey()))[state.get(RocksMain.STICK_VARIATION).ordinal()];
+        return models.get(StickType.fromBlockName(state.getBlock().getDescriptionId()))[state.getValue(RocksMain.STICK_VARIATION).ordinal()];
     }
 }

@@ -22,9 +22,9 @@ public class ItemDisplayStarfishModel extends ConditionalBlockModel {
     public static ItemStack PINK;
 
     public static void initModels() {
-        RED = ItemDisplayElementUtil.getModel(id("block/starfish_red"));
-        ORANGE = ItemDisplayElementUtil.getModel(id("block/starfish_orange"));
-        PINK = ItemDisplayElementUtil.getModel(id("block/starfish_pink"));
+        RED = ItemDisplayElementUtil.getModel(id("block/starfish_red")).get();
+        ORANGE = ItemDisplayElementUtil.getModel(id("block/starfish_orange")).get();
+        PINK = ItemDisplayElementUtil.getModel(id("block/starfish_pink")).get();
     }
 
     public ItemDisplayStarfishModel(BlockState state, BlockPos pos) {
@@ -35,7 +35,7 @@ public class ItemDisplayStarfishModel extends ConditionalBlockModel {
         arm = ItemDisplayElementUtil.createSimple(modelStack);
         arm.setDisplaySize(1, 1);
         arm.setScale(new Vector3f(1));
-        arm.setRightRotation(Axis.POSITIVE_Y.rotationDegrees(baseRotation));
+        arm.setRightRotation(Axis.YP.rotationDegrees(baseRotation));
         arm.setOffset(new Vec3(xOffset, 0, zOffset));
         arm.setViewRange(0.4f * (RocksConfig.polymerViewDistance / 100f));
         this.addElement(arm);
@@ -52,7 +52,7 @@ public class ItemDisplayStarfishModel extends ConditionalBlockModel {
         }
     }
     private ItemStack getModel(BlockState state) {
-        return switch (state.get(RocksMain.STARFISH_VARIATION)) {
+        return switch (state.getValue(RocksMain.STARFISH_VARIATION)) {
             case RED -> RED;
             case ORANGE -> ORANGE;
             case PINK -> PINK;

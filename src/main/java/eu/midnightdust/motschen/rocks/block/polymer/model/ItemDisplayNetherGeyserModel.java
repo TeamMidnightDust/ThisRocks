@@ -22,7 +22,7 @@ public class ItemDisplayNetherGeyserModel extends ConditionalBlockModel {
     public static ItemStack NETHER;
 
     public static void initModels() {
-        NETHER = ItemDisplayElementUtil.getModel(RocksMain.id("block/nether_geyser_off"));
+        NETHER = ItemDisplayElementUtil.getModel(RocksMain.id("block/nether_geyser_off")).get();
     }
 
     public ItemDisplayNetherGeyserModel(BlockState state, BlockPos pos) {
@@ -30,17 +30,17 @@ public class ItemDisplayNetherGeyserModel extends ConditionalBlockModel {
         this.main.setDisplaySize(1, 1);
         this.main.setScale(new Vector3f(2));
         int rotation = pos.hashCode() % 360;
-        this.main.setRightRotation(Axis.POSITIVE_Y.rotationDegrees(rotation));
+        this.main.setRightRotation(Axis.YP.rotationDegrees(rotation));
         this.main.setViewRange(0.75f * (RocksConfig.polymerViewDistance / 100f));
         this.addElement(this.main);
 
         this.magma = ItemDisplayElementUtil.createSimple(new ItemStack(Items.MAGMA_BLOCK));
         this.magma.setDisplaySize(1, 1);
         this.magma.setScale(new Vector3f(0.73f, 0.01f, 0.73f));
-        this.magma.setRightRotation(Axis.POSITIVE_Y.rotationDegrees(rotation));
-        this.magma.setBrightness(Brightness.FULL);
+        this.magma.setRightRotation(Axis.YP.rotationDegrees(rotation));
+        this.magma.setBrightness(Brightness.FULL_BRIGHT);
         this.magma.setOffset(new Vec3(0d, -0.48d, 0d));
-        this.magma.setViewRange(state.get(NetherGeyser.ACTIVE) ? (0.75f * (RocksConfig.polymerViewDistance / 100f)) : 0);
+        this.magma.setViewRange(state.getValue(NetherGeyser.ACTIVE) ? (0.75f * (RocksConfig.polymerViewDistance / 100f)) : 0);
         this.addElement(this.magma);
     }
 
@@ -48,7 +48,7 @@ public class ItemDisplayNetherGeyserModel extends ConditionalBlockModel {
     public void notifyUpdate(HolderAttachment.UpdateType updateType) {
         if (updateType == BlockAwareAttachment.BLOCK_STATE_UPDATE) {
             var state = this.blockState();
-            this.magma.setViewRange(state.get(NetherGeyser.ACTIVE) ? (0.75f * (RocksConfig.polymerViewDistance / 100f)) : 0);
+            this.magma.setViewRange(state.getValue(NetherGeyser.ACTIVE) ? (0.75f * (RocksConfig.polymerViewDistance / 100f)) : 0);
 
             this.tick();
         }

@@ -13,7 +13,7 @@ import eu.pb4.polymer.blocks.api.BlockModelType;
 import eu.pb4.polymer.blocks.api.PolymerBlockResourceUtils;
 import eu.pb4.polymer.core.api.block.PolymerBlock;
 import eu.pb4.polymer.core.api.block.PolymerBlockUtils;
-import eu.pb4.polymer.core.api.item.PolymerItemGroupUtils;
+import eu.pb4.polymer.core.api.item.PolymerCreativeModeTabUtils;
 import eu.pb4.polymer.core.api.item.SimplePolymerItem;
 import eu.pb4.polymer.core.api.utils.PolymerSyncUtils;
 import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
@@ -45,11 +45,11 @@ public class PolyUtil {
     public static BlockState PASSABLE_WATERLOGGED_BLOCK;
 
     public static void init() {
-        SMALL_BLOCK = PolymerBlockResourceUtils.requestEmpty(BlockModelType.TRIPWIRE_BLOCK_FLAT);
-        if (SMALL_BLOCK == null) SMALL_BLOCK = Blocks.STRUCTURE_VOID.getDefaultState();
+        SMALL_BLOCK = PolymerBlockResourceUtils.requestEmpty(BlockModelType.TRIPWIRE_FLAT);
+        if (SMALL_BLOCK == null) SMALL_BLOCK = Blocks.STRUCTURE_VOID.defaultBlockState();
 
-        PASSABLE_WATERLOGGED_BLOCK = PolymerBlockResourceUtils.requestEmpty(BlockModelType.KELP_BLOCK);
-        if (PASSABLE_WATERLOGGED_BLOCK == null) SMALL_BLOCK = Blocks.BARRIER.getDefaultState().with(WATERLOGGED, true);
+        PASSABLE_WATERLOGGED_BLOCK = PolymerBlockResourceUtils.requestEmpty(BlockModelType.KELP);
+        if (PASSABLE_WATERLOGGED_BLOCK == null) SMALL_BLOCK = Blocks.BARRIER.defaultBlockState().setValue(WATERLOGGED, true);
 
         PolymerResourcePackUtils.addModAssets(MOD_ID);
         ResourcePackExtras.forDefault().addBridgedModelsFolder(id("block"), id("item"));
@@ -68,18 +68,18 @@ public class PolyUtil {
     }
 
     public static Item polymerBlockItem(Block block, Identifier id) {
-        if (block instanceof Starfish) return new StarfishItemPolymer((Block & PolymerBlock) block, new Item.Properties().registryKey(ResourceKey.of(Registries.ITEM, id)), Items.KELP);
-        else return new FactoryBlockItem((Block & PolymerBlock) block, new Item.Properties().registryKey(ResourceKey.of(Registries.ITEM, id)), Items.KELP);
+        if (block instanceof Starfish) return new StarfishItemPolymer((Block & PolymerBlock) block, new Item.Properties().setId(ResourceKey.create(Registries.ITEM, id)), Items.KELP);
+        else return new FactoryBlockItem((Block & PolymerBlock) block, new Item.Properties().setId(ResourceKey.create(Registries.ITEM, id)), Items.KELP);
     }
 
     public static Item simplePolymerItem(Identifier id) {
-        return new SimplePolymerItem(new Item.Properties().registryKey(ResourceKey.of(Registries.ITEM, id)), Items.FLINT, true);
+        return new SimplePolymerItem(new Item.Properties().setId(ResourceKey.create(Registries.ITEM, id)), Items.FLINT, true);
     }
 
     public static void registerPolymerGroup() {
-        RocksMain.RocksGroup = PolymerItemGroupUtils.builder().displayName(Component.translatable("itemGroup.rocks.rocks")).icon(() ->
-                new ItemStack(rocksByType.get(RockType.STONE))).entries((displayContext, entries) -> entries.addAll(RocksMain.groupItems)).build();
-        PolymerItemGroupUtils.registerPolymerItemGroup(id("rocks"), RocksMain.RocksGroup);
+        RocksMain.RocksGroup = PolymerCreativeModeTabUtils.builder().title(Component.translatable("itemGroup.rocks.rocks")).icon(() ->
+                new ItemStack(rocksByType.get(RockType.STONE))).displayItems((displayContext, entries) -> entries.acceptAll(RocksMain.groupItems)).build();
+        PolymerCreativeModeTabUtils.registerPolymerCreativeModeTab(id("rocks"), RocksMain.RocksGroup);
     }
 
     public static void registerBlockEntities(BlockEntityType<?>... types) {
@@ -87,16 +87,16 @@ public class PolyUtil {
     }
 
     public static void hideElementHolders(ServerPlayer player) {
-        PolymerSyncUtils.removeCreativeTab(RocksGroup, player.networkHandler);
+        PolymerSyncUtils.removeCreativeTab(RocksGroup, player.connection);
 
-        List<ElementHolder> holders = new ArrayList<>(((HolderHolder)player.networkHandler).polymer$getHolders());
+        List<ElementHolder> holders = new ArrayList<>(((HolderHolder)player.connection).polymer$getHolders());
         for (ElementHolder holder : holders) {
             if (holder.getAttachment() instanceof BlockBoundAttachment bbAttachment
-                    && bbAttachment.getBlockState().getBlock().getTranslationKey().startsWith("block.rocks.")) {
+                    && bbAttachment.getBlockState().getBlock().getDescriptionId().startsWith("block.rocks.")) {
 
                 bbAttachment.stopWatching(player);
-                player.networkHandler.chunkDataSender.unload(player, bbAttachment.getChunk().getPos());
-                player.networkHandler.chunkDataSender.add(bbAttachment.getChunk());
+                player.connection.chunkSender.dropChunk(player, bbAttachment.getChunk().getPos());
+                player.connection.chunkSender.markChunkPendingToSend(bbAttachment.getChunk());
             }
         }
     }

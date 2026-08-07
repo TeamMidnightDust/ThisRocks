@@ -14,7 +14,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.resources.Identifier;
 import net.minecraft.core.BlockPos;
 import org.jetbrains.annotations.Nullable;
-import xyz.nucleoid.packettweaker.PacketContext;
+import eu.pb4.polymer.common.api.PolymerCommonUtils;
+import net.fabricmc.fabric.api.networking.v1.context.PacketContext;
 
 import static eu.midnightdust.motschen.rocks.util.polymer.PolyUtil.hasModOnClient;
 
@@ -24,17 +25,17 @@ public class SeashellPolymer extends Seashell implements PolymerBlock, PolymerTe
     }
 
     public BlockState getPolymerBlockState(BlockState state) {
-        if (state.get(WATERLOGGED)) return PolyUtil.PASSABLE_WATERLOGGED_BLOCK;
+        if (state.getValue(WATERLOGGED)) return PolyUtil.PASSABLE_WATERLOGGED_BLOCK;
         else return PolyUtil.SMALL_BLOCK;
     }
     @Override
     public BlockState getPolymerBlockState(BlockState state, PacketContext context) {
-        return hasModOnClient(context.getPlayer()) ? state : getPolymerBlockState(state);
+        return hasModOnClient(PolymerCommonUtils.getPlayer(context)) ? state : getPolymerBlockState(state);
     }
 
     @Override
     public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
-        return hasModOnClient(context.getPlayer()) ? state : Blocks.WHITE_CANDLE.getDefaultState();
+        return hasModOnClient(PolymerCommonUtils.getPlayer(context)) ? state : Blocks.DYED_CANDLE.white().defaultBlockState();
     }
 
     @Override
@@ -44,6 +45,6 @@ public class SeashellPolymer extends Seashell implements PolymerBlock, PolymerTe
 
     @Override
     public boolean canSyncRawToClient(PacketContext context) {
-        return hasModOnClient(context.getPlayer());
+        return hasModOnClient(PolymerCommonUtils.getPlayer(context));
     }
 }
