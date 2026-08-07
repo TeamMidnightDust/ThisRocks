@@ -21,6 +21,7 @@ import eu.pb4.polymer.resourcepack.extras.api.ResourcePackExtras;
 import eu.pb4.polymer.virtualentity.api.ElementHolder;
 import eu.pb4.polymer.virtualentity.api.attachment.BlockBoundAttachment;
 import eu.pb4.polymer.virtualentity.impl.HolderHolder;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
@@ -54,13 +55,21 @@ public class PolyUtil {
         PolymerResourcePackUtils.addModAssets(MOD_ID);
         ResourcePackExtras.forDefault().addBridgedModelsFolder(id("block"), id("item"));
 
-        ItemDisplayNetherGeyserModel.initModels();
-        ItemDisplayOverworldGeyserModel.initModels();
-        ItemDisplayPineconeModel.initModels();
-        ItemDisplayRockModel.initModels();
-        ItemDisplaySeashellModel.initModels();
-        ItemDisplayStarfishModel.initModels();
-        ItemDisplayStickModel.initModels();
+        // 26.2 binds item DataComponents in a deferred bootstrap pass that runs after mod
+        // entrypoints, so no ItemStack can be constructed inside onInitialize() / init() -
+        // ItemDisplayElementUtil.getModel(id).get() forces a LazyItemStack, which builds a
+        // real ItemStack and would throw "Components not bound yet". Defer to SERVER_STARTING,
+        // which fires after components are bound and well before any block model is
+        // instantiated. Models are still resolved exactly once, in the same order.
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
+            ItemDisplayNetherGeyserModel.initModels();
+            ItemDisplayOverworldGeyserModel.initModels();
+            ItemDisplayPineconeModel.initModels();
+            ItemDisplayRockModel.initModels();
+            ItemDisplaySeashellModel.initModels();
+            ItemDisplayStarfishModel.initModels();
+            ItemDisplayStickModel.initModels();
+        });
     }
 
     public static boolean hasModOnClient(ServerPlayer player) {
