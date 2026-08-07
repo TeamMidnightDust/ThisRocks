@@ -30,25 +30,25 @@ public class RegistryUtil {
     }
     public static Item blockItem(Block block, Identifier id) {
         if (polymerMode) return PolyUtil.polymerBlockItem(block, id);
-        return new BlockItem(block, new Item.Properties().registryKey(ResourceKey.of(Registries.ITEM, id)));
+        return new BlockItem(block, new Item.Properties().setId(ResourceKey.create(Registries.ITEM, id)));
     }
     public static Item registerItem(Identifier id, Item item) {
         Registry.register(BuiltInRegistries.ITEM, id, item);
-        if (id.equals(Identifier.of(RocksMain.MOD_ID, "starfish"))) putStarfishItems(item);
+        if (id.equals(Identifier.fromNamespaceAndPath(RocksMain.MOD_ID, "starfish"))) putStarfishItems(item);
         else RocksMain.groupItems.add(new ItemStack(item));
         return item;
     }
     private static void putStarfishItems(Item starfish) {
         for (StarfishVariation variation : StarfishVariation.values()) {
             ItemStack starfishType = new ItemStack(starfish);
-            starfishType.applyComponentsFrom(DataComponentMap.builder().add(DataComponents.BLOCK_STATE, BlockItemStateProperties.DEFAULT.with(STARFISH_VARIATION, variation)).build());
+            starfishType.applyComponents(DataComponentMap.builder().set(DataComponents.BLOCK_STATE, BlockItemStateProperties.EMPTY.with(STARFISH_VARIATION, variation)).build());
             RocksMain.groupItems.add(starfishType);
         }
     }
     public static void register(BootstrapContext<ConfiguredFeature<?, ?>> context, String name, ConfiguredFeature<?, ?> feature) {
-        context.register(ResourceKey.of(Registries.CONFIGURED_FEATURE, Identifier.of(RocksMain.MOD_ID, name)), feature);
+        context.register(ResourceKey.create(Registries.CONFIGURED_FEATURE, Identifier.fromNamespaceAndPath(RocksMain.MOD_ID, name)), feature);
     }
     public static void register(BootstrapContext<PlacedFeature> context, String name, PlacedFeature feature) {
-        context.register(ResourceKey.of(Registries.PLACED_FEATURE, Identifier.of(RocksMain.MOD_ID, name)), feature);
+        context.register(ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(RocksMain.MOD_ID, name)), feature);
     }
 }

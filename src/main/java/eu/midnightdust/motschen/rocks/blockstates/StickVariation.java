@@ -17,7 +17,7 @@ public enum StickVariation implements StringRepresentable {
         return this.name;
     }
 
-    public String asString() {
+    public String getSerializedName() {
         return this.name;
     }
 

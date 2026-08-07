@@ -40,52 +40,52 @@ public class Seashell extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public Seashell(Identifier blockId) {
-        super(BlockBehaviour.Properties.copy(Blocks.POPPY).registryKey(ResourceKey.of(Registries.BLOCK, blockId)).nonOpaque().dynamicBounds().sounds(SoundType.STONE));
-        this.setDefaultState(this.stateManager.getDefaultState().with(SEASHELL_VARIATION, SeashellVariation.PINK).with(WATERLOGGED, false));
+        super(BlockBehaviour.Properties.ofFullCopy(Blocks.POPPY).setId(ResourceKey.create(Registries.BLOCK, blockId)).noOcclusion().dynamicShape().sound(SoundType.STONE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(SEASHELL_VARIATION, SeashellVariation.PINK).setValue(WATERLOGGED, false));
     }
 
     @Override
     public FluidState getFluidState(BlockState blockState_1) {
-        return blockState_1.get(WATERLOGGED) ? Fluids.WATER.getStill(true) : super.getFluidState(blockState_1);
+        return blockState_1.getValue(WATERLOGGED) ? Fluids.WATER.getSource(true) : super.getFluidState(blockState_1);
     }
 
     @Override
-    public BlockState getPlacementState(BlockPlaceContext itemPlacementContext) {
-        FluidState fluidState = itemPlacementContext.getWorld().getFluidState(itemPlacementContext.getBlockPos());
-        return Objects.requireNonNull(super.getPlacementState(itemPlacementContext))
-                .with(SEASHELL_VARIATION, SeashellVariation.values()[itemPlacementContext.getWorld().random.nextBetween(0, 2)])
-                .with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
+    public BlockState getStateForPlacement(BlockPlaceContext itemPlacementContext) {
+        FluidState fluidState = itemPlacementContext.getLevel().getFluidState(itemPlacementContext.getClickedPos());
+        return Objects.requireNonNull(super.getStateForPlacement(itemPlacementContext))
+                .setValue(SEASHELL_VARIATION, SeashellVariation.values()[itemPlacementContext.getLevel().getRandom().nextIntBetweenInclusive(0, 2)])
+                .setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
     }
 
     @Override
-    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
         if (player.isCreative()) {
-            world.setBlockState(pos, state.with(SEASHELL_VARIATION, state.get(SEASHELL_VARIATION).next()));
+            world.setBlockAndUpdate(pos, state.setValue(SEASHELL_VARIATION, state.getValue(SEASHELL_VARIATION).next()));
             return InteractionResult.SUCCESS;
         }
         else return InteractionResult.FAIL;
     }
 
     @Override
-    protected void appendProperties(StateDefinition.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(SEASHELL_VARIATION, WATERLOGGED);
     }
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
     static {
-        SHAPE = createCuboidShape(0, 0, 0, 16, 3, 16);
+        SHAPE = box(0, 0, 0, 16, 3, 16);
     }
 
     @Override
-    public boolean canPlaceAt(BlockState state, LevelReader world, BlockPos pos) {
-        return world.getBlockState(pos.down()).isSideSolidFullSquare(world,pos,Direction.UP);
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        return world.getBlockState(pos.below()).isFaceSturdy(world,pos,Direction.UP);
     }
     @Override
-    public BlockState getStateForNeighborUpdate(BlockState state, LevelReader world, ScheduledTickAccess tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
-        return !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, world, tickView, pos, direction, neighborPos, neighborState, random);
+    public BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+        return !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, world, tickView, pos, direction, neighborPos, neighborState, random);
     }
     @Override
-    protected boolean canReplace(BlockState state, BlockPlaceContext context) {return true;}
+    protected boolean canBeReplaced(BlockState state, BlockPlaceContext context) {return true;}
 }

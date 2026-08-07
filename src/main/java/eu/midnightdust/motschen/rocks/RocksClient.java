@@ -23,7 +23,7 @@ public class RocksClient implements ClientModInitializer {
     }
     private static Integer matchesVariation(ItemStack stack, StarfishVariation variation) {
         var blockStateData = stack.getComponents().get(DataComponents.BLOCK_STATE);
-        if (blockStateData == null || blockStateData.isEmpty() || blockStateData.getValue(STARFISH_VARIATION) == null) return 0;
-        return Objects.equals(blockStateData.getValue(STARFISH_VARIATION), variation) ? 1 : 0;
+        if (blockStateData == null || blockStateData.isEmpty() || blockStateData.get(STARFISH_VARIATION) == null) return 0;
+        return Objects.equals(blockStateData.get(STARFISH_VARIATION), variation) ? 1 : 0;
     }
 }

@@ -25,11 +25,11 @@ public enum RockType {
     }
 
     public Identifier getStoneId() {
-        return Identifier.ofVanilla(this.toString().toLowerCase());
+        return Identifier.withDefaultNamespace(this.toString().toLowerCase());
     }
 
     public Block getStoneBlock() {
-        return BuiltInRegistries.BLOCK.get(getStoneId());
+        return BuiltInRegistries.BLOCK.getValue(getStoneId());
     }
 
     public Identifier[] getVariations() {
@@ -68,11 +68,11 @@ public enum RockType {
             return splitterName;
         }
         public Identifier getStoneId() {
-            if (type==STONE) return Identifier.ofVanilla("cobblestone");
-            return Identifier.ofVanilla(type.toString().toLowerCase());
+            if (type==STONE) return Identifier.withDefaultNamespace("cobblestone");
+            return Identifier.withDefaultNamespace(type.toString().toLowerCase());
         }
         public Block getStoneBlock() {
-            return BuiltInRegistries.BLOCK.get(getStoneId());
+            return BuiltInRegistries.BLOCK.getValue(getStoneId());
         }
     }
 }

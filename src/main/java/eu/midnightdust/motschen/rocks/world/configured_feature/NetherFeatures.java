@@ -27,14 +27,14 @@ import static eu.midnightdust.motschen.rocks.util.RegistryUtil.register;
 
 public class NetherFeatures {
     public static ConfiguredFeature<?, ?> NETHER_GEYSER_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
-                    new WeightedStateProvider(WeightedList.<BlockState>builder().add(RocksMain.NetherGeyser.getDefaultState(), 1)))
+                    new WeightedStateProvider(WeightedList.<BlockState>builder().add(RocksMain.NetherGeyser.defaultBlockState(), 1)))
     );
 
-    public static PlacedFeature NETHER_GEYSER_PLACED_FEATURE = new PlacedFeature(Holder.of(NETHER_GEYSER_FEATURE),
-            List.of(CountPlacement.of(15), RarityFilter.of(1), InSquarePlacement.of(),
-                    PlacementUtils.BOTTOM_TO_TOP_RANGE, BiomeFilter.of(),
-                    BlockPredicateFilter.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR,
-                            BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.NETHERRACK))))));
+    public static PlacedFeature NETHER_GEYSER_PLACED_FEATURE = new PlacedFeature(Holder.direct(NETHER_GEYSER_FEATURE),
+            List.of(CountPlacement.of(15), RarityFilter.onAverageOnceEvery(1), InSquarePlacement.spread(),
+                    PlacementUtils.FULL_RANGE, BiomeFilter.biome(),
+                    BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE,
+                            BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.NETHERRACK))))));
 
     public static void initConfigured(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         register(context, "nether_geyser", NETHER_GEYSER_FEATURE);

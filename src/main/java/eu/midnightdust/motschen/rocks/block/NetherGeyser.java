@@ -34,50 +34,50 @@ import java.util.Objects;
 public class NetherGeyser extends BaseEntityBlock implements EntityBlock {
 
     private static final VoxelShape SHAPE;
-    public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
+    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     public NetherGeyser(Identifier blockId) {
-        super(BlockBehaviour.Properties.copy(Blocks.STONE).registryKey(ResourceKey.of(Registries.BLOCK, blockId)).strength(10).noCollision().dynamicBounds().nonOpaque().sounds(SoundType.STONE));
-        this.setDefaultState(this.stateManager.getDefaultState().with(ACTIVE, false));
+        super(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).setId(ResourceKey.create(Registries.BLOCK, blockId)).strength(10).noCollision().dynamicShape().noOcclusion().sound(SoundType.STONE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, false));
     }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> getCodec() {
+    protected MapCodec<? extends BaseEntityBlock> codec() {
         return null;
     }
 
     @Override
-    public RenderShape getRenderType(BlockState state) {
+    public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
     @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new NetherGeyserBlockEntity(pos, state);
     }
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
-        return validateTicker(type, BlockEntityInit.NETHER_GEYSER_BE, NetherGeyserBlockEntity::tick);
+        return createTickerHelper(type, BlockEntityInit.NETHER_GEYSER_BE, NetherGeyserBlockEntity::tick);
     }
     @Override
-    public BlockState getPlacementState(BlockPlaceContext itemPlacementContext) {
-        return Objects.requireNonNull(super.getPlacementState(itemPlacementContext))
-                .with(ACTIVE, false);
+    public BlockState getStateForPlacement(BlockPlaceContext itemPlacementContext) {
+        return Objects.requireNonNull(super.getStateForPlacement(itemPlacementContext))
+                .setValue(ACTIVE, false);
     }
 
     @Override
-    protected void appendProperties(StateDefinition.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(ACTIVE);
     }
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
     static {
-        SHAPE = createCuboidShape(5, 0, 5, 11, 1, 11);
+        SHAPE = box(5, 0, 5, 11, 1, 11);
     }
 
     @Override
-    public boolean canPlaceAt(BlockState state, LevelReader world, BlockPos pos) {
-        return world.getBlockState(pos.down()).isSideSolidFullSquare(world,pos,Direction.UP);
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        return world.getBlockState(pos.below()).isFaceSturdy(world,pos,Direction.UP);
     }
 }

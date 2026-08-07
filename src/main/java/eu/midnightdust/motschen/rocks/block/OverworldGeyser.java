@@ -37,58 +37,58 @@ public class OverworldGeyser extends BaseEntityBlock implements EntityBlock {
 
     private static final VoxelShape SHAPE;
     private static final VoxelShape SNOWY_SHAPE;
-    public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
+    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
     public static final BooleanProperty SNOWY = BlockStateProperties.SNOWY;
 
     public OverworldGeyser(Identifier blockId) {
-        super(BlockBehaviour.Properties.copy(Blocks.STONE).registryKey(ResourceKey.of(Registries.BLOCK, blockId)).strength(10).noCollision().dynamicBounds().nonOpaque().sounds(SoundType.STONE));
-        this.setDefaultState(this.stateManager.getDefaultState().with(ACTIVE, false).with(SNOWY, false));
+        super(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).setId(ResourceKey.create(Registries.BLOCK, blockId)).strength(10).noCollision().dynamicShape().noOcclusion().sound(SoundType.STONE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, false).setValue(SNOWY, false));
     }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> getCodec() {
+    protected MapCodec<? extends BaseEntityBlock> codec() {
         return null;
     }
 
     @Override
-    public RenderShape getRenderType(BlockState state) {
+    public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
     @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new OverworldGeyserBlockEntity(pos, state);
     }
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
-        return validateTicker(type, BlockEntityInit.OVERWORLD_GEYSER_BE, OverworldGeyserBlockEntity::tick);
+        return createTickerHelper(type, BlockEntityInit.OVERWORLD_GEYSER_BE, OverworldGeyserBlockEntity::tick);
     }
     @Override
-    public BlockState getPlacementState(BlockPlaceContext itemPlacementContext) {
-        return Objects.requireNonNull(super.getPlacementState(itemPlacementContext))
-                .with(ACTIVE, false).with(SNOWY, false);
+    public BlockState getStateForPlacement(BlockPlaceContext itemPlacementContext) {
+        return Objects.requireNonNull(super.getStateForPlacement(itemPlacementContext))
+                .setValue(ACTIVE, false).setValue(SNOWY, false);
     }
 
     @Override
-    protected void appendProperties(StateDefinition.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(ACTIVE,SNOWY);
     }
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
-        if (state.get(SNOWY)) {return SNOWY_SHAPE;}
+    public VoxelShape getShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
+        if (state.getValue(SNOWY)) {return SNOWY_SHAPE;}
         else return SHAPE;
     }
     static {
-        VoxelShape shape = createCuboidShape(5, 0, 5, 11, 1, 11);
-        VoxelShape snow_layer = createCuboidShape(0, 0, 0, 16, 2, 16);
-        VoxelShape shape_snow = createCuboidShape(5, 2, 5, 11, 3, 11);
-        VoxelShape snowy = Shapes.union(snow_layer, shape_snow);
+        VoxelShape shape = box(5, 0, 5, 11, 1, 11);
+        VoxelShape snow_layer = box(0, 0, 0, 16, 2, 16);
+        VoxelShape shape_snow = box(5, 2, 5, 11, 3, 11);
+        VoxelShape snowy = Shapes.or(snow_layer, shape_snow);
 
         SHAPE = shape;
         SNOWY_SHAPE = snowy;
     }
 
     @Override
-    public boolean canPlaceAt(BlockState state, LevelReader world, BlockPos pos) {
-        return world.getBlockState(pos.down()).isSideSolidFullSquare(world,pos,Direction.UP);
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        return world.getBlockState(pos.below()).isFaceSturdy(world,pos,Direction.UP);
     }
 }

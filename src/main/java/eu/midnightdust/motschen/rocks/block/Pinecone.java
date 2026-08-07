@@ -23,27 +23,27 @@ public class Pinecone extends Block {
     private static final VoxelShape SHAPE;
 
     public Pinecone(Identifier blockId) {
-        super(BlockBehaviour.Properties.copy(Blocks.POPPY).registryKey(ResourceKey.of(Registries.BLOCK, blockId)).nonOpaque().dynamicBounds().sounds(SoundType.WOOD));
-        this.setDefaultState(this.stateManager.getDefaultState());
+        super(BlockBehaviour.Properties.ofFullCopy(Blocks.POPPY).setId(ResourceKey.create(Registries.BLOCK, blockId)).noOcclusion().dynamicShape().sound(SoundType.WOOD));
+        this.registerDefaultState(this.stateDefinition.any());
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
     static {
-        SHAPE = createCuboidShape(0, 0, 0, 16, 3, 16);
+        SHAPE = box(0, 0, 0, 16, 3, 16);
     }
 
-    public boolean canPlaceAt(BlockState state, LevelReader world, BlockPos pos) {
-        return world.getBlockState(pos.down()).isSideSolidFullSquare(world,pos,Direction.UP);
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        return world.getBlockState(pos.below()).isFaceSturdy(world,pos,Direction.UP);
     }
     @Override
-    public BlockState getStateForNeighborUpdate(BlockState state, LevelReader world, ScheduledTickAccess tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
-        return !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, world, tickView, pos, direction, neighborPos, neighborState, random);
+    public BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+        return !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, world, tickView, pos, direction, neighborPos, neighborState, random);
     }
     @Override
-    protected boolean isTransparent(BlockState state) {return true;}
+    protected boolean propagatesSkylightDown(BlockState state) {return true;}
     @Override
-    protected boolean canReplace(BlockState state, BlockPlaceContext context) {return true;}
+    protected boolean canBeReplaced(BlockState state, BlockPlaceContext context) {return true;}
 }

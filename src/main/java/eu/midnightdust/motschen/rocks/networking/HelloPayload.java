@@ -9,7 +9,7 @@ import net.minecraft.resources.Identifier;
 public record HelloPayload() implements CustomPacketPayload {
     public static final Identifier hello = RocksMain.id("hello_payload");
     public static final CustomPacketPayload.Type<HelloPayload> PACKET_ID = new CustomPacketPayload.Type<>(hello);
-    public static final StreamCodec<RegistryFriendlyByteBuf, HelloPayload> codec = StreamCodec.of(HelloPayload::write, HelloPayload::read);
+    public static final StreamCodec<RegistryFriendlyByteBuf, HelloPayload> codec = StreamCodec.of((buf, payload) -> payload.write(buf), HelloPayload::read);
 
     public static HelloPayload read(RegistryFriendlyByteBuf buf) {
         return new HelloPayload();
@@ -18,7 +18,7 @@ public record HelloPayload() implements CustomPacketPayload {
     public void write(RegistryFriendlyByteBuf buf) {}
 
     @Override
-    public Id<? extends CustomPacketPayload> getId() {
+    public Type<? extends CustomPacketPayload> type() {
         return PACKET_ID;
     }
 }

@@ -15,8 +15,8 @@ public class BlockEntityInit {
     public static BlockEntityType<NetherGeyserBlockEntity> NETHER_GEYSER_BE;
 
     public static void init() {
-        OVERWORLD_GEYSER_BE = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Identifier.of(RocksMain.MOD_ID,"overworld_geyser_blockentity"), FabricBlockEntityTypeBuilder.create(OverworldGeyserBlockEntity::new, RocksMain.Geyser).build());
-        NETHER_GEYSER_BE = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Identifier.of(RocksMain.MOD_ID,"nether_geyser_blockentity"), FabricBlockEntityTypeBuilder.create(NetherGeyserBlockEntity::new, RocksMain.NetherGeyser).build());
+        OVERWORLD_GEYSER_BE = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Identifier.fromNamespaceAndPath(RocksMain.MOD_ID,"overworld_geyser_blockentity"), FabricBlockEntityTypeBuilder.create(OverworldGeyserBlockEntity::new, RocksMain.Geyser).build());
+        NETHER_GEYSER_BE = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Identifier.fromNamespaceAndPath(RocksMain.MOD_ID,"nether_geyser_blockentity"), FabricBlockEntityTypeBuilder.create(NetherGeyserBlockEntity::new, RocksMain.NetherGeyser).build());
         if (polymerMode) PolyUtil.registerBlockEntities(OVERWORLD_GEYSER_BE, NETHER_GEYSER_BE);
     }
 }

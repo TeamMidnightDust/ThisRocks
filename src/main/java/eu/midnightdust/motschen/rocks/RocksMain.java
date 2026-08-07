@@ -14,7 +14,7 @@ import eu.midnightdust.motschen.rocks.util.StickType;
 import eu.midnightdust.motschen.rocks.util.polymer.PolyUtil;
 import eu.midnightdust.motschen.rocks.world.*;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -45,10 +45,10 @@ public class RocksMain implements ModInitializer {
     public static boolean polymerMode = hasRequiredPolymerModules();
     public static List<ServerPlayer> playersWithMod = new ArrayList<>();
 
-    public static final EnumProperty<RockVariation> ROCK_VARIATION = EnumProperty.of("variation", RockVariation.class);
-    public static final EnumProperty<StickVariation> STICK_VARIATION = EnumProperty.of("variation", StickVariation.class);
-    public static final EnumProperty<SeashellVariation> SEASHELL_VARIATION = EnumProperty.of("variation", SeashellVariation.class);
-    public static final EnumProperty<StarfishVariation> STARFISH_VARIATION = EnumProperty.of("variation", StarfishVariation.class);
+    public static final EnumProperty<RockVariation> ROCK_VARIATION = EnumProperty.create("variation", RockVariation.class);
+    public static final EnumProperty<StickVariation> STICK_VARIATION = EnumProperty.create("variation", StickVariation.class);
+    public static final EnumProperty<SeashellVariation> SEASHELL_VARIATION = EnumProperty.create("variation", SeashellVariation.class);
+    public static final EnumProperty<StarfishVariation> STARFISH_VARIATION = EnumProperty.create("variation", StarfishVariation.class);
 
     public static Map<RockType, Rock> rocksByType = new HashMap<>();
     public static Map<StickType, Stick> sticksByType = new HashMap<>();
@@ -68,14 +68,14 @@ public class RocksMain implements ModInitializer {
 
     public static List<ItemStack> groupItems = new ArrayList<>();
     public static CreativeModeTab RocksGroup;
-    public static final ResourceKey<CreativeModeTab> ROCKS_GROUP = ResourceKey.of(Registries.ITEM_GROUP, Identifier.of(MOD_ID, "rocks"));
+    public static final ResourceKey<CreativeModeTab> ROCKS_GROUP = ResourceKey.create(Registries.CREATIVE_MODE_TAB, Identifier.fromNamespaceAndPath(MOD_ID, "rocks"));
 
     @Override
     public void onInitialize() {
         RocksConfig.init(MOD_ID, RocksConfig.class);
         if (polymerMode) polymerMode = RocksConfig.enablePolymerMode && (RocksConfig.forcePolymerMode || !PlatformFunctions.isClientEnv());
 
-        PayloadTypeRegistry.playC2S().register(HelloPayload.PACKET_ID, HelloPayload.codec);
+        PayloadTypeRegistry.serverboundPlay().register(HelloPayload.PACKET_ID, HelloPayload.codec);
         ServerPlayNetworking.registerGlobalReceiver(HelloPayload.PACKET_ID, (payload, context) -> {
             if (!RocksConfig.forcePolymerMode) {
                 playersWithMod.add(context.player());
@@ -115,7 +115,7 @@ public class RocksMain implements ModInitializer {
         BlockEntityInit.init();
     }
     public static Identifier id(String path) {
-        return Identifier.of(MOD_ID, path);
+        return Identifier.fromNamespaceAndPath(MOD_ID, path);
     }
 
     private static boolean hasRequiredPolymerModules() {
@@ -128,14 +128,14 @@ public class RocksMain implements ModInitializer {
 
     public static Item simpleItem(Identifier id) {
         if (polymerMode) return PolyUtil.simplePolymerItem(id);
-        return new Item(new Item.Properties().registryKey(ResourceKey.of(Registries.ITEM, id)));
+        return new Item(new Item.Properties().setId(ResourceKey.create(Registries.ITEM, id)));
     }
 
     public static void registerItemGroup() {
         if (polymerMode) PolyUtil.registerPolymerGroup();
         else {
-            RocksGroup = FabricItemGroup.builder().displayName(Component.translatable("itemGroup.rocks.rocks")).icon(() -> new ItemStack(rocksByType.get(RockType.STONE))).entries(((displayContext, entries) -> entries.addAll(groupItems))).build();
-            Registry.register(BuiltInRegistries.ITEM_GROUP, ROCKS_GROUP, RocksGroup);
+            RocksGroup = FabricCreativeModeTab.builder().title(Component.translatable("itemGroup.rocks.rocks")).icon(() -> new ItemStack(rocksByType.get(RockType.STONE))).displayItems(((displayContext, entries) -> entries.acceptAll(groupItems))).build();
+            Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, ROCKS_GROUP, RocksGroup);
         }
     }
 }

@@ -35,15 +35,15 @@ public class StickFeatures {
     private static final Map<StickType, ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = new HashMap<>();
 
     public static List<PlacementModifier> getModifiers(int count, int rarity, Block... groundBlocks) {
-        return List.of(CountPlacement.of(count), RarityFilter.of(rarity),
-                InSquarePlacement.of(), PlacementUtils.WORLD_SURFACE_WG_HEIGHTMAP, BiomeFilter.of(),
-                BlockPredicateFilter.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0),
+        return List.of(CountPlacement.of(count), RarityFilter.onAverageOnceEvery(rarity),
+                InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome(),
+                BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0),
                         groundBlocks))));
     }
     public static List<PlacementModifier> getNetherModifiers(int count, int rarity, Block... groundBlocks) {
-        return List.of(CountPlacement.of(count), RarityFilter.of(rarity),
-                InSquarePlacement.of(), PlacementUtils.BOTTOM_TO_TOP_RANGE, BiomeFilter.of(),
-                BlockPredicateFilter.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0),
+        return List.of(CountPlacement.of(count), RarityFilter.onAverageOnceEvery(rarity),
+                InSquarePlacement.spread(), PlacementUtils.FULL_RANGE, BiomeFilter.biome(),
+                BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0),
                         groundBlocks))));
     }
 
@@ -51,9 +51,9 @@ public class StickFeatures {
         for (StickType type : StickType.values()) {
             ConfiguredFeature<?, ?> STICK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
                     new WeightedStateProvider(WeightedList.<BlockState>builder()
-                            .add(sticksByType.get(type).getDefaultState().with(STICK_VARIATION, StickVariation.SMALL), 7)
-                            .add(sticksByType.get(type).getDefaultState().with(STICK_VARIATION, StickVariation.MEDIUM), 5)
-                            .add(sticksByType.get(type).getDefaultState().with(STICK_VARIATION, StickVariation.LARGE), 1).build()))
+                            .add(sticksByType.get(type).defaultBlockState().setValue(STICK_VARIATION, StickVariation.SMALL), 7)
+                            .add(sticksByType.get(type).defaultBlockState().setValue(STICK_VARIATION, StickVariation.MEDIUM), 5)
+                            .add(sticksByType.get(type).defaultBlockState().setValue(STICK_VARIATION, StickVariation.LARGE), 1).build()))
             );
             CONFIGURED_FEATURES.put(type, STICK_FEATURE);
         }
@@ -68,11 +68,11 @@ public class StickFeatures {
     public static void initPlaced(BootstrapContext<PlacedFeature> context) {
         for (StickType type : StickType.values()) {
             PlacedFeature STICK_PLACED_FEATURE = switch (type) {
-                case CRIMSON -> new PlacedFeature(Holder.of(CONFIGURED_FEATURES.get(type)), getNetherModifiers(90, 1, Blocks.CRIMSON_NYLIUM));
-                case WARPED -> new PlacedFeature(Holder.of(CONFIGURED_FEATURES.get(type)), getNetherModifiers(90, 1, Blocks.WARPED_NYLIUM));
-                case PALE_OAK -> new PlacedFeature(Holder.of(CONFIGURED_FEATURES.get(type)), getModifiers(20, 1, Blocks.GRASS_BLOCK, Blocks.PALE_MOSS_BLOCK));
-                case SPRUCE -> new PlacedFeature(Holder.of(CONFIGURED_FEATURES.get(type)), getModifiers(3, 1, Blocks.GRASS_BLOCK, Blocks.SNOW_BLOCK, Blocks.PODZOL));
-                default -> new PlacedFeature(Holder.of(CONFIGURED_FEATURES.get(type)), getModifiers(3, 1, Blocks.GRASS_BLOCK, Blocks.MUD, Blocks.PODZOL));
+                case CRIMSON -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getNetherModifiers(90, 1, Blocks.CRIMSON_NYLIUM));
+                case WARPED -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getNetherModifiers(90, 1, Blocks.WARPED_NYLIUM));
+                case PALE_OAK -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getModifiers(20, 1, Blocks.GRASS_BLOCK, Blocks.PALE_MOSS_BLOCK));
+                case SPRUCE -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getModifiers(3, 1, Blocks.GRASS_BLOCK, Blocks.SNOW_BLOCK, Blocks.PODZOL));
+                default -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getModifiers(3, 1, Blocks.GRASS_BLOCK, Blocks.MUD, Blocks.PODZOL));
             };
             register(context, type.getName() + "_stick", STICK_PLACED_FEATURE);
         }

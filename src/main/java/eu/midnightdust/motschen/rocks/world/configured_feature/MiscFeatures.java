@@ -32,31 +32,31 @@ import static eu.midnightdust.motschen.rocks.util.RegistryUtil.register;
 public class MiscFeatures {
     private static final ConfiguredFeature<?, ?> SEASHELL_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
                     new WeightedStateProvider(WeightedList.<BlockState>builder()
-                            .add(RocksMain.Seashell.getDefaultState().with(RocksMain.SEASHELL_VARIATION,SeashellVariation.YELLOW), 7)
-                            .add(RocksMain.Seashell.getDefaultState().with(RocksMain.SEASHELL_VARIATION,SeashellVariation.PINK), 2)
-                            .add(RocksMain.Seashell.getDefaultState().with(RocksMain.SEASHELL_VARIATION,SeashellVariation.WHITE), 6).build()
+                            .add(RocksMain.Seashell.defaultBlockState().setValue(RocksMain.SEASHELL_VARIATION,SeashellVariation.YELLOW), 7)
+                            .add(RocksMain.Seashell.defaultBlockState().setValue(RocksMain.SEASHELL_VARIATION,SeashellVariation.PINK), 2)
+                            .add(RocksMain.Seashell.defaultBlockState().setValue(RocksMain.SEASHELL_VARIATION,SeashellVariation.WHITE), 6).build()
             )));
     public static ConfiguredFeature<?, ?> STARFISH_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
                     new WeightedStateProvider(WeightedList.<BlockState>builder()
-                            .add(RocksMain.Starfish.getDefaultState().with(RocksMain.STARFISH_VARIATION,StarfishVariation.RED), 2)
-                            .add(RocksMain.Starfish.getDefaultState().with(RocksMain.STARFISH_VARIATION,StarfishVariation.PINK), 6)
-                            .add(RocksMain.Starfish.getDefaultState().with(RocksMain.STARFISH_VARIATION,StarfishVariation.ORANGE), 7).build()))
+                            .add(RocksMain.Starfish.defaultBlockState().setValue(RocksMain.STARFISH_VARIATION,StarfishVariation.RED), 2)
+                            .add(RocksMain.Starfish.defaultBlockState().setValue(RocksMain.STARFISH_VARIATION,StarfishVariation.PINK), 6)
+                            .add(RocksMain.Starfish.defaultBlockState().setValue(RocksMain.STARFISH_VARIATION,StarfishVariation.ORANGE), 7).build()))
     );
     public static ConfiguredFeature<?, ?> PINECONE_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
             new WeightedStateProvider(WeightedList.<BlockState>builder()
-                    .add(RocksMain.Pinecone.getDefaultState(), 1).build()))
+                    .add(RocksMain.Pinecone.defaultBlockState(), 1).build()))
     );
 
     public static ConfiguredFeature<?, ?> UNDERWATER_STARFISH_FEATURE = new ConfiguredFeature<>(FeatureRegistry.UNDERWATER_STARFISH_FEATURE, new ProbabilityFeatureConfiguration(1));
     public static ConfiguredFeature<?, ?> UNDERWATER_SEASHELL_FEATURE = new ConfiguredFeature<>(FeatureRegistry.UNDERWATER_SEASHELL_FEATURE, new ProbabilityFeatureConfiguration(1));
     public static ConfiguredFeature<?, ?> SNOWY_GEYSER_FEATURE = new ConfiguredFeature<>(FeatureRegistry.SNOWY_GEYSER_FEATURE, new ProbabilityFeatureConfiguration(1));
 
-    public static PlacedFeature SEASHELL_PLACED_FEATURE = new PlacedFeature(Holder.of(SEASHELL_FEATURE), List.of(CountPlacement.of(1), RarityFilter.of(1), InSquarePlacement.of(), PlacementUtils.WORLD_SURFACE_WG_HEIGHTMAP, BiomeFilter.of(), BlockPredicateFilter.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.SAND, Blocks.SANDSTONE, Blocks.RED_SAND, Blocks.RED_SANDSTONE))))));
-    public static PlacedFeature STARFISH_PLACED_FEATURE = new PlacedFeature(Holder.of(STARFISH_FEATURE), List.of(CountPlacement.of(1), RarityFilter.of(1), InSquarePlacement.of(), PlacementUtils.WORLD_SURFACE_WG_HEIGHTMAP, BiomeFilter.of(), BlockPredicateFilter.of(BlockPredicate.bothOf(BlockPredicate.IS_AIR, BlockPredicate.matchingBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.SAND, Blocks.SANDSTONE, Blocks.RED_SAND, Blocks.RED_SANDSTONE))))));
-    public static PlacedFeature PINECONE_PLACED_FEATURE = new PlacedFeature(Holder.of(PINECONE_FEATURE), StickFeatures.getModifiers(1, 5, Blocks.GRASS_BLOCK, Blocks.PODZOL, Blocks.COBBLESTONE, Blocks.MOSSY_COBBLESTONE));
-    public static PlacedFeature UNDERWATER_SEASHELL_PLACED_FEATURE = new PlacedFeature(Holder.of(UNDERWATER_SEASHELL_FEATURE), List.of(CountPlacement.of(3), RarityFilter.of(1), InSquarePlacement.of(), PlacementUtils.WORLD_SURFACE_WG_HEIGHTMAP, BiomeFilter.of()));
-    public static PlacedFeature UNDERWATER_STARFISH_PLACED_FEATURE = new PlacedFeature(Holder.of(UNDERWATER_STARFISH_FEATURE), List.of(CountPlacement.of(3), RarityFilter.of(1), InSquarePlacement.of(), PlacementUtils.WORLD_SURFACE_WG_HEIGHTMAP, BiomeFilter.of()));
-    public static PlacedFeature SNOWY_GEYSER_PLACED_FEATURE = new PlacedFeature(Holder.of(SNOWY_GEYSER_FEATURE), List.of(CountPlacement.of(3), RarityFilter.of(1), InSquarePlacement.of(), PlacementUtils.WORLD_SURFACE_WG_HEIGHTMAP, BiomeFilter.of()));
+    public static PlacedFeature SEASHELL_PLACED_FEATURE = new PlacedFeature(Holder.direct(SEASHELL_FEATURE), List.of(CountPlacement.of(1), RarityFilter.onAverageOnceEvery(1), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome(), BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.SAND, Blocks.SANDSTONE, Blocks.RED_SAND, Blocks.RED_SANDSTONE))))));
+    public static PlacedFeature STARFISH_PLACED_FEATURE = new PlacedFeature(Holder.direct(STARFISH_FEATURE), List.of(CountPlacement.of(1), RarityFilter.onAverageOnceEvery(1), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome(), BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0), ImmutableList.of(Blocks.SAND, Blocks.SANDSTONE, Blocks.RED_SAND, Blocks.RED_SANDSTONE))))));
+    public static PlacedFeature PINECONE_PLACED_FEATURE = new PlacedFeature(Holder.direct(PINECONE_FEATURE), StickFeatures.getModifiers(1, 5, Blocks.GRASS_BLOCK, Blocks.PODZOL, Blocks.COBBLESTONE, Blocks.MOSSY_COBBLESTONE));
+    public static PlacedFeature UNDERWATER_SEASHELL_PLACED_FEATURE = new PlacedFeature(Holder.direct(UNDERWATER_SEASHELL_FEATURE), List.of(CountPlacement.of(3), RarityFilter.onAverageOnceEvery(1), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome()));
+    public static PlacedFeature UNDERWATER_STARFISH_PLACED_FEATURE = new PlacedFeature(Holder.direct(UNDERWATER_STARFISH_FEATURE), List.of(CountPlacement.of(3), RarityFilter.onAverageOnceEvery(1), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome()));
+    public static PlacedFeature SNOWY_GEYSER_PLACED_FEATURE = new PlacedFeature(Holder.direct(SNOWY_GEYSER_FEATURE), List.of(CountPlacement.of(3), RarityFilter.onAverageOnceEvery(1), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome()));
 
     public static void initConfigured(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         register(context, "seashell", SEASHELL_FEATURE);

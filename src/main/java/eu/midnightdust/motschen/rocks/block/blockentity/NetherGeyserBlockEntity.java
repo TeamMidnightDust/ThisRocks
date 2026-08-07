@@ -22,19 +22,19 @@ public class NetherGeyserBlockEntity extends BlockEntity {
     }
 
     public static void tick(Level world, BlockPos pos, BlockState state, NetherGeyserBlockEntity blockEntity) {
-        if (world == null || world.isClient()) return;
+        if (world == null || world.isClientSide()) return;
         if (world.getBlockState(pos).getBlock() == RocksMain.NetherGeyser) {
-            Player player = world.getClosestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3, true);
-            Player player2 = world.getClosestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, true);
+            Player player = world.getNearestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3, true);
+            Player player2 = world.getNearestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1, true);
 
 
             if (player != null) {
-                world.setBlockState(pos, state.with(NetherGeyser.ACTIVE, true));
+                world.setBlockAndUpdate(pos, state.setValue(NetherGeyser.ACTIVE, true));
 
                 if (RocksConfig.netherGeyserDamage && world instanceof ServerLevel serverWorld) {
-                    player.damage(serverWorld, world.getDamageSources().onFire(), 1);
+                    player.hurtServer(serverWorld, world.damageSources().onFire(), 1);
                     if (player2 != null) {
-                        player2.damage(serverWorld, world.getDamageSources().onFire(), 4);
+                        player2.hurtServer(serverWorld, world.damageSources().onFire(), 4);
                     }
                 }
                 blockEntity.countdown = 1000;
@@ -43,11 +43,11 @@ public class NetherGeyserBlockEntity extends BlockEntity {
                     blockEntity.countdown = blockEntity.countdown - 1;
                 }
                 if (blockEntity.countdown == 0) {
-                    world.setBlockState(pos, state.with(NetherGeyser.ACTIVE, false));
+                    world.setBlockAndUpdate(pos, state.setValue(NetherGeyser.ACTIVE, false));
                 }
             }
 
-            if (state.get(NetherGeyser.ACTIVE)) {
+            if (state.getValue(NetherGeyser.ACTIVE)) {
                 PlayerLookup.tracking(blockEntity).forEach(watchingPlayer -> {
                     ParticleUtil.spawnParticle(watchingPlayer, ParticleTypes.LAVA, new Vec3(pos.getX() + 0.5, pos.getY() + 0.1, pos.getZ() + 0.5), new Vec3(1, 1.5d, 1), 1);
                     ParticleUtil.spawnParticle(watchingPlayer, ParticleTypes.LAVA, new Vec3(pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5), new Vec3(1, 1.5d, 1), 1);
