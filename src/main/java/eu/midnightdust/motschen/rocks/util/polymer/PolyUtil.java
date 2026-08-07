@@ -21,24 +21,24 @@ import eu.pb4.polymer.resourcepack.extras.api.ResourcePackExtras;
 import eu.pb4.polymer.virtualentity.api.ElementHolder;
 import eu.pb4.polymer.virtualentity.api.attachment.BlockBoundAttachment;
 import eu.pb4.polymer.virtualentity.impl.HolderHolder;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static eu.midnightdust.motschen.rocks.RocksMain.*;
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED;
+import static net.minecraft.state.property.Properties.WATERLOGGED;
 
 public class PolyUtil {
     public static BlockState SMALL_BLOCK;
@@ -63,21 +63,21 @@ public class PolyUtil {
         ItemDisplayStickModel.initModels();
     }
 
-    public static boolean hasModOnClient(ServerPlayer player) {
+    public static boolean hasModOnClient(ServerPlayerEntity player) {
         return playersWithMod.contains(player);
     }
 
     public static Item polymerBlockItem(Block block, Identifier id) {
-        if (block instanceof Starfish) return new StarfishItemPolymer((Block & PolymerBlock) block, new Item.Properties().registryKey(ResourceKey.of(Registries.ITEM, id)), Items.KELP);
-        else return new FactoryBlockItem((Block & PolymerBlock) block, new Item.Properties().registryKey(ResourceKey.of(Registries.ITEM, id)), Items.KELP);
+        if (block instanceof Starfish) return new StarfishItemPolymer((Block & PolymerBlock) block, new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, id)), Items.KELP);
+        else return new FactoryBlockItem((Block & PolymerBlock) block, new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, id)), Items.KELP);
     }
 
     public static Item simplePolymerItem(Identifier id) {
-        return new SimplePolymerItem(new Item.Properties().registryKey(ResourceKey.of(Registries.ITEM, id)), Items.FLINT, true);
+        return new SimplePolymerItem(new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, id)), Items.FLINT, true);
     }
 
     public static void registerPolymerGroup() {
-        RocksMain.RocksGroup = PolymerItemGroupUtils.builder().displayName(Component.translatable("itemGroup.rocks.rocks")).icon(() ->
+        RocksMain.RocksGroup = PolymerItemGroupUtils.builder().displayName(Text.translatable("itemGroup.rocks.rocks")).icon(() ->
                 new ItemStack(rocksByType.get(RockType.STONE))).entries((displayContext, entries) -> entries.addAll(RocksMain.groupItems)).build();
         PolymerItemGroupUtils.registerPolymerItemGroup(id("rocks"), RocksMain.RocksGroup);
     }
@@ -86,7 +86,7 @@ public class PolyUtil {
         PolymerBlockUtils.registerBlockEntity(types);
     }
 
-    public static void hideElementHolders(ServerPlayer player) {
+    public static void hideElementHolders(ServerPlayerEntity player) {
         PolymerSyncUtils.removeCreativeTab(RocksGroup, player.networkHandler);
 
         List<ElementHolder> holders = new ArrayList<>(((HolderHolder)player.networkHandler).polymer$getHolders());

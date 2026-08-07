@@ -181,6 +181,44 @@ class RewriteTests(unittest.TestCase):
             # All imports should be resolved
             self.assertEqual(len(names), len(names) - len(unresolved))
 
+    def test_wildcard_skips_class_declared_by_the_file_itself(self):
+        """A file's own declared type shadows a same-named vanilla wildcard class.
+
+        Regression test: this mod declares `datagen.Models`, which collides
+        with vanilla `net.minecraft.client.data.Models` (-> `ModelTemplates`
+        in Mojang mappings). The wildcard scanner previously mistook the
+        class's own declaration for a "usage" of the vanilla class, emitted
+        a `ModelTemplates` import, and renamed the mod's own class and
+        constructor to `ModelTemplates` too — leaving a file that both
+        imports and declares the same simple name (illegal) and orphaning
+        call sites like `Models::new` elsewhere in the project.
+        """
+        dict_with_models = {
+            **DICT,
+            "net.minecraft.client.data.Models": "net.minecraft.client.data.models.model.ModelTemplates",
+            "net.minecraft.client.data.TextureMap": "net.minecraft.client.data.models.model.TextureMapping",
+        }
+        src = (
+            "import net.minecraft.client.data.*;\n"
+            "public class Models {\n"
+            "    public Models() {}\n"
+            "    TextureMap t;\n"
+            "}\n"
+        )
+        out, unresolved = rewrite_file(src, dict_with_models)
+        # The mod's own declaration and constructor must be untouched.
+        self.assertIn("public class Models {", out)
+        self.assertIn("public Models() {}", out)
+        # No import for the vanilla namesake should be synthesized, and the
+        # renamed name must not appear anywhere in the output.
+        self.assertNotIn("ModelTemplates", out)
+        # Other classes from the same wildcard still expand and rename normally.
+        self.assertIn(
+            "import net.minecraft.client.data.models.model.TextureMapping;", out
+        )
+        self.assertIn("TextureMapping t;", out)
+        self.assertEqual(unresolved, [])
+
     def test_wildcard_nested_class_rename(self):
         """Wildcard-imported class with nested class accessed via dot notation."""
         dict_with_nested = {

@@ -140,6 +140,25 @@ def _simple(name: str) -> str:
     return name.replace("$", ".").rsplit(".", 1)[-1]
 
 
+DECL_RE = re.compile(r"\b(?:class|interface|enum|record)\s+([A-Za-z_$][A-Za-z0-9_$]*)")
+
+
+def _declared_type_names(text: str) -> set[str]:
+    """Simple names of types (class/interface/enum/record) this file declares.
+
+    Top-level and nested declarations both count. In real Java, a type the
+    compilation unit declares shadows any on-demand (wildcard) import of the
+    same simple name, and single-type-importing a name that collides with a
+    top-level type declared in the same file is a compile error — the
+    declaration always wins. So a simple name this file declares must never
+    be treated as a rename target and must never be wildcard-expanded: doing
+    so mistakes the class's own declaration for a "usage" of its vanilla
+    namesake and renames the mod's own class out from under it (e.g. this
+    mod's `datagen.Models` colliding with vanilla `Models` -> `ModelTemplates`).
+    """
+    return set(DECL_RE.findall(text))
+
+
 def _scan_nested_classes(
     dictionary: dict[str, str],
     yarn_fqn: str,
@@ -187,6 +206,11 @@ def rewrite_file(text: str, dictionary: dict[str, str]) -> tuple[str, list[str]]
     wildcard_expansions: dict[str, list[str]] = {}  # pkg -> sorted list of mojang_fqn
     wildcard_classes: dict[str, list[tuple[str, str]]] = {}  # pkg -> [(yarn_fqn, mojang_fqn), ...]
 
+    # A type this file declares (top-level or nested) shadows any vanilla
+    # class of the same simple name: never rename it, never wildcard-import
+    # a vanilla class over it.
+    declared = _declared_type_names(text)
+
     # Phase 1: Analyze wildcard imports
     all_imports = list(IMPORT_RE.finditer(text))
     simple_name_sources: dict[str, list[str]] = {}  # simple_name -> list of packages
@@ -209,6 +233,11 @@ def rewrite_file(text: str, dictionary: dict[str, str]) -> tuple[str, list[str]]
             used_mojang = []  # Sorted list of Mojang FQNs for import rewriting
             used_pairs = []   # List of (yarn_fqn, mojang_fqn) for Phase 2 processing
             for simple, mojang_fqn in classes.items():
+                if simple in declared:
+                    # This file declares its own type of that name; a vanilla
+                    # class by the same name must not be wildcard-imported
+                    # over it, no matter what the body "uses".
+                    continue
                 if re.search(rf"\b{re.escape(simple)}\b", text_without_imports):
                     yarn_fqn = f"{pkg}.{simple}"  # Construct Yarn FQN directly
                     used_mojang.append(mojang_fqn)
@@ -246,6 +275,8 @@ def rewrite_file(text: str, dictionary: dict[str, str]) -> tuple[str, list[str]]
                 for yarn_fqn, mojang_fqn in wildcard_classes[pkg]:
                     yarn_simple = _simple(yarn_fqn)
                     mojang_simple = _simple(mojang_fqn)
+                    if yarn_simple in declared:
+                        continue
                     if yarn_simple != mojang_simple:
                         simple_renames[yarn_simple] = mojang_simple
                     # Scan for nested classes (e.g., AbstractBlock -> AbstractBlock$Settings)
@@ -260,6 +291,8 @@ def rewrite_file(text: str, dictionary: dict[str, str]) -> tuple[str, list[str]]
             if is_static:
                 continue
             yarn_simple, mojang_simple = _simple(name), _simple(target)
+            if yarn_simple in declared:
+                continue
             if yarn_simple != mojang_simple:
                 simple_renames[yarn_simple] = mojang_simple
             # Scan for nested classes (e.g., Item -> Item$Settings)

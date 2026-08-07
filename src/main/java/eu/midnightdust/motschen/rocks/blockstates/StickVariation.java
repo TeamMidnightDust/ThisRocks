@@ -1,8 +1,8 @@
 package eu.midnightdust.motschen.rocks.blockstates;
 
-import net.minecraft.util.StringRepresentable;
+import net.minecraft.util.StringIdentifiable;
 
-public enum StickVariation implements StringRepresentable {
+public enum StickVariation implements StringIdentifiable {
     SMALL("small"),
     MEDIUM("medium"),
     LARGE("large");

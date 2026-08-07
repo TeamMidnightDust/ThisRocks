@@ -1,8 +1,8 @@
 package eu.midnightdust.motschen.rocks.blockstates;
 
-import net.minecraft.util.StringRepresentable;
+import net.minecraft.util.StringIdentifiable;
 
-public enum StarfishVariation implements StringRepresentable {
+public enum StarfishVariation implements StringIdentifiable {
     RED("red"),
     PINK("pink"),
     ORANGE("orange");

@@ -1,8 +1,8 @@
 package eu.midnightdust.motschen.rocks.util;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.block.Block;
+import net.minecraft.registry.Registries;
+import net.minecraft.util.Identifier;
 
 import java.util.Arrays;
 
@@ -29,7 +29,7 @@ public enum RockType {
     }
 
     public Block getStoneBlock() {
-        return BuiltInRegistries.BLOCK.get(getStoneId());
+        return Registries.BLOCK.get(getStoneId());
     }
 
     public Identifier[] getVariations() {
@@ -72,7 +72,7 @@ public enum RockType {
             return Identifier.ofVanilla(type.toString().toLowerCase());
         }
         public Block getStoneBlock() {
-            return BuiltInRegistries.BLOCK.get(getStoneId());
+            return Registries.BLOCK.get(getStoneId());
         }
     }
 }

@@ -7,14 +7,14 @@ import eu.pb4.polymer.blocks.api.PolymerTexturedBlock;
 import eu.pb4.polymer.core.api.block.PolymerBlock;
 import eu.pb4.polymer.virtualentity.api.BlockWithElementHolder;
 import eu.pb4.polymer.virtualentity.api.ElementHolder;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.properties.AttachFace;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.resources.Identifier;
-import net.minecraft.core.BlockPos;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.enums.BlockFace;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.state.property.Properties;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 import xyz.nucleoid.packettweaker.PacketContext;
 
@@ -35,11 +35,11 @@ public class PineconePolymer extends Pinecone implements PolymerBlock, PolymerTe
 
     @Override
     public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
-        return hasModOnClient(context.getPlayer()) ? state : Blocks.SPRUCE_BUTTON.getDefaultState().with(BlockStateProperties.BLOCK_FACE, AttachFace.FLOOR);
+        return hasModOnClient(context.getPlayer()) ? state : Blocks.SPRUCE_BUTTON.getDefaultState().with(Properties.BLOCK_FACE, BlockFace.FLOOR);
     }
 
     @Override
-    public @Nullable ElementHolder createElementHolder(ServerLevel world, BlockPos pos, BlockState initialBlockState) {
+    public @Nullable ElementHolder createElementHolder(ServerWorld world, BlockPos pos, BlockState initialBlockState) {
         return new ItemDisplayPineconeModel(initialBlockState, pos);
     }
 
