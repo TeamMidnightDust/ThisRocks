@@ -35,14 +35,16 @@ public class RegistryUtil {
     public static Item registerItem(Identifier id, Item item) {
         Registry.register(BuiltInRegistries.ITEM, id, item);
         if (id.equals(Identifier.fromNamespaceAndPath(RocksMain.MOD_ID, "starfish"))) putStarfishItems(item);
-        else RocksMain.groupItems.add(new ItemStack(item));
+        else RocksMain.groupItems.add(() -> new ItemStack(item));
         return item;
     }
     private static void putStarfishItems(Item starfish) {
         for (StarfishVariation variation : StarfishVariation.values()) {
-            ItemStack starfishType = new ItemStack(starfish);
-            starfishType.applyComponents(DataComponentMap.builder().set(DataComponents.BLOCK_STATE, BlockItemStateProperties.EMPTY.with(STARFISH_VARIATION, variation)).build());
-            RocksMain.groupItems.add(starfishType);
+            RocksMain.groupItems.add(() -> {
+                ItemStack starfishType = new ItemStack(starfish);
+                starfishType.applyComponents(DataComponentMap.builder().set(DataComponents.BLOCK_STATE, BlockItemStateProperties.EMPTY.with(STARFISH_VARIATION, variation)).build());
+                return starfishType;
+            });
         }
     }
     public static void register(BootstrapContext<ConfiguredFeature<?, ?>> context, String name, ConfiguredFeature<?, ?> feature) {

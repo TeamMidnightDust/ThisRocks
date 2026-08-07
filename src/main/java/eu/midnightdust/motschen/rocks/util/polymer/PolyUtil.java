@@ -78,7 +78,7 @@ public class PolyUtil {
 
     public static void registerPolymerGroup() {
         RocksMain.RocksGroup = PolymerCreativeModeTabUtils.builder().title(Component.translatable("itemGroup.rocks.rocks")).icon(() ->
-                new ItemStack(rocksByType.get(RockType.STONE))).displayItems((displayContext, entries) -> entries.acceptAll(RocksMain.groupItems)).build();
+                new ItemStack(rocksByType.get(RockType.STONE))).displayItems((displayContext, entries) -> entries.acceptAll(RocksMain.groupItems.stream().map(java.util.function.Supplier::get).toList())).build();
         PolymerCreativeModeTabUtils.registerPolymerCreativeModeTab(id("rocks"), RocksMain.RocksGroup);
     }
 

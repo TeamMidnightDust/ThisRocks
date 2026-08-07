@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import static eu.midnightdust.motschen.rocks.util.RegistryUtil.registerBlockWithItem;
 import static eu.midnightdust.motschen.rocks.util.RegistryUtil.registerItem;
@@ -66,7 +67,7 @@ public class RocksMain implements ModInitializer {
     public static Block Geyser;
     public static Block NetherGeyser;
 
-    public static List<ItemStack> groupItems = new ArrayList<>();
+    public static List<Supplier<ItemStack>> groupItems = new ArrayList<>();
     public static CreativeModeTab RocksGroup;
     public static final ResourceKey<CreativeModeTab> ROCKS_GROUP = ResourceKey.create(Registries.CREATIVE_MODE_TAB, Identifier.fromNamespaceAndPath(MOD_ID, "rocks"));
 
@@ -134,7 +135,7 @@ public class RocksMain implements ModInitializer {
     public static void registerItemGroup() {
         if (polymerMode) PolyUtil.registerPolymerGroup();
         else {
-            RocksGroup = FabricCreativeModeTab.builder().title(Component.translatable("itemGroup.rocks.rocks")).icon(() -> new ItemStack(rocksByType.get(RockType.STONE))).displayItems(((displayContext, entries) -> entries.acceptAll(groupItems))).build();
+            RocksGroup = FabricCreativeModeTab.builder().title(Component.translatable("itemGroup.rocks.rocks")).icon(() -> new ItemStack(rocksByType.get(RockType.STONE))).displayItems(((displayContext, entries) -> entries.acceptAll(groupItems.stream().map(Supplier::get).toList()))).build();
             Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, ROCKS_GROUP, RocksGroup);
         }
     }
