@@ -5,12 +5,13 @@ Run with: python3 -m unittest discover -s tools -p "test_*.py" -v
 """
 
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from yarn_to_mojmap import already_mojang, resolve, rewrite_file
+from yarn_to_mojmap import already_mojang, resolve, rewrite_file, _report_impl
 
 # Real 1.21.11 correspondences, verified against the joined mapping artifacts.
 DICT = {
@@ -148,6 +149,37 @@ class RewriteTests(unittest.TestCase):
         self.assertIn("import net.minecraft.nonexistent.*;", out)
         # Should be reported as unresolved
         self.assertIn("net.minecraft.nonexistent.*", unresolved)
+
+    def test_report_counts_wildcard_as_resolved(self):
+        """report should count wildcards in vanilla imports and mark them resolved."""
+        dict_with_block = {
+            **DICT,
+            "net.minecraft.block.Block": "net.minecraft.world.level.block.Block",
+            "net.minecraft.block.Blocks": "net.minecraft.world.level.block.Blocks",
+        }
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+
+            # Create a Java file with wildcard import that has used classes
+            java_file = tmppath / "TestClass.java"
+            java_file.write_text(
+                "import net.minecraft.block.*;\n"
+                "class TestClass {\n"
+                "  Block b;\n"
+                "  Blocks bs;\n"
+                "}\n"
+            )
+
+            # Call _report_impl which is the core of report()
+            names, unresolved = _report_impl(dict_with_block, tmppath)
+
+            # The wildcard should be counted as an import
+            self.assertIn("net.minecraft.block.*", names)
+            # It should NOT be in unresolved because it expands successfully
+            self.assertNotIn("net.minecraft.block.*", unresolved)
+            # All imports should be resolved
+            self.assertEqual(len(names), len(names) - len(unresolved))
 
 
 if __name__ == "__main__":

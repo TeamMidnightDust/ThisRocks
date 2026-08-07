@@ -292,23 +292,39 @@ def _java_files(src: Path) -> list[Path]:
     return sorted(src.rglob("*.java"))
 
 
-def report(cache: Path, src: Path) -> int:
-    dictionary = build_dictionary(cache)
+def _report_impl(dictionary: dict[str, str], src: Path) -> tuple[set[str], set[str]]:
+    """Compute report metrics using rewrite_file for consistency with apply.
+
+    Returns (all_imports, unresolved_set) where both are sets of import names.
+    Uses rewrite_file() so wildcards are expanded the same way in report and apply.
+    """
     names: set[str] = set()
+    unresolved_total: set[str] = set()
+
     for path in _java_files(src):
-        for match in IMPORT_RE.finditer(path.read_text(encoding="utf-8")):
+        text = path.read_text(encoding="utf-8")
+        # Collect all import names (both explicit and wildcard)
+        for match in IMPORT_RE.finditer(text):
             if match.group(2).startswith("net.minecraft."):
                 names.add(match.group(2))
-    unresolved = sorted(
-        n for n in names
-        if resolve(dictionary, n) is None and not already_mojang(dictionary, n)
-    )
+        # Use rewrite_file to determine actual unresolved items
+        # This ensures wildcards are expanded consistently
+        _, unresolved = rewrite_file(text, dictionary)
+        unresolved_total.update(unresolved)
+
+    return names, unresolved_total
+
+
+def report(cache: Path, src: Path) -> int:
+    dictionary = build_dictionary(cache)
+    names, unresolved_total = _report_impl(dictionary, src)
+
     print(f"dictionary entries : {len(dictionary)}")
     print(f"vanilla imports    : {len(names)}")
-    print(f"resolved           : {len(names) - len(unresolved)}/{len(names)}")
-    if unresolved:
+    print(f"resolved           : {len(names) - len(unresolved_total)}/{len(names)}")
+    if unresolved_total:
         print("UNRESOLVED:")
-        for name in unresolved:
+        for name in sorted(unresolved_total):
             print("  ", name)
         return 1
     print("all vanilla imports resolved")
