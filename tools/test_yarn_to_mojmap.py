@@ -181,6 +181,30 @@ class RewriteTests(unittest.TestCase):
             # All imports should be resolved
             self.assertEqual(len(names), len(names) - len(unresolved))
 
+    def test_wildcard_nested_class_rename(self):
+        """Wildcard-imported class with nested class accessed via dot notation."""
+        dict_with_nested = {
+            **DICT,
+            "net.minecraft.block.AbstractBlock": "net.minecraft.world.level.block.state.BlockBehaviour",
+            "net.minecraft.block.AbstractBlock$Settings": "net.minecraft.world.level.block.state.BlockBehaviour$Properties",
+        }
+        src = (
+            "import net.minecraft.block.*;\n"
+            "class TestBlock {\n"
+            "  void test() {\n"
+            "    AbstractBlock.Settings.copy(x);\n"
+            "  }\n"
+            "}\n"
+        )
+        out, unresolved = rewrite_file(src, dict_with_nested)
+        # Import should be expanded
+        self.assertIn("import net.minecraft.world.level.block.state.BlockBehaviour;", out)
+        # Nested class MUST be renamed: Settings -> Properties
+        self.assertIn("BlockBehaviour.Properties.copy(x);", out)
+        # Must NOT contain the wrong name
+        self.assertNotIn("BlockBehaviour.Settings", out)
+        self.assertEqual(unresolved, [])
+
 
 if __name__ == "__main__":
     unittest.main()

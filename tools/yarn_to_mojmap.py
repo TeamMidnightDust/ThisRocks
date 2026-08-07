@@ -140,6 +140,29 @@ def _simple(name: str) -> str:
     return name.replace("$", ".").rsplit(".", 1)[-1]
 
 
+def _scan_nested_classes(
+    dictionary: dict[str, str],
+    yarn_fqn: str,
+    yarn_simple: str,
+    mojang_simple: str,
+    nested_renames: dict[str, str],
+) -> None:
+    """Scan for nested classes of an outer class and populate nested_renames.
+
+    Called for both explicit imports and wildcard-expanded classes to ensure
+    consistent handling. E.g., for net.minecraft.block.AbstractBlock mapping to
+    BlockBehaviour, finds AbstractBlock$Settings -> BlockBehaviour$Properties
+    and records "AbstractBlock.Settings" -> "BlockBehaviour.Properties".
+    """
+    prefix = yarn_fqn + "$"
+    for yarn_nested_fqn, mojang_nested_fqn in dictionary.items():
+        if yarn_nested_fqn.startswith(prefix) and yarn_nested_fqn.count("$") == 1:
+            yarn_ref = yarn_simple + "." + yarn_nested_fqn.split("$", 1)[1]
+            mojang_ref = mojang_simple + "." + mojang_nested_fqn.split("$", 1)[1]
+            if yarn_ref != mojang_ref:
+                nested_renames[yarn_ref] = mojang_ref
+
+
 def _package_top_level_classes(dictionary: dict[str, str], pkg: str) -> dict[str, str]:
     """Get {simple_name: mojang_fqn} for all top-level classes in a package."""
     result = {}
@@ -162,6 +185,7 @@ def rewrite_file(text: str, dictionary: dict[str, str]) -> tuple[str, list[str]]
     simple_renames: dict[str, str] = {}
     nested_renames: dict[str, str] = {}
     wildcard_expansions: dict[str, list[str]] = {}  # pkg -> sorted list of mojang_fqn
+    wildcard_classes: dict[str, list[tuple[str, str]]] = {}  # pkg -> [(yarn_fqn, mojang_fqn), ...]
 
     # Phase 1: Analyze wildcard imports
     all_imports = list(IMPORT_RE.finditer(text))
@@ -182,16 +206,20 @@ def rewrite_file(text: str, dictionary: dict[str, str]) -> tuple[str, list[str]]
                 continue
 
             # Find which classes from this package are used in the body
-            used_fqns = []
+            used_mojang = []  # Sorted list of Mojang FQNs for import rewriting
+            used_pairs = []   # List of (yarn_fqn, mojang_fqn) for Phase 2 processing
             for simple, mojang_fqn in classes.items():
                 if re.search(rf"\b{re.escape(simple)}\b", text_without_imports):
-                    used_fqns.append(mojang_fqn)
+                    yarn_fqn = f"{pkg}.{simple}"  # Construct Yarn FQN directly
+                    used_mojang.append(mojang_fqn)
+                    used_pairs.append((yarn_fqn, mojang_fqn))
                     if simple not in simple_name_sources:
                         simple_name_sources[simple] = []
                     simple_name_sources[simple].append(pkg)
 
-            if used_fqns:
-                wildcard_expansions[pkg] = sorted(used_fqns)
+            if used_mojang:
+                wildcard_expansions[pkg] = sorted(used_mojang)
+                wildcard_classes[pkg] = used_pairs
 
     # Check for conflicts: same simple name from multiple wildcards
     conflicted_packages: set[str] = set()
@@ -205,6 +233,7 @@ def rewrite_file(text: str, dictionary: dict[str, str]) -> tuple[str, list[str]]
         return text, unresolved
 
     # Phase 2: Process explicit imports and expanded wildcards
+    # Both branches populate simple_renames and nested_renames identically
     for match in all_imports:
         is_static, name = match.group(1), match.group(2)
         if not name.startswith("net.minecraft."):
@@ -212,19 +241,15 @@ def rewrite_file(text: str, dictionary: dict[str, str]) -> tuple[str, list[str]]
 
         if name.endswith(".*"):
             pkg = name[:-2]
-            if pkg in wildcard_expansions:
-                # Find the Yarn FQNs for each expanded class and track renames
-                for mojang_fqn in wildcard_expansions[pkg]:
-                    yarn_fqn = None
-                    for y, m in dictionary.items():
-                        if m == mojang_fqn:
-                            yarn_fqn = y
-                            break
-                    if yarn_fqn and "$" not in yarn_fqn:
-                        yarn_simple = yarn_fqn.split(".")[-1]
-                        mojang_simple = _simple(mojang_fqn)
-                        if yarn_simple != mojang_simple:
-                            simple_renames[yarn_simple] = mojang_simple
+            if pkg in wildcard_classes:
+                # Process each expanded class with the same logic as explicit imports
+                for yarn_fqn, mojang_fqn in wildcard_classes[pkg]:
+                    yarn_simple = _simple(yarn_fqn)
+                    mojang_simple = _simple(mojang_fqn)
+                    if yarn_simple != mojang_simple:
+                        simple_renames[yarn_simple] = mojang_simple
+                    # Scan for nested classes (e.g., AbstractBlock -> AbstractBlock$Settings)
+                    _scan_nested_classes(dictionary, yarn_fqn, yarn_simple, mojang_simple, nested_renames)
         else:
             # Explicit import
             target = resolve(dictionary, name)
@@ -237,14 +262,8 @@ def rewrite_file(text: str, dictionary: dict[str, str]) -> tuple[str, list[str]]
             yarn_simple, mojang_simple = _simple(name), _simple(target)
             if yarn_simple != mojang_simple:
                 simple_renames[yarn_simple] = mojang_simple
-            # nested classes of an imported outer class, e.g. Item.Settings
-            prefix = name + "$"
-            for yarn_fqn, mojang_fqn in dictionary.items():
-                if yarn_fqn.startswith(prefix) and yarn_fqn.count("$") == 1:
-                    yarn_ref = yarn_simple + "." + yarn_fqn.split("$", 1)[1]
-                    mojang_ref = mojang_simple + "." + mojang_fqn.split("$", 1)[1]
-                    if yarn_ref != mojang_ref:
-                        nested_renames[yarn_ref] = mojang_ref
+            # Scan for nested classes (e.g., Item -> Item$Settings)
+            _scan_nested_classes(dictionary, name, yarn_simple, mojang_simple, nested_renames)
 
     def rewrite_import(match: re.Match[str]) -> str:
         is_static, name = match.group(1), match.group(2)
