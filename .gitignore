@@ -23,12 +23,3 @@ bin/
 
 run/
 /src/main/generated/.cache
-
-# SDD workspace (scratch, plan-local)
-.superpowers/
-
-# port tooling
-.mapcache/
-
-# Python bytecode from port tooling
-__pycache__/
