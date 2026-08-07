@@ -12,11 +12,12 @@ from pathlib import Path
 MOD_ID = "rocks"
 EXPECTED_DEPENDS = {"fabricloader", "minecraft", "fabric-api", "midnightlib"}
 # Package roots that only ever appear in Yarn-mapped code. Their presence means
-# a class reference survived the remap and the jar is mismapped. Verified
-# against the built jar: the official (Mojang) mappings this jar is remapped
-# to use different packages for the same classes, e.g. official
-# net/minecraft/resources/Identifier vs Yarn net/minecraft/util/Identifier,
-# and official net/minecraft/server/level/ServerPlayer vs Yarn
+# a class reference survived the rename and the jar is mismapped. MC 26.2
+# ships unobfuscated with no Yarn release, and this build declares no
+# mappings (see PORTING-NOTES.md §4), so the jar's classes use Mojang's own
+# package layout directly, e.g. official net/minecraft/resources/Identifier
+# vs Yarn net/minecraft/util/Identifier, and official
+# net/minecraft/server/level/ServerPlayer vs Yarn
 # net/minecraft/server/network/ServerPlayerEntity, so these byte strings do
 # not collide with legitimate official-mapped references.
 YARN_ONLY_PREFIXES = (

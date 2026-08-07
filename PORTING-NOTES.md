@@ -14,8 +14,8 @@ counterpart to diff against.
 
 - Fork: `Arilas/ThisRocks`, branch `port/26.2-fabric`.
 - Mod version: `1.9.4+1.21.11` → `1.9.4+26.2`.
-- The branch is 25 commits ahead of `upstream/1.21.11`, structured as a
-  two-phase port (see §3) followed by build retargeting, source migration,
+- The branch is a series of commits ahead of `upstream/1.21.11`, structured as
+  a two-phase port (see §3) followed by build retargeting, source migration,
   datagen regeneration, an automated jar audit, and this document.
 
 ## 2. Toolchain
@@ -130,11 +130,12 @@ directly:
 - **Loom 1.17 has no `modImplementation`** and performs no remapping step at
   all; regular `implementation` is used throughout `build.gradle`.
 
-These four points were each individually wrong in the initial plan for this
-port and were corrected against a working, independently-verified 26.2
-Fabric project before being applied here — worth checking against a current
-real project rather than an older mappings-era tutorial when porting another
-mod.
+The first four of these points were each individually wrong in the initial
+plan for this port and were corrected against a working,
+independently-verified 26.2 Fabric project before being applied here — worth
+checking against a current real project rather than an older mappings-era
+tutorial when porting another mod. The fifth (`modImplementation`) was a
+separate discovery made during the same build retarget.
 
 ## 5. Deletions and why
 
@@ -148,6 +149,16 @@ mod.
 - **The `me.shedaniel.unified-publishing` Gradle plugin** — predates Gradle 9
   and does not work under it. Removed from `build.gradle`; `publishing {}`
   now uses the plain `maven-publish` plugin instead.
+
+Conversely, this port **added** two `depends` entries to `fabric.mod.json`
+that upstream (`6a566e1`) did not have: `minecraft` and `midnightlib`.
+`minecraft` is bounded (`~26.2`, i.e. `>=26.2, <26.3`) because this fork's
+source is 26.2-specific and would not run correctly against a different
+major version; upstream's `1.21.11` branch had no `minecraft` entry at all.
+`midnightlib` is declared as a hard `depends` even though it is also bundled
+via jar-in-jar (§6), so that if the jar-in-jar nesting ever silently no-ops,
+loading fails loudly with a clear "missing dependency" message instead of
+misbehaving mysteriously at runtime.
 
 ## 6. MidnightLib
 
@@ -220,14 +231,29 @@ mod-code change:
   feature definitions reference by referring to the vanilla constant, not by
   redefining it) changed from an exact match on the `minecraft:air` block to
   a match against the `minecraft:air` **tag**, which contains `air`,
-  `void_air`, and `cave_air`. This widens where the predicate matches. In
-  practice this is expected to be inert for these particular features: they
-  are `TOP_LAYER_MODIFICATION` surface decoration whose target is always
-  plain surface air, `cave_air` is underground (out of reach of surface
-  decoration), and `void_air` is out of world bounds. The mod's own code is
-  unchanged here — it references the vanilla constant and tracks vanilla's
-  definition of it exactly, the same as every vanilla feature using that
-  predicate would.
+  `void_air`, and `cave_air`. This widens where the predicate matches. **The
+  code is correct and must not change** — it references vanilla's own
+  predicate constant and tracks vanilla's definition of it exactly, the same
+  as every vanilla feature using that predicate would; pinning the old
+  exact-block predicate would diverge from both vanilla and upstream.
+
+  The practical effect of the widening splits by each feature's height
+  modifier, not by its generation step (`TOP_LAYER_MODIFICATION` is a
+  decoration *ordering*, not a height constraint):
+  - **23 of the 29 are surface-constrained** and unaffected in practice: 22
+    use `heightmap: WORLD_SURFACE_WG`, and `end_stone_rock` uses
+    `heightmap: MOTION_BLOCKING` in The End, which has no carvers. Their
+    target is always plain surface air, so the widened tag match is inert
+    for these.
+  - **6 use `minecraft:height_range`** (bottom-to-top, not surface-constrained):
+    `crimson_stick`, `warped_stick`, `netherrack_rock`, `soul_soil_rock`,
+    `nether_gravel_rock`, and `nether_geyser` — all Nether features. The
+    Nether is exactly where `cave_air` occurs: `nether_wastes.json` declares
+    `"carvers": "minecraft:nether_cave"`, and that carver writes `CAVE_AIR`.
+    These six features will therefore now additionally generate inside
+    carved Nether cave tunnels, where the old exact-`minecraft:air` match
+    rejected them. This broadening is inherited from vanilla's own predicate
+    change, not introduced by this port.
 
 All `assets/` output (blockstates, item model definitions, models, language
 files) is byte-identical to the 1.21.11 baseline — there is no schema drift
@@ -276,7 +302,7 @@ ship or PR.
 
 ## 10. Known issues and follow-ups
 
-- **Upstream bug, deliberately preserved as-is.** `PolyUtil.java:52` assigns
+- **Upstream bug, deliberately preserved as-is.** `PolyUtil.java:53` assigns
   the waterlogged fallback block to `SMALL_BLOCK` instead of
   `PASSABLE_WATERLOGGED_BLOCK`. As a result, `PASSABLE_WATERLOGGED_BLOCK` can
   remain `null` if `requestEmpty(KELP)` ever fails, and a later read of it
@@ -285,9 +311,14 @@ ship or PR.
   so this fork's diff against upstream stays minimal and PR-able. It is
   worth reporting to TeamMidnightDust separately rather than silently fixing
   it here.
-- **`datagen/Models.java` uses reflection** (`setAccessible`) on three
-  private vanilla members: `TextureSlot.create(String)` (private static) and
-  `BlockModelGenerators.blockStateOutput` / `.modelOutput` (private final).
+- **`datagen/Models.java` uses reflection** (`setAccessible`) on five
+  private vanilla members across three classes:
+  - `TextureSlot.create(String)` (private static) — `Models.java:69`
+  - `BlockModelGenerators.modelOutput` (private final) — `Models.java:87`
+  - `BlockModelGenerators.blockStateOutput` (private final) — `Models.java:90`
+  - `ItemModelGenerators.modelOutput` (private final) — `Models.java:93`
+  - `ItemModelGenerators.itemModelOutput` (private final) — `Models.java:96`
+
   Confirmed via `javap -p` that no public 26.2 API exposes any of these — the
   reflection is a genuine necessity, not a shortcut around an available API.
   **Open follow-up:** test whether Loom accepts `loom.accessWidenerPath` in
@@ -298,7 +329,9 @@ ship or PR.
   declared in `fabric.mod.json` widens access in every user's game at
   runtime, including for datagen-only code that never runs outside the
   build). This was flagged during the port but not tried; whoever picks it
-  up should record the outcome either way.
+  up should record the outcome either way, and should widen access for all
+  five members listed above — an access widener written from an incomplete
+  list would silently leave some of the reflection in place.
 - **`PolyUtil` reaches into `eu.pb4.polymer.virtualentity.impl.HolderHolder`**,
   an implementation-package class, not public API. This is inherited
   directly from upstream (unchanged in shape between the Polymer version
@@ -318,8 +351,11 @@ ship or PR.
   outside the sampled four would pass the audit silently.
 - **`gradle.properties` still carries `release_type`, `curseforge_id`, and
   `modrinth_id`**, left over from before the `unified-publishing` plugin was
-  removed (§5). They are unused now and could be deleted in a follow-up
-  cleanup pass.
+  removed (§5). They are currently unused, but **do not delete them**: these
+  are upstream's own CurseForge/Modrinth project ids, not fork-local
+  scaffolding, and upstream will want them back when it restores a
+  publishing plugin. Deleting them would only make this fork's diff against
+  upstream larger for no benefit. Leave them in place.
 
 ## 11. Fork-local scaffolding — exclude from any upstream PR
 
@@ -330,7 +366,16 @@ include in a PR back to `TeamMidnightDust/ThisRocks`:
 - `tools/yarn_to_mojmap.py` (and its test file) — the Yarn→Mojang class
   dictionary tool described in §3.
 - `tools/audit_jar.py` — the built-jar structural audit described in §10.
+- The `.gitignore` additions `.superpowers/`, `.mapcache/`, and
+  `__pycache__/` — added by this port to ignore its own scratch state
+  (the SDD ledger, the Yarn/Mojang mapping cache, and Python bytecode from
+  `tools/`), by the same fork-local logic as the paths above.
 
 Any upstream PR built from this branch should drop these paths, along with
 `.superpowers/` (the session-level SDD ledger this porting effort tracked its
 own progress in), before submission.
+
+`PORTING-NOTES.md` itself, by contrast, **should** ship in an upstream PR:
+unlike the scaffolding above, §3 and §4 are exactly the reusable
+Yarn-to-Mojmap and Loom/Gradle-9 knowledge a future upstream maintainer would
+want on hand, not fork-local process record-keeping.
