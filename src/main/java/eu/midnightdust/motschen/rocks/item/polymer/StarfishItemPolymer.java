@@ -5,12 +5,12 @@ import eu.midnightdust.motschen.rocks.blockstates.StarfishVariation;
 import eu.pb4.polymer.core.api.block.PolymerBlock;
 import eu.pb4.polymer.core.api.item.PolymerItem;
 import eu.pb4.polymer.resourcepack.extras.api.ResourcePackExtras;
-import net.minecraft.block.Block;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 import xyz.nucleoid.packettweaker.PacketContext;
 
@@ -27,12 +27,12 @@ public class StarfishItemPolymer extends BlockItem implements PolymerItem {
 
     @Override
     public @Nullable Identifier getPolymerItemModel(ItemStack itemStack, PacketContext context) {
-        var state = itemStack.getComponents().get(DataComponentTypes.BLOCK_STATE);
+        var state = itemStack.getComponents().get(DataComponents.BLOCK_STATE);
         if (state != null && !state.isEmpty()) {
             StarfishVariation variation = state.getValue(RocksMain.STARFISH_VARIATION);
             if (variation != null) return ResourcePackExtras.bridgeModel(id("item/starfish_"+variation));
         }
-        return itemStack.get(DataComponentTypes.ITEM_MODEL);
+        return itemStack.get(DataComponents.ITEM_MODEL);
     }
 
     @Override

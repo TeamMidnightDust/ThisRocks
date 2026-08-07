@@ -4,27 +4,27 @@ import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.util.RockType;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import net.minecraft.block.Block;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTable;
-import net.minecraft.loot.condition.TableBonusLootCondition;
-import net.minecraft.loot.entry.ItemEntry;
-import net.minecraft.loot.function.CopyStateLootFunction;
-import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.state.property.Property;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableCondition;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.CopyBlockState;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.world.level.block.state.properties.Property;
 
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
 public class LootTables {
     public static class BlockLootTables extends FabricBlockLootTableProvider {
-        public BlockLootTables(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+        public BlockLootTables(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, registryLookup);
         }
 
@@ -38,19 +38,19 @@ public class LootTables {
         }
 
         public void addCopyStateDrop(Block block, Property<?>... properties) {
-            var lootFunction = CopyStateLootFunction.builder(block);
+            var lootFunction = CopyBlockState.builder(block);
             Arrays.stream(properties).forEach(lootFunction::addProperty);
 
             addDrop(block, LootTable.builder().pool(this.addSurvivesExplosionCondition(block,
-                    LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0F)).with(ItemEntry.builder(block)
+                    LootPool.builder().rolls(ConstantValue.create(1.0F)).with(LootItem.builder(block)
                             .apply(lootFunction)))));
         }
         public void addSilkTouchDrop(Block block, Item alternative) {
-            addDrop(block, this.dropsWithSilkTouch(block, ItemEntry.builder(alternative)));
+            addDrop(block, this.dropsWithSilkTouch(block, LootItem.builder(alternative)));
         }
         public void addSilkTouchOrRareDrop(Block block, Item alternative, float... chances) {
-            RegistryWrapper.Impl<Enchantment> impl = this.registries.getOrThrow(RegistryKeys.ENCHANTMENT);
-            addDrop(block, this.dropsWithSilkTouch(block, ItemEntry.builder(alternative).conditionally(TableBonusLootCondition.builder(impl.getOrThrow(Enchantments.FORTUNE), chances))));
+            HolderLookup.RegistryLookup<Enchantment> impl = this.registries.getOrThrow(Registries.ENCHANTMENT);
+            addDrop(block, this.dropsWithSilkTouch(block, LootItem.builder(alternative).conditionally(BonusLevelTableCondition.builder(impl.getOrThrow(Enchantments.FORTUNE), chances))));
         }
     }
 }

@@ -3,19 +3,19 @@ package eu.midnightdust.motschen.rocks.datagen;
 import eu.midnightdust.motschen.rocks.RocksMain;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.data.recipe.RecipeExporter;
-import net.minecraft.data.recipe.RecipeGenerator;
-import net.minecraft.data.recipe.ShapelessRecipeJsonBuilder;
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.Identifier;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.resources.Identifier;
 
 import java.util.concurrent.CompletableFuture;
 
 public class Recipes extends FabricRecipeProvider {
-    public Recipes(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+    public Recipes(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
     @Override
@@ -24,12 +24,12 @@ public class Recipes extends FabricRecipeProvider {
     }
 
     @Override
-    protected RecipeGenerator getRecipeGenerator(RegistryWrapper.WrapperLookup registries, RecipeExporter recipeExporter) {
+    protected RecipeProvider getRecipeGenerator(HolderLookup.Provider registries, RecipeOutput recipeExporter) {
         return new RocksRecipeGenerator(registries, recipeExporter);
     }
 
-    public static class RocksRecipeGenerator extends RecipeGenerator {
-        protected RocksRecipeGenerator(RegistryWrapper.WrapperLookup registries, RecipeExporter exporter) {
+    public static class RocksRecipeGenerator extends RecipeProvider {
+        protected RocksRecipeGenerator(HolderLookup.Provider registries, RecipeOutput exporter) {
             super(registries, exporter);
         }
 
@@ -37,13 +37,13 @@ public class Recipes extends FabricRecipeProvider {
         public void generate() {
             generateCrafting(exporter);
         }
-        private void generateCrafting(RecipeExporter exporter) {
+        private void generateCrafting(RecipeOutput exporter) {
             RocksMain.splittersByType.forEach(((rockType, splitter) -> {
                 Identifier stoneID = rockType.getFragment().getStoneId();
 
-                ShapelessRecipeJsonBuilder.create(registries.getOrThrow(RegistryKeys.ITEM), RecipeCategory.BUILDING_BLOCKS, Registries.BLOCK.get(stoneID).asItem())
+                ShapelessRecipeBuilder.create(registries.getOrThrow(Registries.ITEM), RecipeCategory.BUILDING_BLOCKS, BuiltInRegistries.BLOCK.get(stoneID).asItem())
                         .input(splitter, 4)
-                        .criterion(RecipeGenerator.hasItem(splitter), this.conditionsFromItem(splitter))
+                        .criterion(RecipeProvider.hasItem(splitter), this.conditionsFromItem(splitter))
                         .offerTo(exporter, stoneID.getPath()+"_from_splitter");
             }));
         }

@@ -4,8 +4,8 @@ import eu.midnightdust.motschen.rocks.blockstates.StarfishVariation;
 import eu.midnightdust.motschen.rocks.networking.HelloPayload;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.item.ItemStack;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.Objects;
 
@@ -22,7 +22,7 @@ public class RocksClient implements ClientModInitializer {
 //        }
     }
     private static Integer matchesVariation(ItemStack stack, StarfishVariation variation) {
-        var blockStateData = stack.getComponents().get(DataComponentTypes.BLOCK_STATE);
+        var blockStateData = stack.getComponents().get(DataComponents.BLOCK_STATE);
         if (blockStateData == null || blockStateData.isEmpty() || blockStateData.getValue(STARFISH_VARIATION) == null) return 0;
         return Objects.equals(blockStateData.getValue(STARFISH_VARIATION), variation) ? 1 : 0;
     }
