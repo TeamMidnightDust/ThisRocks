@@ -30,11 +30,11 @@
     ]
   },
 
-  "accessWidener" : "thisrocks.accesswidener",
-
   "depends": {
-    "fabricloader": ">=0.7.2",
-    "fabric": "*"
+    "fabricloader": ">=0.19.3",
+    "minecraft": "26.2",
+    "fabric-api": "*",
+    "midnightlib": "*"
   },
   "suggests": {
     "polymer-core": "*",
