@@ -2,9 +2,9 @@ package eu.midnightdust.motschen.rocks.datagen;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.resource.ResourceType;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.resources.Identifier;
 
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -14,7 +14,7 @@ public class LanguageHelper {
 
     public LanguageHelper(String language) {
         try {
-            var langFile = MinecraftClient.getInstance().getDefaultResourcePack().open(ResourceType.CLIENT_RESOURCES, Identifier.ofVanilla(String.format("lang/%s.json", language)));
+            var langFile = Minecraft.getInstance().getDefaultResourcePack().open(PackType.CLIENT_RESOURCES, Identifier.ofVanilla(String.format("lang/%s.json", language)));
             if (langFile == null) throw new RuntimeException("Unable to load language "+language);
             this.language = new Gson().fromJson(new InputStreamReader(langFile.get(), StandardCharsets.UTF_8), JsonObject.class);
         }

@@ -4,11 +4,11 @@ import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.config.RocksConfig;
 import eu.pb4.factorytools.api.virtualentity.ItemDisplayElementUtil;
 import eu.pb4.polymer.virtualentity.api.elements.ItemDisplayElement;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RotationAxis;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.BlockPos;
+import com.mojang.math.Axis;
+import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
 public class ItemDisplayPineconeModel extends ConditionalBlockModel {
@@ -23,8 +23,8 @@ public class ItemDisplayPineconeModel extends ConditionalBlockModel {
         this.main = ItemDisplayElementUtil.createSimple(getModel(state));
         this.main.setDisplaySize(1, 1);
         this.main.setScale(new Vector3f(1));
-        this.main.setRightRotation(RotationAxis.POSITIVE_Y.rotationDegrees(pos.hashCode() % 360));
-        this.main.setOffset(new Vec3d(0, -0.25d, 0));
+        this.main.setRightRotation(Axis.POSITIVE_Y.rotationDegrees(pos.hashCode() % 360));
+        this.main.setOffset(new Vec3(0, -0.25d, 0));
         this.main.setViewRange(0.75f * (RocksConfig.polymerViewDistance / 100f));
         this.addElement(this.main);
     }

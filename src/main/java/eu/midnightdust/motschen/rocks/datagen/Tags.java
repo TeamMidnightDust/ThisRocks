@@ -2,7 +2,7 @@ package eu.midnightdust.motschen.rocks.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.core.HolderLookup;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -12,12 +12,12 @@ public class Tags {
 //        private static final TagKey<Block> AXE_MINEABLE = TagKey.of(RegistryKeys.BLOCK, Identifier.ofVanilla("mineable/axe"));
 //        private static final TagKey<Block> NEEDS_STONE_TOOL = TagKey.of(RegistryKeys.BLOCK, Identifier.ofVanilla("needs_stone_tool"));
 
-        public Blocks(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+        public Blocks(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
             super(output, registriesFuture);
         }
 
         @Override
-        protected void configure(RegistryWrapper.WrapperLookup arg) {
+        protected void configure(HolderLookup.Provider arg) {
 //            List<Block> pickaxeBlocks = new ArrayList<>(DecorativeMain.BLOCKS);
 //            pickaxeBlocks.removeAll(LogsWithAxes.TYPES);
 //            getOrCreateTagBuilder(PICKAXE_MINEABLE).setReplace(false)

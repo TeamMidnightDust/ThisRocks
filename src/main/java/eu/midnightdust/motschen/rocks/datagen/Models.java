@@ -6,22 +6,32 @@ import eu.midnightdust.motschen.rocks.util.RockType;
 import eu.midnightdust.motschen.rocks.util.StickType;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.block.Block;
-import net.minecraft.client.data.*;
-import net.minecraft.client.render.item.model.ItemModel;
-import net.minecraft.client.render.model.json.ModelVariant;
-import net.minecraft.client.render.model.json.WeightedVariant;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.collection.Pool;
-import net.minecraft.util.math.AxisRotation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.blockstates.BlockModelDefinitionGenerator;
+import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
+import net.minecraft.client.data.models.blockstates.PropertyDispatch;
+import net.minecraft.client.data.models.model.ItemModelUtils;
+import net.minecraft.client.data.models.model.ModelLocationUtils;
+import net.minecraft.client.data.models.model.ModelTemplate;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.client.renderer.item.ItemModel;
+import net.minecraft.client.renderer.block.model.Variant;
+import net.minecraft.client.data.models.MultiVariant;
+import net.minecraft.world.item.Item;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.random.WeightedList;
+import com.mojang.math.Quadrant;
 
 import java.util.*;
 
-public class Models extends FabricModelProvider {
-    public static final TextureKey ZERO_TEXTURE_KEY = TextureKey.of("0");
-    public Models(FabricDataOutput output) {
+public class ModelTemplates extends FabricModelProvider {
+    public static final TextureSlot ZERO_TEXTURE_KEY = TextureSlot.of("0");
+    public ModelTemplates(FabricDataOutput output) {
         super(output);
     }
 
@@ -31,34 +41,34 @@ public class Models extends FabricModelProvider {
     public static Identifier getItemId(String s) {
         return RocksMain.id("item/"+s);
     }
-    public static Model getSimpleParentModel(Identifier parentId, String variant) {
-        return new Model(Optional.of(parentId), Optional.of(variant), ZERO_TEXTURE_KEY);
+    public static ModelTemplate getSimpleParentModel(Identifier parentId, String variant) {
+        return new ModelTemplate(Optional.of(parentId), Optional.of(variant), ZERO_TEXTURE_KEY);
     }
     @Override
-    public void generateBlockStateModels(BlockStateModelGenerator bsModelGenerator) {
+    public void generateBlockStateModels(BlockModelGenerators bsModelGenerator) {
         for (RockType type : RockType.values()) {
-            Block block = Registries.BLOCK.get(RocksMain.id(type.getName()));
+            Block block = BuiltInRegistries.BLOCK.get(RocksMain.id(type.getName()));
             RockModel.registerBlockModel(bsModelGenerator, block, type.getStoneBlock());
         }
         for (StickType type : StickType.values()) {
-            Block block = Registries.BLOCK.get(RocksMain.id(type.getName()+"_stick"));
+            Block block = BuiltInRegistries.BLOCK.get(RocksMain.id(type.getName()+"_stick"));
             StickModel.registerBlockModel(bsModelGenerator, block, type.getBaseBlock());
         }
     }
 
     @Override
-    public void generateItemModels(ItemModelGenerator itemModelGenerator) {
+    public void generateItemModels(ItemModelGenerators itemModelGenerator) {
         for (RockType type : RockType.values()) {
-            Item item = Registries.ITEM.get(RocksMain.id(type.getName()));
+            Item item = BuiltInRegistries.ITEM.get(RocksMain.id(type.getName()));
             registerParentedItemModel(itemModelGenerator, item, getItemId("rock_base"), type.getStoneBlock());
 
             if (type != RockType.GRAVEL) {
-                Item splitter = Registries.ITEM.get(RocksMain.id(type.getFragment().getName()));
+                Item splitter = BuiltInRegistries.ITEM.get(RocksMain.id(type.getFragment().getName()));
                 registerParentedItemModel(itemModelGenerator, splitter, getItemId("splitter_base"), type.getFragment().getStoneBlock());
             }
         }
         for (StickType type : StickType.values()) {
-            Item item = Registries.ITEM.get(RocksMain.id(type.getName()+"_stick"));
+            Item item = BuiltInRegistries.ITEM.get(RocksMain.id(type.getName()+"_stick"));
             registerParentedItemModel(itemModelGenerator, item, getItemId("stick_base"), type.getBaseBlock());
         }
         itemModelGenerator.register(RocksMain.Geyser.asItem());
@@ -67,32 +77,32 @@ public class Models extends FabricModelProvider {
         itemModelGenerator.register(RocksMain.Seashell.asItem());
         itemModelGenerator.register(RocksMain.Pinecone.asItem());
     }
-    public static void registerParentedItemModel(ItemModelGenerator modelGenerator, Item item, Identifier parentId, Block textureSource) {
-        TextureMap textureMap = TextureMap.of(ZERO_TEXTURE_KEY, TextureMap.getId(textureSource));
+    public static void registerParentedItemModel(ItemModelGenerators modelGenerator, Item item, Identifier parentId, Block textureSource) {
+        TextureMapping textureMap = TextureMapping.of(ZERO_TEXTURE_KEY, TextureMapping.getId(textureSource));
 
         Identifier itemModel = getSimpleParentModel(parentId, "").upload(item, textureMap, modelGenerator.modelCollector);
-        modelGenerator.output.accept(item, ItemModels.basic(itemModel));
+        modelGenerator.output.accept(item, ItemModelUtils.basic(itemModel));
     }
-    public final void registerStarfishItemVariations(ItemModelGenerator modelGenerator, Block starfish) {
+    public final void registerStarfishItemVariations(ItemModelGenerators modelGenerator, Block starfish) {
         Map<StarfishVariation, ItemModel.Unbaked> variantMap = new HashMap<>();
         for (StarfishVariation variation : StarfishVariation.values()) {
-            variantMap.put(variation, ItemModels.basic(ModelIds.getItemSubModelId(starfish.asItem(), "_"+variation.toString())));
+            variantMap.put(variation, ItemModelUtils.basic(ModelLocationUtils.getItemSubModelId(starfish.asItem(), "_"+variation.toString())));
         }
-        modelGenerator.output.accept(starfish.asItem(), ItemModels.select(RocksMain.STARFISH_VARIATION, ItemModels.basic(ModelIds.getItemModelId(starfish.asItem())), variantMap));
+        modelGenerator.output.accept(starfish.asItem(), ItemModelUtils.select(RocksMain.STARFISH_VARIATION, ItemModelUtils.basic(ModelLocationUtils.getItemModelId(starfish.asItem())), variantMap));
     }
 
-    public static WeightedVariant getRandomRotationWeightedVariant(Identifier modelId) {
-        Pool.Builder<ModelVariant> list = Pool.builder();
-        for (AxisRotation rotation : AxisRotation.values()) {
-            ModelVariant rotatedVariant = new ModelVariant(modelId, ModelVariant.ModelState.DEFAULT.setRotationY(rotation));
+    public static MultiVariant getRandomRotationWeightedVariant(Identifier modelId) {
+        WeightedList.Builder<Variant> list = WeightedList.builder();
+        for (Quadrant rotation : Quadrant.values()) {
+            Variant rotatedVariant = new Variant(modelId, Variant.SimpleModelState.DEFAULT.setRotationY(rotation));
             list.add(rotatedVariant);
         }
-        return new WeightedVariant(list.build());
+        return new MultiVariant(list.build());
     }
 
     private static class RockModel {
-        public static void registerBlockModel(BlockStateModelGenerator modelGenerator, Block rockBlock, Block textureSource) {
-            TextureMap textureMap = TextureMap.of(ZERO_TEXTURE_KEY, TextureMap.getId(textureSource));
+        public static void registerBlockModel(BlockModelGenerators modelGenerator, Block rockBlock, Block textureSource) {
+            TextureMapping textureMap = TextureMapping.of(ZERO_TEXTURE_KEY, TextureMapping.getId(textureSource));
 
             Identifier largeRock = getSimpleParentModel(getBlockId("large_rock"), "_large").upload(rockBlock, textureMap, modelGenerator.modelCollector);
             Identifier mediumRock = getSimpleParentModel(getBlockId("medium_rock"), "_medium").upload(rockBlock, textureMap, modelGenerator.modelCollector);
@@ -101,16 +111,16 @@ public class Models extends FabricModelProvider {
             modelGenerator.blockStateCollector.accept(createBlockState(rockBlock, new Identifier[]{largeRock, mediumRock, smallRock, tinyRock}));
         }
 
-        private static BlockModelDefinitionCreator createBlockState(Block rockBlock, Identifier[] modelIds) {
-            return VariantsBlockModelDefinitionCreator.of(rockBlock)
-                    .with(BlockStateVariantMap.models(RocksMain.ROCK_VARIATION)
+        private static BlockModelDefinitionGenerator createBlockState(Block rockBlock, Identifier[] modelIds) {
+            return MultiVariantGenerator.of(rockBlock)
+                    .with(PropertyDispatch.models(RocksMain.ROCK_VARIATION)
                             .generate(variation -> getRandomRotationWeightedVariant(modelIds[3 - variation.ordinal()]))
                     );
         }
     }
     private static class StickModel {
-        public static void registerBlockModel(BlockStateModelGenerator modelGenerator, Block stickBlock, Block textureSource) {
-            TextureMap textureMap = TextureMap.of(ZERO_TEXTURE_KEY, TextureMap.getId(textureSource));
+        public static void registerBlockModel(BlockModelGenerators modelGenerator, Block stickBlock, Block textureSource) {
+            TextureMapping textureMap = TextureMapping.of(ZERO_TEXTURE_KEY, TextureMapping.getId(textureSource));
 
             Identifier largeRock = getSimpleParentModel(getBlockId("large_stick"), "_large").upload(stickBlock, textureMap, modelGenerator.modelCollector);
             Identifier mediumRock = getSimpleParentModel(getBlockId("medium_stick"), "_medium").upload(stickBlock, textureMap, modelGenerator.modelCollector);
@@ -118,9 +128,9 @@ public class Models extends FabricModelProvider {
             modelGenerator.blockStateCollector.accept(createBlockState(stickBlock, new Identifier[]{largeRock, mediumRock, smallRock}));
         }
 
-        private static BlockModelDefinitionCreator createBlockState(Block stickBlock, Identifier[] modelIds) {
-            return VariantsBlockModelDefinitionCreator.of(stickBlock)
-                    .with(BlockStateVariantMap.models(RocksMain.STICK_VARIATION)
+        private static BlockModelDefinitionGenerator createBlockState(Block stickBlock, Identifier[] modelIds) {
+            return MultiVariantGenerator.of(stickBlock)
+                    .with(PropertyDispatch.models(RocksMain.STICK_VARIATION)
                             .generate(variation -> getRandomRotationWeightedVariant(modelIds[2 - variation.ordinal()]))
                     );
         }

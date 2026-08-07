@@ -18,18 +18,18 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,7 +43,7 @@ import static eu.midnightdust.motschen.rocks.util.polymer.PolyUtil.*;
 public class RocksMain implements ModInitializer {
     public static final String MOD_ID = "rocks";
     public static boolean polymerMode = hasRequiredPolymerModules();
-    public static List<ServerPlayerEntity> playersWithMod = new ArrayList<>();
+    public static List<ServerPlayer> playersWithMod = new ArrayList<>();
 
     public static final EnumProperty<RockVariation> ROCK_VARIATION = EnumProperty.of("variation", RockVariation.class);
     public static final EnumProperty<StickVariation> STICK_VARIATION = EnumProperty.of("variation", StickVariation.class);
@@ -67,8 +67,8 @@ public class RocksMain implements ModInitializer {
     public static Block NetherGeyser;
 
     public static List<ItemStack> groupItems = new ArrayList<>();
-    public static ItemGroup RocksGroup;
-    public static final RegistryKey<ItemGroup> ROCKS_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier.of(MOD_ID, "rocks"));
+    public static CreativeModeTab RocksGroup;
+    public static final ResourceKey<CreativeModeTab> ROCKS_GROUP = ResourceKey.of(Registries.ITEM_GROUP, Identifier.of(MOD_ID, "rocks"));
 
     @Override
     public void onInitialize() {
@@ -128,14 +128,14 @@ public class RocksMain implements ModInitializer {
 
     public static Item simpleItem(Identifier id) {
         if (polymerMode) return PolyUtil.simplePolymerItem(id);
-        return new Item(new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, id)));
+        return new Item(new Item.Properties().registryKey(ResourceKey.of(Registries.ITEM, id)));
     }
 
     public static void registerItemGroup() {
         if (polymerMode) PolyUtil.registerPolymerGroup();
         else {
-            RocksGroup = FabricItemGroup.builder().displayName(Text.translatable("itemGroup.rocks.rocks")).icon(() -> new ItemStack(rocksByType.get(RockType.STONE))).entries(((displayContext, entries) -> entries.addAll(groupItems))).build();
-            Registry.register(Registries.ITEM_GROUP, ROCKS_GROUP, RocksGroup);
+            RocksGroup = FabricItemGroup.builder().displayName(Component.translatable("itemGroup.rocks.rocks")).icon(() -> new ItemStack(rocksByType.get(RockType.STONE))).entries(((displayContext, entries) -> entries.addAll(groupItems))).build();
+            Registry.register(BuiltInRegistries.ITEM_GROUP, ROCKS_GROUP, RocksGroup);
         }
     }
 }
