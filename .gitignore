@@ -29,3 +29,6 @@ run/
 
 # port tooling
 .mapcache/
+
+# Python bytecode from port tooling
+__pycache__/
