@@ -82,6 +82,73 @@ class RewriteTests(unittest.TestCase):
         self.assertEqual(unresolved, ["net.minecraft.made.Up"])
         self.assertIn("import net.minecraft.made.Up;", out)
 
+    def test_wildcard_expands_to_used_classes_only(self):
+        """Wildcard with two classes, only one referenced."""
+        dict_with_block = {
+            **DICT,
+            "net.minecraft.block.Block": "net.minecraft.world.level.block.Block",
+            "net.minecraft.block.Fertilizable": "net.minecraft.world.level.block.Fertilizable",
+        }
+        src = (
+            "import net.minecraft.block.*;\n"
+            "Block b = null;\n"
+        )
+        out, unresolved = rewrite_file(src, dict_with_block)
+        self.assertIn("import net.minecraft.world.level.block.Block;", out)
+        self.assertNotIn("Fertilizable", out)
+        self.assertNotIn("*", out)
+        self.assertEqual(unresolved, [])
+
+    def test_wildcard_scatters_across_mojang_packages(self):
+        """Wildcard package scatters across multiple Mojang packages."""
+        dict_with_scatter = {
+            **DICT,
+            "net.minecraft.block.Block": "net.minecraft.world.level.block.Block",
+            "net.minecraft.block.Properties": "net.minecraft.world.level.block.state.properties.BlockStateProperties",
+        }
+        src = (
+            "import net.minecraft.block.*;\n"
+            "Block b = null;\n"
+            "Properties p = null;\n"
+        )
+        out, unresolved = rewrite_file(src, dict_with_scatter)
+        self.assertIn("import net.minecraft.world.level.block.Block;", out)
+        self.assertIn("import net.minecraft.world.level.block.state.properties.BlockStateProperties;", out)
+        self.assertIn("BlockStateProperties p = null;", out)
+        self.assertEqual(unresolved, [])
+
+    def test_wildcard_conflict_leaves_file_alone(self):
+        """Same simple name from two wildcards — file left untouched."""
+        dict_with_conflict = {
+            **DICT,
+            "net.minecraft.block.Item": "net.minecraft.world.level.block.Item",
+            "net.minecraft.item.Item": "net.minecraft.world.item.Item",
+        }
+        src = (
+            "import net.minecraft.block.*;\n"
+            "import net.minecraft.item.*;\n"
+            "Item i = null;\n"
+        )
+        out, unresolved = rewrite_file(src, dict_with_conflict)
+        # Wildcards should remain unchanged
+        self.assertIn("import net.minecraft.block.*;", out)
+        self.assertIn("import net.minecraft.item.*;", out)
+        # Both packages should be reported
+        self.assertIn("net.minecraft.block.*", unresolved)
+        self.assertIn("net.minecraft.item.*", unresolved)
+
+    def test_wildcard_absent_package(self):
+        """Wildcard for package absent from dictionary."""
+        src = (
+            "import net.minecraft.nonexistent.*;\n"
+            "Something s = null;\n"
+        )
+        out, unresolved = rewrite_file(src, DICT)
+        # Wildcard should remain unchanged
+        self.assertIn("import net.minecraft.nonexistent.*;", out)
+        # Should be reported as unresolved
+        self.assertIn("net.minecraft.nonexistent.*", unresolved)
+
 
 if __name__ == "__main__":
     unittest.main()

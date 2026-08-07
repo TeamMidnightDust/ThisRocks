@@ -112,19 +112,9 @@ def already_mojang(dictionary: dict[str, str], name: str) -> bool:
     Keeps `apply` idempotent: re-running over migrated sources reports success
     instead of flagging every already-correct import as unresolved.
     """
-    targets = _mojang_targets(dictionary)
+    targets = frozenset(v.replace("$", ".") for v in dictionary.values())
     owner, _, _member = name.rpartition(".")
     return name in targets or owner in targets
-
-
-_TARGET_CACHE: dict[int, frozenset[str]] = {}
-
-
-def _mojang_targets(dictionary: dict[str, str]) -> frozenset[str]:
-    key = id(dictionary)
-    if key not in _TARGET_CACHE:
-        _TARGET_CACHE[key] = frozenset(v.replace("$", ".") for v in dictionary.values())
-    return _TARGET_CACHE[key]
 
 
 def resolve(dictionary: dict[str, str], name: str) -> str | None:
@@ -143,11 +133,27 @@ def resolve(dictionary: dict[str, str], name: str) -> str | None:
 
 # ------------------------------------------------------------------------ rewrite
 
-IMPORT_RE = re.compile(r"^import\s+(static\s+)?([A-Za-z0-9_.]+)\s*;", re.MULTILINE)
+IMPORT_RE = re.compile(r"^import\s+(static\s+)?([A-Za-z0-9_.*]+)\s*;", re.MULTILINE)
 
 
 def _simple(name: str) -> str:
     return name.replace("$", ".").rsplit(".", 1)[-1]
+
+
+def _package_top_level_classes(dictionary: dict[str, str], pkg: str) -> dict[str, str]:
+    """Get {simple_name: mojang_fqn} for all top-level classes in a package."""
+    result = {}
+    prefix = pkg + "."
+    for yarn_fqn, mojang_fqn in dictionary.items():
+        if not yarn_fqn.startswith(prefix):
+            continue
+        remainder = yarn_fqn[len(prefix) :]
+        if "." in remainder or "$" in remainder:
+            continue
+        simple = remainder
+        if simple not in result:
+            result[simple] = mojang_fqn
+    return result
 
 
 def rewrite_file(text: str, dictionary: dict[str, str]) -> tuple[str, list[str]]:
@@ -155,38 +161,109 @@ def rewrite_file(text: str, dictionary: dict[str, str]) -> tuple[str, list[str]]
     unresolved: list[str] = []
     simple_renames: dict[str, str] = {}
     nested_renames: dict[str, str] = {}
+    wildcard_expansions: dict[str, list[str]] = {}  # pkg -> sorted list of mojang_fqn
 
-    for match in IMPORT_RE.finditer(text):
+    # Phase 1: Analyze wildcard imports
+    all_imports = list(IMPORT_RE.finditer(text))
+    simple_name_sources: dict[str, list[str]] = {}  # simple_name -> list of packages
+    text_without_imports = IMPORT_RE.sub("", text)
+
+    for match in all_imports:
         is_static, name = match.group(1), match.group(2)
         if not name.startswith("net.minecraft."):
             continue
-        target = resolve(dictionary, name)
-        if target is None:
-            if not already_mojang(dictionary, name):
+
+        if name.endswith(".*"):
+            pkg = name[:-2]
+            classes = _package_top_level_classes(dictionary, pkg)
+
+            if not classes:
                 unresolved.append(name)
+                continue
+
+            # Find which classes from this package are used in the body
+            used_fqns = []
+            for simple, mojang_fqn in classes.items():
+                if re.search(rf"\b{re.escape(simple)}\b", text_without_imports):
+                    used_fqns.append(mojang_fqn)
+                    if simple not in simple_name_sources:
+                        simple_name_sources[simple] = []
+                    simple_name_sources[simple].append(pkg)
+
+            if used_fqns:
+                wildcard_expansions[pkg] = sorted(used_fqns)
+
+    # Check for conflicts: same simple name from multiple wildcards
+    conflicted_packages: set[str] = set()
+    for simple, packages in simple_name_sources.items():
+        if len(set(packages)) > 1:
+            conflicted_packages.update(packages)
+
+    if conflicted_packages:
+        for pkg in conflicted_packages:
+            unresolved.append(f"{pkg}.*")
+        return text, unresolved
+
+    # Phase 2: Process explicit imports and expanded wildcards
+    for match in all_imports:
+        is_static, name = match.group(1), match.group(2)
+        if not name.startswith("net.minecraft."):
             continue
-        if is_static:
-            continue
-        yarn_simple, mojang_simple = _simple(name), _simple(target)
-        if yarn_simple != mojang_simple:
-            simple_renames[yarn_simple] = mojang_simple
-        # nested classes of an imported outer class, e.g. Item.Settings
-        prefix = name + "$"
-        for yarn_fqn, mojang_fqn in dictionary.items():
-            if yarn_fqn.startswith(prefix) and yarn_fqn.count("$") == 1:
-                yarn_ref = yarn_simple + "." + yarn_fqn.split("$", 1)[1]
-                mojang_ref = mojang_simple + "." + mojang_fqn.split("$", 1)[1]
-                if yarn_ref != mojang_ref:
-                    nested_renames[yarn_ref] = mojang_ref
+
+        if name.endswith(".*"):
+            pkg = name[:-2]
+            if pkg in wildcard_expansions:
+                # Find the Yarn FQNs for each expanded class and track renames
+                for mojang_fqn in wildcard_expansions[pkg]:
+                    yarn_fqn = None
+                    for y, m in dictionary.items():
+                        if m == mojang_fqn:
+                            yarn_fqn = y
+                            break
+                    if yarn_fqn and "$" not in yarn_fqn:
+                        yarn_simple = yarn_fqn.split(".")[-1]
+                        mojang_simple = _simple(mojang_fqn)
+                        if yarn_simple != mojang_simple:
+                            simple_renames[yarn_simple] = mojang_simple
+        else:
+            # Explicit import
+            target = resolve(dictionary, name)
+            if target is None:
+                if not already_mojang(dictionary, name):
+                    unresolved.append(name)
+                continue
+            if is_static:
+                continue
+            yarn_simple, mojang_simple = _simple(name), _simple(target)
+            if yarn_simple != mojang_simple:
+                simple_renames[yarn_simple] = mojang_simple
+            # nested classes of an imported outer class, e.g. Item.Settings
+            prefix = name + "$"
+            for yarn_fqn, mojang_fqn in dictionary.items():
+                if yarn_fqn.startswith(prefix) and yarn_fqn.count("$") == 1:
+                    yarn_ref = yarn_simple + "." + yarn_fqn.split("$", 1)[1]
+                    mojang_ref = mojang_simple + "." + mojang_fqn.split("$", 1)[1]
+                    if yarn_ref != mojang_ref:
+                        nested_renames[yarn_ref] = mojang_ref
 
     def rewrite_import(match: re.Match[str]) -> str:
         is_static, name = match.group(1), match.group(2)
         if not name.startswith("net.minecraft."):
             return match.group(0)
-        target = resolve(dictionary, name)
-        if target is None:
-            return match.group(0)
-        return f"import {'static ' if is_static else ''}{target.replace('$', '.')};"
+
+        if name.endswith(".*"):
+            pkg = name[:-2]
+            if pkg in wildcard_expansions:
+                return "\n".join(
+                    f"import {f.replace('$', '.')};" for f in wildcard_expansions[pkg]
+                )
+            else:
+                return match.group(0)
+        else:
+            target = resolve(dictionary, name)
+            if target is None:
+                return match.group(0)
+            return f"import {'static ' if is_static else ''}{target.replace('$', '.')};"
 
     text = IMPORT_RE.sub(rewrite_import, text)
 
