@@ -1,7 +1,7 @@
 package eu.midnightdust.motschen.rocks.datagen;
 
 import eu.midnightdust.motschen.rocks.RocksMain;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
@@ -15,7 +15,7 @@ import net.minecraft.resources.Identifier;
 import java.util.concurrent.CompletableFuture;
 
 public class Recipes extends FabricRecipeProvider {
-    public Recipes(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+    public Recipes(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
     @Override
@@ -24,7 +24,7 @@ public class Recipes extends FabricRecipeProvider {
     }
 
     @Override
-    protected RecipeProvider getRecipeGenerator(HolderLookup.Provider registries, RecipeOutput recipeExporter) {
+    protected RecipeProvider createRecipeProvider(HolderLookup.Provider registries, RecipeOutput recipeExporter) {
         return new RocksRecipeGenerator(registries, recipeExporter);
     }
 
@@ -34,17 +34,17 @@ public class Recipes extends FabricRecipeProvider {
         }
 
         @Override
-        public void generate() {
-            generateCrafting(exporter);
+        public void buildRecipes() {
+            generateCrafting(output);
         }
         private void generateCrafting(RecipeOutput exporter) {
             RocksMain.splittersByType.forEach(((rockType, splitter) -> {
                 Identifier stoneID = rockType.getFragment().getStoneId();
 
-                ShapelessRecipeBuilder.create(registries.getOrThrow(Registries.ITEM), RecipeCategory.BUILDING_BLOCKS, BuiltInRegistries.BLOCK.get(stoneID).asItem())
-                        .input(splitter, 4)
-                        .criterion(RecipeProvider.hasItem(splitter), this.conditionsFromItem(splitter))
-                        .offerTo(exporter, stoneID.getPath()+"_from_splitter");
+                ShapelessRecipeBuilder.shapeless(registries.lookupOrThrow(Registries.ITEM), RecipeCategory.BUILDING_BLOCKS, BuiltInRegistries.BLOCK.getValue(stoneID).asItem())
+                        .requires(splitter, 4)
+                        .unlockedBy(getHasName(splitter), has(splitter))
+                        .save(exporter, stoneID.getPath()+"_from_splitter");
             }));
         }
     }

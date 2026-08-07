@@ -2,8 +2,8 @@ package eu.midnightdust.motschen.rocks.datagen;
 
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.util.RockType;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -23,8 +23,8 @@ import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
 public class LootTables {
-    public static class BlockLootTables extends FabricBlockLootTableProvider {
-        public BlockLootTables(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+    public static class BlockLootTables extends FabricBlockLootSubProvider {
+        public BlockLootTables(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, registryLookup);
         }
 
@@ -38,19 +38,19 @@ public class LootTables {
         }
 
         public void addCopyStateDrop(Block block, Property<?>... properties) {
-            var lootFunction = CopyBlockState.builder(block);
-            Arrays.stream(properties).forEach(lootFunction::addProperty);
+            var lootFunction = CopyBlockState.copyState(block);
+            Arrays.stream(properties).forEach(lootFunction::copy);
 
-            addDrop(block, LootTable.builder().pool(this.addSurvivesExplosionCondition(block,
-                    LootPool.builder().rolls(ConstantValue.create(1.0F)).with(LootItem.builder(block)
+            add(block, LootTable.lootTable().withPool(this.applyExplosionCondition(block,
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(block)
                             .apply(lootFunction)))));
         }
         public void addSilkTouchDrop(Block block, Item alternative) {
-            addDrop(block, this.dropsWithSilkTouch(block, LootItem.builder(alternative)));
+            add(block, this.createSilkTouchDispatchTable(block, LootItem.lootTableItem(alternative)));
         }
         public void addSilkTouchOrRareDrop(Block block, Item alternative, float... chances) {
-            HolderLookup.RegistryLookup<Enchantment> impl = this.registries.getOrThrow(Registries.ENCHANTMENT);
-            addDrop(block, this.dropsWithSilkTouch(block, LootItem.builder(alternative).conditionally(BonusLevelTableCondition.builder(impl.getOrThrow(Enchantments.FORTUNE), chances))));
+            HolderLookup.RegistryLookup<Enchantment> impl = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
+            add(block, this.createSilkTouchDispatchTable(block, LootItem.lootTableItem(alternative).when(BonusLevelTableCondition.bonusLevelFlatChance(impl.getOrThrow(Enchantments.FORTUNE), chances))));
         }
     }
 }

@@ -7,7 +7,7 @@ import eu.midnightdust.motschen.rocks.world.configured_feature.RockFeatures;
 import eu.midnightdust.motschen.rocks.world.configured_feature.StickFeatures;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
@@ -36,26 +36,26 @@ public class RocksDataGen implements DataGeneratorEntrypoint {
     @Override
     public void buildRegistry(RegistrySetBuilder registryBuilder) {
         RockFeatures.init();
-        registryBuilder.addRegistry(Registries.CONFIGURED_FEATURE, RockFeatures::initConfigured);
-        registryBuilder.addRegistry(Registries.PLACED_FEATURE, RockFeatures::initPlaced);
+        registryBuilder.add(Registries.CONFIGURED_FEATURE, RockFeatures::initConfigured);
+        registryBuilder.add(Registries.PLACED_FEATURE, RockFeatures::initPlaced);
         StickFeatures.init();
-        registryBuilder.addRegistry(Registries.CONFIGURED_FEATURE, StickFeatures::initConfigured);
-        registryBuilder.addRegistry(Registries.PLACED_FEATURE, StickFeatures::initPlaced);
-        registryBuilder.addRegistry(Registries.CONFIGURED_FEATURE, NetherFeatures::initConfigured);
-        registryBuilder.addRegistry(Registries.PLACED_FEATURE, NetherFeatures::initPlaced);
-        registryBuilder.addRegistry(Registries.CONFIGURED_FEATURE, MiscFeatures::initConfigured);
-        registryBuilder.addRegistry(Registries.PLACED_FEATURE, MiscFeatures::initPlaced);
+        registryBuilder.add(Registries.CONFIGURED_FEATURE, StickFeatures::initConfigured);
+        registryBuilder.add(Registries.PLACED_FEATURE, StickFeatures::initPlaced);
+        registryBuilder.add(Registries.CONFIGURED_FEATURE, NetherFeatures::initConfigured);
+        registryBuilder.add(Registries.PLACED_FEATURE, NetherFeatures::initPlaced);
+        registryBuilder.add(Registries.CONFIGURED_FEATURE, MiscFeatures::initConfigured);
+        registryBuilder.add(Registries.PLACED_FEATURE, MiscFeatures::initPlaced);
 
     }
     public static class WorldGenData extends FabricDynamicRegistryProvider {
-        public WorldGenData(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+        public WorldGenData(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
             super(output, registriesFuture);
         }
 
         @Override
         protected void configure(HolderLookup.Provider registries, Entries entries) {
-            entries.addAll(registries.getOrThrow(Registries.CONFIGURED_FEATURE));
-            entries.addAll(registries.getOrThrow(Registries.PLACED_FEATURE));
+            entries.addAll(registries.lookupOrThrow(Registries.CONFIGURED_FEATURE));
+            entries.addAll(registries.lookupOrThrow(Registries.PLACED_FEATURE));
         }
 
         @Override

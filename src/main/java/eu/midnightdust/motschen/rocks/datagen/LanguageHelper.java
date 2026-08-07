@@ -14,7 +14,7 @@ public class LanguageHelper {
 
     public LanguageHelper(String language) {
         try {
-            var langFile = Minecraft.getInstance().getDefaultResourcePack().open(PackType.CLIENT_RESOURCES, Identifier.ofVanilla(String.format("lang/%s.json", language)));
+            var langFile = Minecraft.getInstance().getVanillaPackResources().getResource(PackType.CLIENT_RESOURCES, Identifier.withDefaultNamespace(String.format("lang/%s.json", language)));
             if (langFile == null) throw new RuntimeException("Unable to load language "+language);
             this.language = new Gson().fromJson(new InputStreamReader(langFile.get(), StandardCharsets.UTF_8), JsonObject.class);
         }
