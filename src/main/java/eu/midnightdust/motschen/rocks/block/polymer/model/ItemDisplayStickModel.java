@@ -1,5 +1,6 @@
 package eu.midnightdust.motschen.rocks.block.polymer.model;
 
+import com.mojang.math.Axis;
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.config.RocksConfig;
 import eu.midnightdust.motschen.rocks.util.StickType;
@@ -7,14 +8,13 @@ import eu.pb4.factorytools.api.virtualentity.ItemDisplayElementUtil;
 import eu.pb4.polymer.virtualentity.api.attachment.BlockAwareAttachment;
 import eu.pb4.polymer.virtualentity.api.attachment.HolderAttachment;
 import eu.pb4.polymer.virtualentity.api.elements.ItemDisplayElement;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RotationAxis;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
 import java.util.Map;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class ItemDisplayStickModel extends ConditionalBlockModel {
     private final ItemDisplayElement main;
@@ -34,7 +34,7 @@ public class ItemDisplayStickModel extends ConditionalBlockModel {
         this.main = ItemDisplayElementUtil.createSimple(getModel(state));
         this.main.setDisplaySize(1, 1);
         this.main.setScale(new Vector3f(1));
-        this.main.setRightRotation(RotationAxis.POSITIVE_Y.rotationDegrees(90 * (pos.hashCode() % 4)));
+        this.main.setRightRotation(Axis.YP.rotationDegrees(90 * (pos.hashCode() % 4)));
         this.main.setViewRange(0.75f * (RocksConfig.polymerViewDistance / 100f));
         this.addElement(this.main);
     }
@@ -49,6 +49,6 @@ public class ItemDisplayStickModel extends ConditionalBlockModel {
         }
     }
     private ItemStack getModel(BlockState state) {
-        return models.get(StickType.fromBlockName(state.getBlock().getTranslationKey()))[state.get(RocksMain.STICK_VARIATION).ordinal()];
+        return models.get(StickType.fromBlockName(state.getBlock().getDescriptionId()))[state.getValue(RocksMain.STICK_VARIATION).ordinal()];
     }
 }

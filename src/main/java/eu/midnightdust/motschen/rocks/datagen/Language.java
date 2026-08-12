@@ -5,23 +5,22 @@ import eu.midnightdust.motschen.rocks.util.RockType;
 import eu.midnightdust.motschen.rocks.util.StickType;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 public abstract class Language extends FabricLanguageProvider {
     LanguageHelper langHelper;
 
-    protected Language(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+    protected Language(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(dataOutput, registryLookup);
     }
 
-    protected Language(FabricDataOutput dataOutput, String languageCode, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+    protected Language(FabricDataOutput dataOutput, String languageCode, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(dataOutput, languageCode, registryLookup);
     }
 
@@ -61,24 +60,24 @@ public abstract class Language extends FabricLanguageProvider {
 
     public void createRepeatedTranslations(TranslationBuilder translationBuilder, String rockWord, String splitterWord, String stickWord) {
         for (RockType type : RockType.values()) {
-            Block block = Registries.BLOCK.get(RocksMain.id(type.getName()));
-            String baseTranslation = langHelper.translate(type.getStoneBlock().getTranslationKey());
+            Block block = BuiltInRegistries.BLOCK.getValue(RocksMain.id(type.getName()));
+            String baseTranslation = langHelper.translate(type.getStoneBlock().getDescriptionId());
             addBlock(translationBuilder, block, baseTranslation+rockWord);
 
             if (type != RockType.GRAVEL) {
-                String splitterBaseTranslation = langHelper.translate(type.getFragment().getStoneBlock().getTranslationKey());
-                Item splitter = Registries.ITEM.get(RocksMain.id(type.getFragment().getName()));
+                String splitterBaseTranslation = langHelper.translate(type.getFragment().getStoneBlock().getDescriptionId());
+                Item splitter = BuiltInRegistries.ITEM.getValue(RocksMain.id(type.getFragment().getName()));
                 translationBuilder.add(splitter, splitterBaseTranslation+splitterWord);
             }
         }
         for (StickType type : StickType.values()) {
-            Block block = Registries.BLOCK.get(RocksMain.id(type.getName()+"_stick"));
+            Block block = BuiltInRegistries.BLOCK.getValue(RocksMain.id(type.getName()+"_stick"));
             if (type.getBaseBlock() instanceof Block logBlock &&
-                    Registries.BLOCK.get(Identifier.ofVanilla(type.getName()+"_planks")) instanceof Block plankBlock &&
-                    Registries.BLOCK.get(Identifier.ofVanilla(type.getName()+"_stairs")) instanceof Block stairBlock) {
-                String logTranslation = langHelper.translate(logBlock.getTranslationKey());
-                String plankTranslation = langHelper.translate(plankBlock.getTranslationKey());
-                String stairTranslation = langHelper.translate(stairBlock.getTranslationKey());
+                    BuiltInRegistries.BLOCK.getValue(Identifier.withDefaultNamespace(type.getName()+"_planks")) instanceof Block plankBlock &&
+                    BuiltInRegistries.BLOCK.getValue(Identifier.withDefaultNamespace(type.getName()+"_stairs")) instanceof Block stairBlock) {
+                String logTranslation = langHelper.translate(logBlock.getDescriptionId());
+                String plankTranslation = langHelper.translate(plankBlock.getDescriptionId());
+                String stairTranslation = langHelper.translate(stairBlock.getDescriptionId());
 
                 addBlock(translationBuilder, block, getCommonString(getCommonString(logTranslation, plankTranslation), getCommonString(plankTranslation, stairTranslation)) + stickWord);
             }
@@ -86,13 +85,13 @@ public abstract class Language extends FabricLanguageProvider {
     }
 
     public static class English extends Language {
-        public English(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+        public English(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, registryLookup);
             langHelper = new LanguageHelper("en_us");
         }
 
         @Override
-        public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
+        public void generateTranslations(HolderLookup.Provider registryLookup, TranslationBuilder translationBuilder) {
             translationBuilder.add("itemGroup.rocks.rocks","This Rocks!");
 
             createRepeatedTranslations(translationBuilder, " Rock", " Fragment", " Stick");
@@ -132,13 +131,13 @@ public abstract class Language extends FabricLanguageProvider {
         }
     }
     public static class German extends Language {
-        public German(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+        public German(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, "de_de", registryLookup);
             langHelper = new LanguageHelper("de_de");
         }
 
         @Override
-        public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
+        public void generateTranslations(HolderLookup.Provider registryLookup, TranslationBuilder translationBuilder) {
             translationBuilder.add("itemGroup.rocks.rocks","This Rocks!");
 
             createRepeatedTranslations(translationBuilder, "brocken", "splitter", "stock");
