@@ -15,10 +15,13 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
+//? if >= 26.1
+//import eu.pb4.factorytools.api.util.LazyItemStack;
 
 public class ItemDisplayNetherGeyserModel extends ConditionalBlockModel {
     private final ItemDisplayElement main;
     private final ItemDisplayElement magma;
+    //~ if >= 26.1 'ItemStack' -> 'LazyItemStack'
     public static ItemStack NETHER;
 
     public static void initModels() {
@@ -54,6 +57,6 @@ public class ItemDisplayNetherGeyserModel extends ConditionalBlockModel {
         }
     }
     private ItemStack getModel(BlockState state) {
-        return NETHER;
+        return NETHER/*? if >= 26.1 {*//*.get()*//*?}*/;
     }
 }

@@ -1,5 +1,6 @@
 package eu.midnightdust.motschen.rocks.datagen;
 
+//~ if >= 26.1 'FabricDataOutput' -> 'FabricPackOutput' {
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.util.RockType;
 import eu.midnightdust.motschen.rocks.util.StickType;
@@ -178,3 +179,4 @@ public abstract class Language extends FabricLanguageProvider {
         }
     }
 }
+//~}

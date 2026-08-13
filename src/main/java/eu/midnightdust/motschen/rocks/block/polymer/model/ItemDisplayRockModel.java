@@ -15,13 +15,17 @@ import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+//? if >= 26.1
+//import eu.pb4.factorytools.api.util.LazyItemStack;
 
 public class ItemDisplayRockModel extends ConditionalBlockModel {
     private final ItemDisplayElement main;
+    //~ if >= 26.1 'ItemStack' -> 'LazyItemStack'
     public static Map<RockType, ItemStack[]> models = new HashMap<>();
 
     public static void initModels() {
         for (RockType type : RockType.values()) {
+            //~ if >= 26.1 'ItemStack' -> 'LazyItemStack'
             var stacks = new ItemStack[4];
             for (int i = 0; i < 4; i++) {
                 stacks[i] = ItemDisplayElementUtil.getModel(RocksMain.id("block/"+type.getVariations()[i].getPath()));
@@ -49,6 +53,6 @@ public class ItemDisplayRockModel extends ConditionalBlockModel {
         }
     }
     private ItemStack getModel(BlockState state) {
-        return models.get(RockType.fromBlockName(state.getBlock().getDescriptionId()))[state.getValue(RocksMain.ROCK_VARIATION).ordinal()];
+        return models.get(RockType.fromBlockName(state.getBlock().getDescriptionId()))[state.getValue(RocksMain.ROCK_VARIATION).ordinal()]/*? if >= 26.1 {*//*.get()*//*?}*/;
     }
 }

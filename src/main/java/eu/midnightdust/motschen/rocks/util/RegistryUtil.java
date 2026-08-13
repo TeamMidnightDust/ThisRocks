@@ -4,7 +4,7 @@ import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.blockstates.StarfishVariation;
 import eu.midnightdust.motschen.rocks.util.polymer.PolyUtil;
 import net.minecraft.core.Registry;
-import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -13,11 +13,11 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import org.jetbrains.annotations.NotNull;
 
 import static eu.midnightdust.motschen.rocks.RocksMain.STARFISH_VARIATION;
 import static eu.midnightdust.motschen.rocks.RocksMain.polymerMode;
@@ -35,20 +35,18 @@ public class RegistryUtil {
     public static Item registerItem(Identifier id, Item item) {
         Registry.register(BuiltInRegistries.ITEM, id, item);
         if (id.equals(Identifier.fromNamespaceAndPath(RocksMain.MOD_ID, "starfish"))) putStarfishItems(item);
-        else RocksMain.groupItems.add(new ItemStack(item));
+        else RocksCreativeTab.addItem(item);
         return item;
     }
     private static void putStarfishItems(Item starfish) {
         for (StarfishVariation variation : StarfishVariation.values()) {
-            ItemStack starfishType = new ItemStack(starfish);
-            starfishType.applyComponents(DataComponentMap.builder().set(DataComponents.BLOCK_STATE, BlockItemStateProperties.EMPTY.with(STARFISH_VARIATION, variation)).build());
-            RocksMain.groupItems.add(starfishType);
+            RocksCreativeTab.addItem(starfish, DataComponentPatch.builder().set(DataComponents.BLOCK_STATE, BlockItemStateProperties.EMPTY.with(STARFISH_VARIATION, variation)).build());
         }
     }
-    public static void register(BootstrapContext<ConfiguredFeature<?, ?>> context, String name, ConfiguredFeature<?, ?> feature) {
+    public static void register(BootstrapContext<@NotNull ConfiguredFeature<?, ?>> context, String name, ConfiguredFeature<?, ?> feature) {
         context.register(ResourceKey.create(Registries.CONFIGURED_FEATURE, Identifier.fromNamespaceAndPath(RocksMain.MOD_ID, name)), feature);
     }
-    public static void register(BootstrapContext<PlacedFeature> context, String name, PlacedFeature feature) {
+    public static void register(BootstrapContext<@NotNull PlacedFeature> context, String name, PlacedFeature feature) {
         context.register(ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(RocksMain.MOD_ID, name)), feature);
     }
 }

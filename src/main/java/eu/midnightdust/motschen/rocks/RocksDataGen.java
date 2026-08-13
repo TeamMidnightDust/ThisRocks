@@ -7,7 +7,6 @@ import eu.midnightdust.motschen.rocks.world.configured_feature.RockFeatures;
 import eu.midnightdust.motschen.rocks.world.configured_feature.StickFeatures;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
@@ -47,7 +46,8 @@ public class RocksDataGen implements DataGeneratorEntrypoint {
 
     }
     public static class WorldGenData extends FabricDynamicRegistryProvider {
-        public WorldGenData(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+        //~ if >= 26.1 'net.fabricmc.fabric.api.datagen.v1.FabricDataOutput' -> 'net.fabricmc.fabric.api.datagen.v1.FabricPackOutput'
+        public WorldGenData(net.fabricmc.fabric.api.datagen.v1.FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
             super(output, registriesFuture);
         }
 

@@ -41,6 +41,7 @@ public class Rock extends Block {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext itemPlacementContext) {
         return Objects.requireNonNull(super.getStateForPlacement(itemPlacementContext))
+                //~ if >= 26.1 '.random' -> '.getRandom()'
                 .setValue(ROCK_VARIATION, RockVariation.values()[itemPlacementContext.getLevel().random.nextIntBetweenInclusive(0, 3)]);
     }
     @Override

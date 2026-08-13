@@ -30,11 +30,9 @@
     ]
   },
 
-  "accessWidener" : "thisrocks.accesswidener",
-
   "depends": {
     "fabricloader": ">=0.7.2",
-    "fabric": "*"
+    "fabric-api": "*"
   },
   "suggests": {
     "polymer-core": "*",

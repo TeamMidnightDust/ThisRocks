@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.Nullable;
+//~ if >= 26.1 'xyz.nucleoid.packettweaker.PacketContext' -> 'net.fabricmc.fabric.api.networking.v1.context.PacketContext'
 import xyz.nucleoid.packettweaker.PacketContext;
 
 import static eu.midnightdust.motschen.rocks.util.polymer.PolyUtil.hasModOnClient;
@@ -29,12 +30,12 @@ public class PineconePolymer extends Pinecone implements PolymerBlock, PolymerTe
     }
     @Override
     public BlockState getPolymerBlockState(BlockState state, PacketContext context) {
-        return context != null && hasModOnClient(context.getPlayer()) ? state : getPolymerBlockState(state);
+        return hasModOnClient(context) ? state : getPolymerBlockState(state);
     }
 
     @Override
     public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
-        return context != null && hasModOnClient(context.getPlayer()) ? state : Blocks.SPRUCE_BUTTON.defaultBlockState().setValue(BlockStateProperties.ATTACH_FACE, AttachFace.FLOOR);
+        return hasModOnClient(context) ? state : Blocks.SPRUCE_BUTTON.defaultBlockState().setValue(BlockStateProperties.ATTACH_FACE, AttachFace.FLOOR);
     }
 
     @Override
@@ -44,6 +45,6 @@ public class PineconePolymer extends Pinecone implements PolymerBlock, PolymerTe
 
     @Override
     public boolean canSyncRawToClient(PacketContext context) {
-        return context != null && hasModOnClient(context.getPlayer());
+        return hasModOnClient(context);
     }
 }

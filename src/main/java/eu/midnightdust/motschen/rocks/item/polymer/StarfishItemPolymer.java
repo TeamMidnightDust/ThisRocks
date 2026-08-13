@@ -12,7 +12,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
+//? if >= 26.1 {
+/*import net.fabricmc.fabric.api.networking.v1.context.PacketContext;
+import net.minecraft.core.HolderLookup;
+import eu.pb4.polymer.common.api.PolymerCommonUtils;
+*///?} else {
 import xyz.nucleoid.packettweaker.PacketContext;
+//?}
 
 import static eu.midnightdust.motschen.rocks.RocksMain.id;
 import static eu.midnightdust.motschen.rocks.util.polymer.PolyUtil.hasModOnClient;
@@ -26,7 +32,7 @@ public class StarfishItemPolymer extends BlockItem implements PolymerItem {
     }
 
     @Override
-    public @Nullable Identifier getPolymerItemModel(ItemStack itemStack, PacketContext context) {
+    public @Nullable Identifier getPolymerItemModel(ItemStack itemStack, PacketContext context /*? if >= 26.1 {*//*, HolderLookup.Provider lookup *//*?}*/) {
         var state = itemStack.getComponents().get(DataComponents.BLOCK_STATE);
         if (state != null && !state.isEmpty()) {
             StarfishVariation variation = state.get(RocksMain.STARFISH_VARIATION);
@@ -37,7 +43,7 @@ public class StarfishItemPolymer extends BlockItem implements PolymerItem {
 
     @Override
     public boolean canSyncRawToClient(PacketContext context) {
-        return hasModOnClient(context.getPlayer());
+        return hasModOnClient(context);
     }
 
     @Override

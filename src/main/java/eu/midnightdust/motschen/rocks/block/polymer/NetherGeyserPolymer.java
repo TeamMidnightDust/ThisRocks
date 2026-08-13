@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+//~ if >= 26.1 'xyz.nucleoid.packettweaker.PacketContext' -> 'net.fabricmc.fabric.api.networking.v1.context.PacketContext'
 import xyz.nucleoid.packettweaker.PacketContext;
 
 import static eu.midnightdust.motschen.rocks.util.polymer.PolyUtil.hasModOnClient;
@@ -28,12 +29,12 @@ public class NetherGeyserPolymer extends NetherGeyser implements PolymerBlock, P
 
     @Override
     public BlockState getPolymerBlockState(BlockState state, PacketContext context) {
-        return context != null && hasModOnClient(context.getPlayer()) ? state : getPolymerBlockState(state);
+        return hasModOnClient(context) ? state : getPolymerBlockState(state);
     }
 
     @Override
     public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
-        return context != null && hasModOnClient(context.getPlayer()) ? state : Blocks.NETHERRACK.defaultBlockState();
+        return hasModOnClient(context) ? state : Blocks.NETHERRACK.defaultBlockState();
     }
 
     @Override
@@ -43,7 +44,7 @@ public class NetherGeyserPolymer extends NetherGeyser implements PolymerBlock, P
 
     @Override
     public boolean canSyncRawToClient(PacketContext context) {
-        return context != null && hasModOnClient(context.getPlayer());
+        return hasModOnClient(context);
     }
 
 }

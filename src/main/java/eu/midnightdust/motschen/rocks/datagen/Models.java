@@ -1,5 +1,6 @@
 package eu.midnightdust.motschen.rocks.datagen;
 
+//~ if >= 26.1 'FabricDataOutput' -> 'FabricPackOutput' {
 import com.mojang.math.Quadrant;
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.blockstates.StarfishVariation;
@@ -19,6 +20,7 @@ import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplate;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
+//~ if >= 26.1 'net.minecraft.client.renderer.block.model.Variant' -> 'net.minecraft.client.renderer.block.dispatch.Variant'
 import net.minecraft.client.renderer.block.model.Variant;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -135,3 +137,4 @@ public class Models extends FabricModelProvider {
         }
     }
 }
+//~}

@@ -11,6 +11,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
+//? if >= 26.1
+//import eu.pb4.factorytools.api.util.LazyItemStack;
 
 import static eu.midnightdust.motschen.rocks.RocksMain.id;
 
@@ -18,9 +20,11 @@ import com.mojang.math.Axis;
 
 public class ItemDisplayStarfishModel extends ConditionalBlockModel {
     private final ItemDisplayElement arm;
+    //~ if >= 26.1 'ItemStack' -> 'LazyItemStack' {
     public static ItemStack RED;
     public static ItemStack ORANGE;
     public static ItemStack PINK;
+    //~}
 
     public static void initModels() {
         RED = ItemDisplayElementUtil.getModel(id("block/starfish_red"));
@@ -54,9 +58,9 @@ public class ItemDisplayStarfishModel extends ConditionalBlockModel {
     }
     private ItemStack getModel(BlockState state) {
         return switch (state.getValue(RocksMain.STARFISH_VARIATION)) {
-            case RED -> RED;
-            case ORANGE -> ORANGE;
-            case PINK -> PINK;
+            case RED -> RED/*? if >= 26.1 {*//*.get()*//*?}*/;
+            case ORANGE -> ORANGE/*? if >= 26.1 {*//*.get()*//*?}*/;
+            case PINK -> PINK/*? if >= 26.1 {*//*.get()*//*?}*/;
         };
     }
 }

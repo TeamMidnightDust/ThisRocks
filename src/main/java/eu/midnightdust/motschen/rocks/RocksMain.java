@@ -10,24 +10,19 @@ import eu.midnightdust.motschen.rocks.blockstates.StickVariation;
 import eu.midnightdust.motschen.rocks.config.RocksConfig;
 import eu.midnightdust.motschen.rocks.networking.HelloPayload;
 import eu.midnightdust.motschen.rocks.util.RockType;
+import eu.midnightdust.motschen.rocks.util.RocksCreativeTab;
 import eu.midnightdust.motschen.rocks.util.StickType;
 import eu.midnightdust.motschen.rocks.util.polymer.PolyUtil;
 import eu.midnightdust.motschen.rocks.world.*;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import java.util.ArrayList;
@@ -65,15 +60,12 @@ public class RocksMain implements ModInitializer {
     public static Block Geyser;
     public static Block NetherGeyser;
 
-    public static List<ItemStack> groupItems = new ArrayList<>();
-    public static CreativeModeTab RocksGroup;
-    public static final ResourceKey<CreativeModeTab> ROCKS_GROUP = ResourceKey.create(Registries.CREATIVE_MODE_TAB, Identifier.fromNamespaceAndPath(MOD_ID, "rocks"));
-
     @Override
     public void onInitialize() {
         RocksConfig.init(MOD_ID, RocksConfig.class);
         if (polymerMode) polymerMode = RocksConfig.enablePolymerMode && (RocksConfig.forcePolymerMode || !PlatformFunctions.isClientEnv());
 
+        //~ if >= 26.1 '.playC2S()' -> '.serverboundPlay()'
         PayloadTypeRegistry.playC2S().register(HelloPayload.PACKET_ID, HelloPayload.codec);
         ServerPlayNetworking.registerGlobalReceiver(HelloPayload.PACKET_ID, (payload, context) -> {
             if (!RocksConfig.forcePolymerMode) {
@@ -107,7 +99,7 @@ public class RocksMain implements ModInitializer {
         Geyser = registerBlockWithItem(GEYSER, polymerMode ? newOverworldGeyserPolymer(GEYSER) : new OverworldGeyser(GEYSER));
         NetherGeyser = registerBlockWithItem(NETHER_GEYSER, polymerMode ? newNetherGeyserPolymer(NETHER_GEYSER) : new NetherGeyser(NETHER_GEYSER));
 
-        registerItemGroup();
+        RocksCreativeTab.registerItemGroup();
 
         FeatureRegistry.init();
         FeatureInjector.init();
@@ -128,13 +120,5 @@ public class RocksMain implements ModInitializer {
     public static Item simpleItem(Identifier id) {
         if (polymerMode) return PolyUtil.simplePolymerItem(id);
         return new Item(new Item.Properties().setId(ResourceKey.create(Registries.ITEM, id)));
-    }
-
-    public static void registerItemGroup() {
-        if (polymerMode) PolyUtil.registerPolymerGroup();
-        else {
-            RocksGroup = FabricItemGroup.builder().title(Component.translatable("itemGroup.rocks.rocks")).icon(() -> new ItemStack(rocksByType.get(RockType.STONE))).displayItems(((displayContext, entries) -> entries.acceptAll(groupItems))).build();
-            Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, ROCKS_GROUP, RocksGroup);
-        }
     }
 }

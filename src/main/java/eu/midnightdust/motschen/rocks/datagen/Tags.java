@@ -1,5 +1,7 @@
 package eu.midnightdust.motschen.rocks.datagen;
 
+//~ if >= 26.1 'TagProvider' -> 'TagsProvider' {
+//~ if >= 26.1 'FabricDataOutput' -> 'FabricPackOutput' {
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.core.HolderLookup;
@@ -28,3 +30,5 @@ public class Tags {
         }
     }
 }
+//~}
+//~}

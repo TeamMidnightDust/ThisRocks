@@ -43,6 +43,7 @@ public class Stick extends Block {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext itemPlacementContext) {
         return Objects.requireNonNull(super.getStateForPlacement(itemPlacementContext))
+                //~ if >= 26.1 '.random' -> '.getRandom()'
                 .setValue(STICK_VARIATION, StickVariation.values()[itemPlacementContext.getLevel().random.nextIntBetweenInclusive(0, 2)])
                 .setValue(WATERLOGGED, false);
     }

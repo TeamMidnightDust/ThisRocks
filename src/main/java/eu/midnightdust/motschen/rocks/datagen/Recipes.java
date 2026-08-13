@@ -1,5 +1,6 @@
 package eu.midnightdust.motschen.rocks.datagen;
 
+//~ if >= 26.1 'FabricDataOutput' -> 'FabricPackOutput' {
 import eu.midnightdust.motschen.rocks.RocksMain;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -47,8 +48,5 @@ public class Recipes extends FabricRecipeProvider {
             }));
         }
     }
-
-
-
-
 }
+//~}

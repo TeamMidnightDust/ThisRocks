@@ -1,8 +1,10 @@
 package eu.midnightdust.motschen.rocks.datagen;
 
+//~ if >= 26.1 'FabricDataOutput' -> 'FabricPackOutput' {
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.util.RockType;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+//~ if >= 26.1 'net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider' -> 'net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider'
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -22,6 +24,7 @@ import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
 public class LootTables {
+    //~ if >= 26.1 'FabricBlockLootTableProvider' -> 'FabricBlockLootSubProvider'
     public static class BlockLootTables extends FabricBlockLootTableProvider {
         public BlockLootTables(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, registryLookup);
@@ -53,4 +56,4 @@ public class LootTables {
         }
     }
 }
-
+//~}

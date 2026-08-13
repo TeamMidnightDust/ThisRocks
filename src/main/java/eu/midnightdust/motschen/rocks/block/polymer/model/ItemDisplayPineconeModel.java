@@ -10,9 +10,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
+//? if >= 26.1
+//import eu.pb4.factorytools.api.util.LazyItemStack;
 
 public class ItemDisplayPineconeModel extends ConditionalBlockModel {
     private final ItemDisplayElement main;
+    //~ if >= 26.1 'ItemStack' -> 'LazyItemStack'
     private static ItemStack PINECONE_MODEL;
 
     public static void initModels() {
@@ -30,6 +33,6 @@ public class ItemDisplayPineconeModel extends ConditionalBlockModel {
     }
 
     private ItemStack getModel(BlockState state) {
-        return PINECONE_MODEL;
+        return PINECONE_MODEL/*? if >= 26.1 {*//*.get()*//*?}*/;
     }
 }

@@ -1,19 +1,17 @@
 package eu.midnightdust.motschen.rocks.util.polymer;
 
-import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.block.Rock;
 import eu.midnightdust.motschen.rocks.block.Starfish;
 import eu.midnightdust.motschen.rocks.block.Stick;
 import eu.midnightdust.motschen.rocks.block.polymer.*;
 import eu.midnightdust.motschen.rocks.block.polymer.model.*;
 import eu.midnightdust.motschen.rocks.item.polymer.StarfishItemPolymer;
-import eu.midnightdust.motschen.rocks.util.RockType;
+import eu.midnightdust.motschen.rocks.util.RocksCreativeTab;
 import eu.pb4.factorytools.api.item.FactoryBlockItem;
 import eu.pb4.polymer.blocks.api.BlockModelType;
 import eu.pb4.polymer.blocks.api.PolymerBlockResourceUtils;
 import eu.pb4.polymer.core.api.block.PolymerBlock;
 import eu.pb4.polymer.core.api.block.PolymerBlockUtils;
-import eu.pb4.polymer.core.api.item.PolymerItemGroupUtils;
 import eu.pb4.polymer.core.api.item.SimplePolymerItem;
 import eu.pb4.polymer.core.api.utils.PolymerSyncUtils;
 import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
@@ -29,12 +27,20 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
+//? if >= 26.1 {
+/*import net.fabricmc.fabric.api.networking.v1.context.PacketContext;
+import eu.pb4.polymer.common.api.PolymerCommonUtils;
+import eu.pb4.polymer.core.api.item.PolymerCreativeModeTabUtils;
+*///?} else {
+import xyz.nucleoid.packettweaker.PacketContext;
+import eu.pb4.polymer.core.api.item.PolymerItemGroupUtils;
+//?}
 
 import static eu.midnightdust.motschen.rocks.RocksMain.*;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED;
@@ -44,9 +50,11 @@ public class PolyUtil {
     public static BlockState PASSABLE_WATERLOGGED_BLOCK;
 
     public static void init() {
+        //~ if >= 26.1 'TRIPWIRE_BLOCK_FLAT' -> 'TRIPWIRE_FLAT'
         SMALL_BLOCK = PolymerBlockResourceUtils.requestEmpty(BlockModelType.TRIPWIRE_BLOCK_FLAT);
         if (SMALL_BLOCK == null) SMALL_BLOCK = Blocks.STRUCTURE_VOID.defaultBlockState();
 
+        //~ if >= 26.1 'KELP_BLOCK' -> 'KELP'
         PASSABLE_WATERLOGGED_BLOCK = PolymerBlockResourceUtils.requestEmpty(BlockModelType.KELP_BLOCK);
         if (PASSABLE_WATERLOGGED_BLOCK == null) SMALL_BLOCK = Blocks.BARRIER.defaultBlockState().setValue(WATERLOGGED, true);
 
@@ -60,6 +68,11 @@ public class PolyUtil {
         ItemDisplaySeashellModel.initModels();
         ItemDisplayStarfishModel.initModels();
         ItemDisplayStickModel.initModels();
+    }
+
+    public static boolean hasModOnClient(@Nullable PacketContext context) {
+        //~ if >= 26.1 'context.getPlayer()' -> 'PolymerCommonUtils.getPlayer(context)'
+        return context != null && hasModOnClient(context.getPlayer());
     }
 
     public static boolean hasModOnClient(ServerPlayer player) {
@@ -76,9 +89,15 @@ public class PolyUtil {
     }
 
     public static void registerPolymerGroup() {
-        RocksMain.RocksGroup = PolymerItemGroupUtils.builder().title(Component.translatable("itemGroup.rocks.rocks")).icon(() ->
-                new ItemStack(rocksByType.get(RockType.STONE))).displayItems((displayContext, entries) -> entries.acceptAll(RocksMain.groupItems)).build();
-        PolymerItemGroupUtils.registerPolymerItemGroup(id("rocks"), RocksMain.RocksGroup);
+        //~ if >= 26.1 'PolymerItemGroupUtils' -> 'PolymerCreativeModeTabUtils' {
+        RocksCreativeTab.RocksGroup = PolymerItemGroupUtils.builder()
+                .title(Component.translatable("itemGroup.rocks.rocks"))
+                .icon(RocksCreativeTab::createIcon)
+                .displayItems(RocksCreativeTab::createTabItems)
+                .build();
+        //~ if >= 26.1 'registerPolymerItemGroup' -> 'registerPolymerCreativeModeTab'
+        PolymerItemGroupUtils.registerPolymerItemGroup(id("rocks"), RocksCreativeTab.RocksGroup);
+        //~}
     }
 
     public static void registerBlockEntities(BlockEntityType<?>... types) {
@@ -86,7 +105,7 @@ public class PolyUtil {
     }
 
     public static void hideElementHolders(ServerPlayer player) {
-        PolymerSyncUtils.removeCreativeTab(RocksGroup, player.connection);
+        PolymerSyncUtils.removeCreativeTab(RocksCreativeTab.RocksGroup, player.connection);
 
         List<ElementHolder> holders = new ArrayList<>(((HolderHolder)player.connection).polymer$getHolders());
         for (ElementHolder holder : holders) {
