@@ -16,17 +16,17 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 //? if >= 26.1
-//import eu.pb4.factorytools.api.util.LazyItemStack;
+import eu.pb4.factorytools.api.util.LazyItemStack;
 
 public class ItemDisplayStickModel extends ConditionalBlockModel {
     private final ItemDisplayElement main;
     //~ if >= 26.1 'ItemStack' -> 'LazyItemStack'
-    public static Map<StickType, ItemStack[]> models = new HashMap<>();
+    public static Map<StickType, LazyItemStack[]> models = new HashMap<>();
 
     public static void initModels() {
         for (StickType type : StickType.values()) {
             //~ if >= 26.1 'ItemStack' -> 'LazyItemStack'
-            var stacks = new ItemStack[3];
+            var stacks = new LazyItemStack[3];
             for (int i = 0; i < 3; i++) {
                 stacks[i] = ItemDisplayElementUtil.getModel(RocksMain.id("block/"+type.getVariations()[i].getPath()));
             }
@@ -53,6 +53,6 @@ public class ItemDisplayStickModel extends ConditionalBlockModel {
         }
     }
     private ItemStack getModel(BlockState state) {
-        return models.get(StickType.fromBlockName(state.getBlock().getDescriptionId()))[state.getValue(RocksMain.STICK_VARIATION).ordinal()]/*? if >= 26.1 {*//*.get()*//*?}*/;
+        return models.get(StickType.fromBlockName(state.getBlock().getDescriptionId()))[state.getValue(RocksMain.STICK_VARIATION).ordinal()]/*? if >= 26.1 {*/.get()/*?}*/;
     }
 }

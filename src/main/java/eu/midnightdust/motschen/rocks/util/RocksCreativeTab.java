@@ -19,35 +19,35 @@ import java.util.List;
 import static eu.midnightdust.motschen.rocks.RocksMain.*;
 
 //? if >= 26.1 {
-/*import net.minecraft.world.item.ItemStackTemplate;
-*///?}
+import net.minecraft.world.item.ItemStackTemplate;
+//?}
 
 public class RocksCreativeTab {
     //~ if >= 26.1 'ItemStack' -> 'ItemStackTemplate'
-    private static final List<ItemStack> groupItems = new ArrayList<>();
+    private static final List<ItemStackTemplate> groupItems = new ArrayList<>();
     public static CreativeModeTab RocksGroup;
     public static final ResourceKey<@NotNull CreativeModeTab> ROCKS_GROUP = ResourceKey.create(Registries.CREATIVE_MODE_TAB, Identifier.fromNamespaceAndPath(MOD_ID, "rocks"));
 
     public static void addItem(Item item) {
         //~ if >= 26.1 'ItemStack' -> 'ItemStackTemplate'
-        groupItems.add(new ItemStack(item));
+        groupItems.add(new ItemStackTemplate(item));
     }
 
     public static void addItem(Item item, DataComponentPatch patch) {
         //? if >= 26.1 {
-        /*groupItems.add(new ItemStackTemplate(item, patch));
-        *///?} else {
-        ItemStack stack = new ItemStack(item);
+        groupItems.add(new ItemStackTemplate(item, patch));
+        //?} else {
+        /*ItemStack stack = new ItemStack(item);
         stack.applyComponents(patch);
         groupItems.add(stack);
-        //?}
+        *///?}
     }
 
     public static void registerItemGroup() {
         if (polymerMode) PolyUtil.registerPolymerGroup();
         else {
             //~ if >= 26.1 'net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup' -> 'net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab'
-            RocksGroup = net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup.builder()
+            RocksGroup = net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab.builder()
                     .title(Component.translatable("itemGroup.rocks.rocks"))
                     .icon(RocksCreativeTab::createIcon)
                     .displayItems(RocksCreativeTab::createTabItems)
@@ -62,9 +62,9 @@ public class RocksCreativeTab {
 
     public static void createTabItems(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) {
         //? if >= 26.1 {
-        /*output.acceptAll(groupItems.stream().map(ItemStackTemplate::create).toList());
-        *///?} else {
-        output.acceptAll(groupItems);
-        //?}
+        output.acceptAll(groupItems.stream().map(ItemStackTemplate::create).toList());
+        //?} else {
+        /*output.acceptAll(groupItems);
+        *///?}
     }
 }

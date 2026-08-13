@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 //~ if >= 26.1 'xyz.nucleoid.packettweaker.PacketContext' -> 'net.fabricmc.fabric.api.networking.v1.context.PacketContext'
-import xyz.nucleoid.packettweaker.PacketContext;
+import net.fabricmc.fabric.api.networking.v1.context.PacketContext;
 
 import static eu.midnightdust.motschen.rocks.util.polymer.PolyUtil.hasModOnClient;
 
@@ -35,7 +35,7 @@ public class SeashellPolymer extends Seashell implements PolymerBlock, PolymerTe
     @Override
     public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
         //~ if >= 26.2 'WHITE_CANDLE' -> 'CANDLE'
-        return hasModOnClient(context) ? state : Blocks.WHITE_CANDLE.defaultBlockState();
+        return hasModOnClient(context) ? state : Blocks.CANDLE.defaultBlockState();
     }
 
     @Override

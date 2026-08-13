@@ -2,7 +2,7 @@ package eu.midnightdust.motschen.rocks.datagen;
 
 //~ if >= 26.1 'FabricDataOutput' -> 'FabricPackOutput' {
 import eu.midnightdust.motschen.rocks.RocksMain;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -15,7 +15,7 @@ import net.minecraft.resources.Identifier;
 import java.util.concurrent.CompletableFuture;
 
 public class Recipes extends FabricRecipeProvider {
-    public Recipes(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+    public Recipes(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
     @Override

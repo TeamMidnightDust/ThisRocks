@@ -12,14 +12,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Vector3f;
 //? if >= 26.1
-//import eu.pb4.factorytools.api.util.LazyItemStack;
+import eu.pb4.factorytools.api.util.LazyItemStack;
 
 public class ItemDisplaySeashellModel extends ConditionalBlockModel {
     private final ItemDisplayElement main;
     //~ if >= 26.1 'ItemStack' -> 'LazyItemStack' {
-    public static ItemStack PINK;
-    public static ItemStack WHITE;
-    public static ItemStack YELLOW;
+    public static LazyItemStack PINK;
+    public static LazyItemStack WHITE;
+    public static LazyItemStack YELLOW;
     //~}
 
     public static void initModels() {
@@ -48,9 +48,9 @@ public class ItemDisplaySeashellModel extends ConditionalBlockModel {
     }
     private ItemStack getModel(BlockState state) {
         return switch (state.getValue(RocksMain.SEASHELL_VARIATION)) {
-            case PINK -> PINK/*? if >= 26.1 {*//*.get()*//*?}*/;
-            case WHITE -> WHITE/*? if >= 26.1 {*//*.get()*//*?}*/;
-            case YELLOW -> YELLOW/*? if >= 26.1 {*//*.get()*//*?}*/;
+            case PINK -> PINK/*? if >= 26.1 {*/.get()/*?}*/;
+            case WHITE -> WHITE/*? if >= 26.1 {*/.get()/*?}*/;
+            case YELLOW -> YELLOW/*? if >= 26.1 {*/.get()/*?}*/;
         };
     }
 }

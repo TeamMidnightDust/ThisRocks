@@ -17,13 +17,13 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 //? if >= 26.1
-//import eu.pb4.factorytools.api.util.LazyItemStack;
+import eu.pb4.factorytools.api.util.LazyItemStack;
 
 public class ItemDisplayOverworldGeyserModel extends ConditionalBlockModel {
     private final ItemDisplayElement main;
     private final ItemDisplayElement magma;
     //~ if >= 26.1 'ItemStack' -> 'LazyItemStack'
-    public static ItemStack OVERWORLD;
+    public static LazyItemStack OVERWORLD;
 
     public static void initModels() {
         OVERWORLD = ItemDisplayElementUtil.getModel(RocksMain.id("block/geyser_off"));
@@ -67,6 +67,6 @@ public class ItemDisplayOverworldGeyserModel extends ConditionalBlockModel {
         }
     }
     private ItemStack getModel(BlockState state) {
-        return OVERWORLD/*? if >= 26.1 {*//*.get()*//*?}*/;
+        return OVERWORLD/*? if >= 26.1 {*/.get()/*?}*/;
     }
 }

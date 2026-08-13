@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 //~ if >= 26.1 'xyz.nucleoid.packettweaker.PacketContext' -> 'net.fabricmc.fabric.api.networking.v1.context.PacketContext'
-import xyz.nucleoid.packettweaker.PacketContext;
+import net.fabricmc.fabric.api.networking.v1.context.PacketContext;
 
 import static eu.midnightdust.motschen.rocks.util.polymer.PolyUtil.hasModOnClient;
 

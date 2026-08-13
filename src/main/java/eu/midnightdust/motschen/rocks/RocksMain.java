@@ -66,7 +66,7 @@ public class RocksMain implements ModInitializer {
         if (polymerMode) polymerMode = RocksConfig.enablePolymerMode && (RocksConfig.forcePolymerMode || !PlatformFunctions.isClientEnv());
 
         //~ if >= 26.1 '.playC2S()' -> '.serverboundPlay()'
-        PayloadTypeRegistry.playC2S().register(HelloPayload.PACKET_ID, HelloPayload.codec);
+        PayloadTypeRegistry.serverboundPlay().register(HelloPayload.PACKET_ID, HelloPayload.codec);
         ServerPlayNetworking.registerGlobalReceiver(HelloPayload.PACKET_ID, (payload, context) -> {
             if (!RocksConfig.forcePolymerMode) {
                 playersWithMod.add(context.player());

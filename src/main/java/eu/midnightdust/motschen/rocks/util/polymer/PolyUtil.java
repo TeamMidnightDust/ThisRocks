@@ -34,13 +34,13 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 //? if >= 26.1 {
-/*import net.fabricmc.fabric.api.networking.v1.context.PacketContext;
+import net.fabricmc.fabric.api.networking.v1.context.PacketContext;
 import eu.pb4.polymer.common.api.PolymerCommonUtils;
 import eu.pb4.polymer.core.api.item.PolymerCreativeModeTabUtils;
-*///?} else {
-import xyz.nucleoid.packettweaker.PacketContext;
+//?} else {
+/*import xyz.nucleoid.packettweaker.PacketContext;
 import eu.pb4.polymer.core.api.item.PolymerItemGroupUtils;
-//?}
+*///?}
 
 import static eu.midnightdust.motschen.rocks.RocksMain.*;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED;
@@ -51,11 +51,11 @@ public class PolyUtil {
 
     public static void init() {
         //~ if >= 26.1 'TRIPWIRE_BLOCK_FLAT' -> 'TRIPWIRE_FLAT'
-        SMALL_BLOCK = PolymerBlockResourceUtils.requestEmpty(BlockModelType.TRIPWIRE_BLOCK_FLAT);
+        SMALL_BLOCK = PolymerBlockResourceUtils.requestEmpty(BlockModelType.TRIPWIRE_FLAT);
         if (SMALL_BLOCK == null) SMALL_BLOCK = Blocks.STRUCTURE_VOID.defaultBlockState();
 
         //~ if >= 26.1 'KELP_BLOCK' -> 'KELP'
-        PASSABLE_WATERLOGGED_BLOCK = PolymerBlockResourceUtils.requestEmpty(BlockModelType.KELP_BLOCK);
+        PASSABLE_WATERLOGGED_BLOCK = PolymerBlockResourceUtils.requestEmpty(BlockModelType.KELP);
         if (PASSABLE_WATERLOGGED_BLOCK == null) SMALL_BLOCK = Blocks.BARRIER.defaultBlockState().setValue(WATERLOGGED, true);
 
         PolymerResourcePackUtils.addModAssets(MOD_ID);
@@ -72,7 +72,7 @@ public class PolyUtil {
 
     public static boolean hasModOnClient(@Nullable PacketContext context) {
         //~ if >= 26.1 'context.getPlayer()' -> 'PolymerCommonUtils.getPlayer(context)'
-        return context != null && hasModOnClient(context.getPlayer());
+        return context != null && hasModOnClient(PolymerCommonUtils.getPlayer(context));
     }
 
     public static boolean hasModOnClient(ServerPlayer player) {
@@ -90,13 +90,13 @@ public class PolyUtil {
 
     public static void registerPolymerGroup() {
         //~ if >= 26.1 'PolymerItemGroupUtils' -> 'PolymerCreativeModeTabUtils' {
-        RocksCreativeTab.RocksGroup = PolymerItemGroupUtils.builder()
+        RocksCreativeTab.RocksGroup = PolymerCreativeModeTabUtils.builder()
                 .title(Component.translatable("itemGroup.rocks.rocks"))
                 .icon(RocksCreativeTab::createIcon)
                 .displayItems(RocksCreativeTab::createTabItems)
                 .build();
         //~ if >= 26.1 'registerPolymerItemGroup' -> 'registerPolymerCreativeModeTab'
-        PolymerItemGroupUtils.registerPolymerItemGroup(id("rocks"), RocksCreativeTab.RocksGroup);
+        PolymerCreativeModeTabUtils.registerPolymerCreativeModeTab(id("rocks"), RocksCreativeTab.RocksGroup);
         //~}
     }
 

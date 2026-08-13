@@ -4,7 +4,7 @@ package eu.midnightdust.motschen.rocks.datagen;
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.util.RockType;
 import eu.midnightdust.motschen.rocks.util.StickType;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -17,11 +17,11 @@ import java.util.concurrent.CompletableFuture;
 public abstract class Language extends FabricLanguageProvider {
     LanguageHelper langHelper;
 
-    protected Language(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+    protected Language(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(dataOutput, registryLookup);
     }
 
-    protected Language(FabricDataOutput dataOutput, String languageCode, CompletableFuture<HolderLookup.Provider> registryLookup) {
+    protected Language(FabricPackOutput dataOutput, String languageCode, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(dataOutput, languageCode, registryLookup);
     }
 
@@ -86,7 +86,7 @@ public abstract class Language extends FabricLanguageProvider {
     }
 
     public static class English extends Language {
-        public English(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+        public English(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, registryLookup);
             langHelper = new LanguageHelper("en_us");
         }
@@ -132,7 +132,7 @@ public abstract class Language extends FabricLanguageProvider {
         }
     }
     public static class German extends Language {
-        public German(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+        public German(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, "de_de", registryLookup);
             langHelper = new LanguageHelper("de_de");
         }

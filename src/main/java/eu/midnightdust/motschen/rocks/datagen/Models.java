@@ -7,7 +7,7 @@ import eu.midnightdust.motschen.rocks.blockstates.StarfishVariation;
 import eu.midnightdust.motschen.rocks.util.RockType;
 import eu.midnightdust.motschen.rocks.util.StickType;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.client.data.*;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
@@ -21,7 +21,7 @@ import net.minecraft.client.data.models.model.ModelTemplate;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
 //~ if >= 26.1 'net.minecraft.client.renderer.block.model.Variant' -> 'net.minecraft.client.renderer.block.dispatch.Variant'
-import net.minecraft.client.renderer.block.model.Variant;
+import net.minecraft.client.renderer.block.dispatch.Variant;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
@@ -32,7 +32,7 @@ import java.util.*;
 
 public class Models extends FabricModelProvider {
     public static final TextureSlot ZERO_TEXTURE_KEY = TextureSlot.create("0");
-    public Models(FabricDataOutput output) {
+    public Models(FabricPackOutput output) {
         super(output);
     }
 

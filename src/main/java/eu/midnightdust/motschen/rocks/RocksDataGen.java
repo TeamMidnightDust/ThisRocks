@@ -47,7 +47,7 @@ public class RocksDataGen implements DataGeneratorEntrypoint {
     }
     public static class WorldGenData extends FabricDynamicRegistryProvider {
         //~ if >= 26.1 'net.fabricmc.fabric.api.datagen.v1.FabricDataOutput' -> 'net.fabricmc.fabric.api.datagen.v1.FabricPackOutput'
-        public WorldGenData(net.fabricmc.fabric.api.datagen.v1.FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+        public WorldGenData(net.fabricmc.fabric.api.datagen.v1.FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
             super(output, registriesFuture);
         }
 
