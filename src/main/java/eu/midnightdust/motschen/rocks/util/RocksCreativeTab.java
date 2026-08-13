@@ -19,8 +19,8 @@ import java.util.List;
 import static eu.midnightdust.motschen.rocks.RocksMain.*;
 
 //? if >= 26.1 {
-//import net.minecraft.world.item.ItemStackTemplate;
-//?}
+/*import net.minecraft.world.item.ItemStackTemplate;
+*///?}
 
 public class RocksCreativeTab {
     //~ if >= 26.1 'ItemStack' -> 'ItemStackTemplate'
@@ -35,8 +35,8 @@ public class RocksCreativeTab {
 
     public static void addItem(Item item, DataComponentPatch patch) {
         //? if >= 26.1 {
-        //groupItems.add(new ItemStackTemplate(item, patch));
-        //?} else {
+        /*groupItems.add(new ItemStackTemplate(item, patch));
+        *///?} else {
         ItemStack stack = new ItemStack(item);
         stack.applyComponents(patch);
         groupItems.add(stack);
@@ -62,8 +62,8 @@ public class RocksCreativeTab {
 
     public static void createTabItems(CreativeModeTab.ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) {
         //? if >= 26.1 {
-        //output.acceptAll(groupItems.stream().map(ItemStackTemplate::create).toList());
-        //?} else {
+        /*output.acceptAll(groupItems.stream().map(ItemStackTemplate::create).toList());
+        *///?} else {
         output.acceptAll(groupItems);
         //?}
     }

@@ -34,6 +34,7 @@ public class SeashellPolymer extends Seashell implements PolymerBlock, PolymerTe
 
     @Override
     public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
+        //~ if >= 26.2 'WHITE_CANDLE' -> 'CANDLE'
         return hasModOnClient(context) ? state : Blocks.WHITE_CANDLE.defaultBlockState();
     }
 

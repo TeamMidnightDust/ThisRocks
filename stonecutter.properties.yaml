@@ -22,6 +22,11 @@ publish:
     - "26.1.2"
   mod.fabric_mc_range: ">=26.1.2 <26.2"
   mod.neoforge_mc_range: "[26.1, 26.2)"
+"26.2":
+  mod.mc_releases:
+    - "26.2"
+  mod.fabric_mc_range: ">=26.2"
+  mod.neoforge_mc_range: "[26.2)"
 
 # Dependencies
 deps:
@@ -40,3 +45,7 @@ fabric:deps: # https://fabricmc.net/develop/
     fabric_api: 0.145.1+26.1
     polymer: 0.16.5+26.1.2 # https://github.com/Patbox/polymer/releases
     factorytools: 0.10.1+26.1 # https://github.com/Patbox/FactoryTools/releases
+  "26.2":
+    fabric_api: 0.157.0+26.2
+    polymer: 0.17.3+26.2 # https://github.com/Patbox/polymer/releases
+    factorytools: 0.11.2+26.2 # https://github.com/Patbox/FactoryTools/releases

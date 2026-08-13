@@ -42,6 +42,7 @@ stonecutter {
         // See https://stonecutter.kikugie.dev/wiki/start/#choosing-minecraft-versions
         match("1.21.11", "fabric")
         match("26.1", "fabric")
+        match("26.2", "fabric")
         vcsVersion = "1.21.11-fabric"
     }
 }

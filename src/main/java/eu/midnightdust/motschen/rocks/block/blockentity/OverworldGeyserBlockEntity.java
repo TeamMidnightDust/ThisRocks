@@ -31,6 +31,7 @@ public class OverworldGeyserBlockEntity extends BlockEntity {
             Player player = world.getNearestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3, true);
             Player player2 = world.getNearestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 8, true);
 
+            //~ if >= 26.2 'pos.getCenter()' -> 'Vec3.atCenterOf(pos)'
             if (RocksConfig.geyserLevitation && player2 != null && (player2.blockPosition().equals(pos) || world.isBlockInLine(new ClipBlockStateContext(pos.getCenter(), player2.position(), blockState -> !blockState.isAir() && !blockState.is(RocksMain.Geyser))).getType() == HitResult.Type.MISS) && player2.getY() >= pos.getY() && player2.getY() <= pos.getY() + 5 && (pos.getX() <= player2.getX() && pos.getX() + 1 >= player2.getX()) && (pos.getZ() <= player2.getZ() && pos.getZ() + 1 >= player2.getZ())) {
                 player2.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 2, 10, true, false, false));
             }
