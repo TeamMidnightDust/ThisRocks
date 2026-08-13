@@ -1,0 +1,40 @@
+mod:
+  name: This Rocks!
+  version: 1.9.4
+  group: eu.midnightdust
+  id: rocks
+
+# Project IDs for Modrinth & CurseForge
+publish:
+  modrinth: "Sb5ypgDP"
+  curseforge: "416283"
+
+# Supported versions and their ranges
+"1.21.11":
+  mod.mc_releases:
+    - "1.21.11"
+  mod.fabric_mc_range: "1.21.11"
+  mod.neoforge_mc_range: "[1.21.11]"
+
+# Dependencies
+deps:
+  midnightlib: 1.9.3 # https://www.midnightdust.eu/wiki/midnightlib/#gradleproperties
+
+loomx.loom_version: "1.17-SNAPSHOT"
+
+# Loader-specific dependencies
+fabric:deps: # https://fabricmc.net/develop/
+  fabric_loader: 0.19.3
+  api_modules: # Loading only required modules allows for faster gradle setup and more precise requirements
+    - "fabric-lifecycle-events-v1"
+    - "fabric-resource-loader-v0"
+    - "fabric-content-registries-v0"
+    - "fabric-registry-sync-v0"
+    - "fabric-object-builder-api-v1"
+    - "fabric-item-group-api-v1"
+    - "fabric-biome-api-v1"
+    - "fabric-data-generation-api-v1"
+  "1.21.11":
+    fabric_api: 0.141.6+1.21.11
+    polymer: 0.15.2+1.21.11 # https://github.com/Patbox/polymer/releases
+    factorytools: 0.9.5+1.21.11 # https://github.com/Patbox/FactoryTools/releases
