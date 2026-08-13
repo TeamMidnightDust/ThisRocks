@@ -1,24 +1,24 @@
 package eu.midnightdust.motschen.rocks.networking;
 
 import eu.midnightdust.motschen.rocks.RocksMain;
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.Identifier;
 
-public record HelloPayload() implements CustomPayload {
+public record HelloPayload() implements CustomPacketPayload {
     public static final Identifier hello = RocksMain.id("hello_payload");
-    public static final CustomPayload.Id<HelloPayload> PACKET_ID = new CustomPayload.Id<>(hello);
-    public static final PacketCodec<RegistryByteBuf, HelloPayload> codec = PacketCodec.of(HelloPayload::write, HelloPayload::read);
+    public static final CustomPacketPayload.Type<HelloPayload> PACKET_ID = new CustomPacketPayload.Type<>(hello);
+    public static final StreamCodec<RegistryFriendlyByteBuf, HelloPayload> codec = StreamCodec.ofMember(HelloPayload::write, HelloPayload::read);
 
-    public static HelloPayload read(RegistryByteBuf buf) {
+    public static HelloPayload read(RegistryFriendlyByteBuf buf) {
         return new HelloPayload();
     }
 
-    public void write(RegistryByteBuf buf) {}
+    public void write(RegistryFriendlyByteBuf buf) {}
 
     @Override
-    public Id<? extends CustomPayload> getId() {
+    public Type<? extends CustomPacketPayload> type() {
         return PACKET_ID;
     }
 }

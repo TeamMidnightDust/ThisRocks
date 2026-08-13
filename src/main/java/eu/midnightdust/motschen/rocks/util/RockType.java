@@ -1,10 +1,9 @@
 package eu.midnightdust.motschen.rocks.util;
 
-import net.minecraft.block.Block;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
-
 import java.util.Arrays;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.Block;
 
 import static eu.midnightdust.motschen.rocks.RocksMain.id;
 
@@ -25,11 +24,11 @@ public enum RockType {
     }
 
     public Identifier getStoneId() {
-        return Identifier.ofVanilla(this.toString().toLowerCase());
+        return Identifier.withDefaultNamespace(this.toString().toLowerCase());
     }
 
     public Block getStoneBlock() {
-        return Registries.BLOCK.get(getStoneId());
+        return BuiltInRegistries.BLOCK.getValue(getStoneId());
     }
 
     public Identifier[] getVariations() {
@@ -68,11 +67,11 @@ public enum RockType {
             return splitterName;
         }
         public Identifier getStoneId() {
-            if (type==STONE) return Identifier.ofVanilla("cobblestone");
-            return Identifier.ofVanilla(type.toString().toLowerCase());
+            if (type==STONE) return Identifier.withDefaultNamespace("cobblestone");
+            return Identifier.withDefaultNamespace(type.toString().toLowerCase());
         }
         public Block getStoneBlock() {
-            return Registries.BLOCK.get(getStoneId());
+            return BuiltInRegistries.BLOCK.getValue(getStoneId());
         }
     }
 }

@@ -7,12 +7,11 @@ import eu.pb4.polymer.blocks.api.PolymerTexturedBlock;
 import eu.pb4.polymer.core.api.block.PolymerBlock;
 import eu.pb4.polymer.virtualentity.api.BlockWithElementHolder;
 import eu.pb4.polymer.virtualentity.api.ElementHolder;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import xyz.nucleoid.packettweaker.PacketContext;
 
@@ -38,13 +37,13 @@ public class NetherGeyserPolymer extends NetherGeyser implements PolymerBlock, P
     @Override
     public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
         if (context == null) {
-            return Blocks.NETHERRACK.getDefaultState();
+            return Blocks.NETHERRACK.defaultBlockState();
         }
-        return hasModOnClient(context.getPlayer()) ? state : Blocks.NETHERRACK.getDefaultState();
+        return hasModOnClient(context.getPlayer()) ? state : Blocks.NETHERRACK.defaultBlockState();
     }
 
     @Override
-    public @Nullable ElementHolder createElementHolder(ServerWorld world, BlockPos pos, BlockState initialBlockState) {
+    public @Nullable ElementHolder createElementHolder(ServerLevel world, BlockPos pos, BlockState initialBlockState) {
         return new ItemDisplayNetherGeyserModel(initialBlockState, pos);
     }
 

@@ -18,19 +18,18 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,12 +42,12 @@ import static eu.midnightdust.motschen.rocks.util.polymer.PolyUtil.*;
 public class RocksMain implements ModInitializer {
     public static final String MOD_ID = "rocks";
     public static boolean polymerMode = hasRequiredPolymerModules();
-    public static List<ServerPlayerEntity> playersWithMod = new ArrayList<>();
+    public static List<ServerPlayer> playersWithMod = new ArrayList<>();
 
-    public static final EnumProperty<RockVariation> ROCK_VARIATION = EnumProperty.of("variation", RockVariation.class);
-    public static final EnumProperty<StickVariation> STICK_VARIATION = EnumProperty.of("variation", StickVariation.class);
-    public static final EnumProperty<SeashellVariation> SEASHELL_VARIATION = EnumProperty.of("variation", SeashellVariation.class);
-    public static final EnumProperty<StarfishVariation> STARFISH_VARIATION = EnumProperty.of("variation", StarfishVariation.class);
+    public static final EnumProperty<RockVariation> ROCK_VARIATION = EnumProperty.create("variation", RockVariation.class);
+    public static final EnumProperty<StickVariation> STICK_VARIATION = EnumProperty.create("variation", StickVariation.class);
+    public static final EnumProperty<SeashellVariation> SEASHELL_VARIATION = EnumProperty.create("variation", SeashellVariation.class);
+    public static final EnumProperty<StarfishVariation> STARFISH_VARIATION = EnumProperty.create("variation", StarfishVariation.class);
 
     public static Map<RockType, Rock> rocksByType = new HashMap<>();
     public static Map<StickType, Stick> sticksByType = new HashMap<>();
@@ -67,8 +66,8 @@ public class RocksMain implements ModInitializer {
     public static Block NetherGeyser;
 
     public static List<ItemStack> groupItems = new ArrayList<>();
-    public static ItemGroup RocksGroup;
-    public static final RegistryKey<ItemGroup> ROCKS_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier.of(MOD_ID, "rocks"));
+    public static CreativeModeTab RocksGroup;
+    public static final ResourceKey<CreativeModeTab> ROCKS_GROUP = ResourceKey.create(Registries.CREATIVE_MODE_TAB, Identifier.fromNamespaceAndPath(MOD_ID, "rocks"));
 
     @Override
     public void onInitialize() {
@@ -115,7 +114,7 @@ public class RocksMain implements ModInitializer {
         BlockEntityInit.init();
     }
     public static Identifier id(String path) {
-        return Identifier.of(MOD_ID, path);
+        return Identifier.fromNamespaceAndPath(MOD_ID, path);
     }
 
     private static boolean hasRequiredPolymerModules() {
@@ -128,14 +127,14 @@ public class RocksMain implements ModInitializer {
 
     public static Item simpleItem(Identifier id) {
         if (polymerMode) return PolyUtil.simplePolymerItem(id);
-        return new Item(new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, id)));
+        return new Item(new Item.Properties().setId(ResourceKey.create(Registries.ITEM, id)));
     }
 
     public static void registerItemGroup() {
         if (polymerMode) PolyUtil.registerPolymerGroup();
         else {
-            RocksGroup = FabricItemGroup.builder().displayName(Text.translatable("itemGroup.rocks.rocks")).icon(() -> new ItemStack(rocksByType.get(RockType.STONE))).entries(((displayContext, entries) -> entries.addAll(groupItems))).build();
-            Registry.register(Registries.ITEM_GROUP, ROCKS_GROUP, RocksGroup);
+            RocksGroup = FabricItemGroup.builder().title(Component.translatable("itemGroup.rocks.rocks")).icon(() -> new ItemStack(rocksByType.get(RockType.STONE))).displayItems(((displayContext, entries) -> entries.acceptAll(groupItems))).build();
+            Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, ROCKS_GROUP, RocksGroup);
         }
     }
 }

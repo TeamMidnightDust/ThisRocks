@@ -1,11 +1,10 @@
 package eu.midnightdust.motschen.rocks.util;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.Identifier;
-
 import java.util.Arrays;
 import java.util.Objects;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import static eu.midnightdust.motschen.rocks.RocksMain.id;
 

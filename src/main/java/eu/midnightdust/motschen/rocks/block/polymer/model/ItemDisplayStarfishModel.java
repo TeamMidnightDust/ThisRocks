@@ -6,14 +6,15 @@ import eu.pb4.factorytools.api.virtualentity.ItemDisplayElementUtil;
 import eu.pb4.polymer.virtualentity.api.attachment.BlockAwareAttachment;
 import eu.pb4.polymer.virtualentity.api.attachment.HolderAttachment;
 import eu.pb4.polymer.virtualentity.api.elements.ItemDisplayElement;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RotationAxis;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
 import static eu.midnightdust.motschen.rocks.RocksMain.id;
+
+import com.mojang.math.Axis;
 
 public class ItemDisplayStarfishModel extends ConditionalBlockModel {
     private final ItemDisplayElement arm;
@@ -35,8 +36,8 @@ public class ItemDisplayStarfishModel extends ConditionalBlockModel {
         arm = ItemDisplayElementUtil.createSimple(modelStack);
         arm.setDisplaySize(1, 1);
         arm.setScale(new Vector3f(1));
-        arm.setRightRotation(RotationAxis.POSITIVE_Y.rotationDegrees(baseRotation));
-        arm.setOffset(new Vec3d(xOffset, 0, zOffset));
+        arm.setRightRotation(Axis.YP.rotationDegrees(baseRotation));
+        arm.setOffset(new Vec3(xOffset, 0, zOffset));
         arm.setViewRange(0.4f * (RocksConfig.polymerViewDistance / 100f));
         this.addElement(arm);
     }
@@ -52,7 +53,7 @@ public class ItemDisplayStarfishModel extends ConditionalBlockModel {
         }
     }
     private ItemStack getModel(BlockState state) {
-        return switch (state.get(RocksMain.STARFISH_VARIATION)) {
+        return switch (state.getValue(RocksMain.STARFISH_VARIATION)) {
             case RED -> RED;
             case ORANGE -> ORANGE;
             case PINK -> PINK;

@@ -1,8 +1,8 @@
 package eu.midnightdust.motschen.rocks.blockstates;
 
-import net.minecraft.util.StringIdentifiable;
+import net.minecraft.util.StringRepresentable;
 
-public enum SeashellVariation implements StringIdentifiable {
+public enum SeashellVariation implements StringRepresentable {
     YELLOW("yellow"),
     PINK("pink"),
     WHITE("white");
@@ -17,7 +17,7 @@ public enum SeashellVariation implements StringIdentifiable {
         return this.name;
     }
 
-    public String asString() {
+    public String getSerializedName() {
         return this.name;
     }
 
