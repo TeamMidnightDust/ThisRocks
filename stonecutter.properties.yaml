@@ -1,6 +1,6 @@
 mod:
   name: This Rocks!
-  version: 1.9.4
+  version: 1.9.5
   group: eu.midnightdust
   id: rocks
 
