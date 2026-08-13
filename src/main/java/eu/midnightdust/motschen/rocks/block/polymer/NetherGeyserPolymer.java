@@ -25,13 +25,20 @@ public class NetherGeyserPolymer extends NetherGeyser implements PolymerBlock, P
     public BlockState getPolymerBlockState(BlockState state) {
         return PolyUtil.SMALL_BLOCK;
     }
+
     @Override
     public BlockState getPolymerBlockState(BlockState state, PacketContext context) {
+        if (context == null) {
+            return getPolymerBlockState(state);
+        }
         return hasModOnClient(context.getPlayer()) ? state : getPolymerBlockState(state);
     }
 
     @Override
     public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
+        if (context == null) {
+            return Blocks.NETHERRACK.defaultBlockState();
+        }
         return hasModOnClient(context.getPlayer()) ? state : Blocks.NETHERRACK.defaultBlockState();
     }
 
@@ -41,6 +48,11 @@ public class NetherGeyserPolymer extends NetherGeyser implements PolymerBlock, P
     }
 
     @Override
-    public boolean canSyncRawToClient(PacketContext context) {return hasModOnClient(context.getPlayer());}
+    public boolean canSyncRawToClient(PacketContext context) {
+        if (context == null) {
+            return false;
+        }
+        return hasModOnClient(context.getPlayer());
+    }
 
 }

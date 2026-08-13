@@ -29,11 +29,17 @@ public class StickPolymer extends Stick implements PolymerBlock, PolymerTextured
     }
     @Override
     public BlockState getPolymerBlockState(BlockState state, PacketContext context) {
+        if (context==null) {
+            return getPolymerBlockState(state);
+        }
         return hasModOnClient(context.getPlayer()) ? state : getPolymerBlockState(state);
     }
 
     @Override
     public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
+        if (context==null) {
+            return Blocks.OAK_BUTTON.defaultBlockState().setValue(BlockStateProperties.ATTACH_FACE, AttachFace.FLOOR);
+        }
         return hasModOnClient(context.getPlayer()) ? state : Blocks.OAK_BUTTON.defaultBlockState().setValue(BlockStateProperties.ATTACH_FACE, AttachFace.FLOOR);
     }
 
@@ -44,6 +50,9 @@ public class StickPolymer extends Stick implements PolymerBlock, PolymerTextured
 
     @Override
     public boolean canSyncRawToClient(PacketContext context) {
+        if (context==null) {
+            return false;
+        }
         return hasModOnClient(context.getPlayer());
     }
 }

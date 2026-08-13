@@ -28,11 +28,17 @@ public class SeashellPolymer extends Seashell implements PolymerBlock, PolymerTe
     }
     @Override
     public BlockState getPolymerBlockState(BlockState state, PacketContext context) {
+        if (context==null) {
+            return getPolymerBlockState(state);
+        }
         return hasModOnClient(context.getPlayer()) ? state : getPolymerBlockState(state);
     }
 
     @Override
     public BlockState getPolymerBreakEventBlockState(BlockState state, PacketContext context) {
+        if (context==null) {
+            return Blocks.WHITE_CANDLE.defaultBlockState();
+        }
         return hasModOnClient(context.getPlayer()) ? state : Blocks.WHITE_CANDLE.defaultBlockState();
     }
 
@@ -43,6 +49,9 @@ public class SeashellPolymer extends Seashell implements PolymerBlock, PolymerTe
 
     @Override
     public boolean canSyncRawToClient(PacketContext context) {
+        if (context == null) {
+            return false;
+        }
         return hasModOnClient(context.getPlayer());
     }
 }
