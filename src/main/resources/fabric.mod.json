@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "rocks",
+  "id": "${id}",
   "version": "${version}",
 
   "name": "This Rocks!",
@@ -32,7 +32,8 @@
 
   "depends": {
     "fabricloader": ">=0.7.2",
-    "fabric-api": "*"
+    "fabric-api": "*",
+    "minecraft": "${minecraft}"
   },
   "suggests": {
     "polymer-core": "*",

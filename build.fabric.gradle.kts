@@ -18,7 +18,7 @@ val requiredJava: JavaVersion = when {
 }
 
 // This can be used for publishing on Modrinth and Curseforge
-val compatibleVersions: List<String> = sc.properties.rawOrNull("mod", "mc_releases")
+val compatibleVersions: List<String> = sc.properties.rawOrNull("mod.mc_releases")
     ?.asList().orEmpty().map { it.toString() }
 
 // This list contains all required Fabric API modules, as defined in `stonecutter.properties.yaml`
