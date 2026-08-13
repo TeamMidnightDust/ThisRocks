@@ -1,6 +1,0 @@
-{
-  "parent": "rocks:block/medium_stick",
-  "textures": {
-    "0": "minecraft:block/pale_oak_log"
-  }
-}

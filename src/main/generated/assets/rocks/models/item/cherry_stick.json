@@ -1,6 +1,0 @@
-{
-  "parent": "rocks:item/stick_base",
-  "textures": {
-    "0": "minecraft:block/cherry_log"
-  }
-}
