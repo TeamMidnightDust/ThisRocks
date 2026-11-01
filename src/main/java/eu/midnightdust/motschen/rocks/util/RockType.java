@@ -8,10 +8,17 @@ import net.minecraft.world.level.block.Block;
 import static eu.midnightdust.motschen.rocks.RocksMain.id;
 
 public enum RockType {
-    STONE("rock"), ANDESITE("andesite_rock"), GRANITE("granite_rock"),
-    DIORITE("diorite_rock"), GRAVEL("gravel_rock"), SANDSTONE("sand_rock"),
-    RED_SANDSTONE("red_sand_rock"), NETHERRACK("netherrack_rock"),
-    SOUL_SOIL("soul_soil_rock"), END_STONE("end_stone_rock"), ICE("ice_rock");
+    STONE("rock"),
+    ANDESITE("andesite_rock"),
+    GRANITE("granite_rock"),
+    DIORITE("diorite_rock"),
+    GRAVEL("gravel_rock"),
+    SANDSTONE("sand_rock"),
+    RED_SANDSTONE("red_sand_rock"),
+    NETHERRACK("netherrack_rock"),
+    SOUL_SOIL("soul_soil_rock"),
+    END_STONE("end_stone_rock"),
+    ICE("ice_rock");
 
     private final String name;
 

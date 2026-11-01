@@ -61,6 +61,8 @@ public class FeatureInjector {
         addTopLayerFeature(RocksConfig.jungleStick, "jungle_stick", BiomeCondition.builder().acceptTag(BiomeTags.IS_JUNGLE).build());
         addTopLayerFeature(RocksConfig.bambooStick, "bamboo_stick", BiomeCondition.builder().acceptTag(BiomeTags.IS_JUNGLE).build());
         addTopLayerFeature(RocksConfig.paleOakStick, "pale_oak_stick", BiomeCondition.builder().acceptBiome(Biomes.PALE_GARDEN).build());
+        //? if >= 26.3
+        addTopLayerFeature(RocksConfig.poplarStick, "poplar_stick", BiomeCondition.builder().acceptBiome(Biomes.DAPPLED_FOREST).build());
 
         addTopLayerFeature(RocksConfig.darkOakStick, "dark_oak_stick", BiomeCondition.builder().acceptBiome(Biomes.DARK_FOREST).build());
         addTopLayerFeature(RocksConfig.mangroveStick, "mangrove_stick", BiomeCondition.builder().acceptBiome(Biomes.MANGROVE_SWAMP).build());
