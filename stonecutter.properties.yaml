@@ -1,6 +1,6 @@
 mod:
   name: This Rocks!
-  version: 1.9.5
+  version: 1.10.0
   group: eu.midnightdust
   id: rocks
 
@@ -20,7 +20,7 @@ publish:
     - "26.1"
     - "26.1.1"
     - "26.1.2"
-  mod.fabric_mc_range: ">=26.1.2 <26.2"
+  mod.fabric_mc_range: ">=26.1 <26.2"
   mod.neoforge_mc_range: "[26.1, 26.2)"
 "26.2":
   mod.mc_releases:

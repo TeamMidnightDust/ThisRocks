@@ -1,3 +1,11 @@
+## This Rocks v1.10.0
+- Update to 26.3 (thanks [@Patbox](https://github.com/Patbox))
+- Add Poplar Sticks, generating in the new Dappled Forest biome (26.3+)
+- Improved generation distribution for rocks and sticks
+- Balanced Nether Geyser damage
+- Faster breaking speed for geysers, especially using pickaxes
+- Modernized internals of biome injection
+
 ## This Rocks v1.9.5
 
 - Migrate to Stonecutter build system
