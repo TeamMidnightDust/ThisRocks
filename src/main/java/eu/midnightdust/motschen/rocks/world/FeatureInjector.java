@@ -48,6 +48,7 @@ public class FeatureInjector {
                 .acceptBiome(Biomes.FLOWER_FOREST)
                 .acceptBiome(Biomes.WOODED_BADLANDS)
                 .acceptBiome(Biomes.SWAMP)
+                .acceptBiome(Biomes.RIVER)
                 .acceptBiomeRegex("^(?!.*pale|.*dark).*oak.*")
                 .build()
         );
