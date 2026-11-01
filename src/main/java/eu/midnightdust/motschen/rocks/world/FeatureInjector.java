@@ -2,6 +2,7 @@ package eu.midnightdust.motschen.rocks.world;
 
 import eu.midnightdust.motschen.rocks.RocksMain;
 import eu.midnightdust.motschen.rocks.config.RocksConfig;
+import eu.midnightdust.motschen.rocks.util.BiomeCondition;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.minecraft.core.registries.Registries;
@@ -11,99 +12,105 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import java.util.function.Predicate;
+import org.jetbrains.annotations.Nullable;
 
 public class FeatureInjector {
-    public static boolean isNotExcluded(BiomeSelectionContext ctx) {
-        return !RocksConfig.biomeExclusions.contains(ctx.getBiomeKey().identifier().toString());
-    }
-
     public static void init() {
-
         // Rocks
-        Predicate<BiomeSelectionContext> rocks = (ctx -> isNotExcluded(ctx) &&
-            !ctx.hasTag(BiomeTags.IS_NETHER) && !ctx.hasTag(BiomeTags.HAS_END_CITY) && !ctx.hasTag(BiomeTags.IS_BEACH) && !ctx.hasTag(BiomeTags.HAS_DESERT_PYRAMID)
-                    && !ctx.hasTag(BiomeTags.IS_BADLANDS) && !ctx.hasTag(BiomeTags.HAS_IGLOO) && !ctx.hasTag(BiomeTags.IS_OCEAN));
-        if (RocksConfig.rock) BiomeModifications.addFeature(rocks, GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("rock"));
-        if (RocksConfig.rockMix) BiomeModifications.addFeature(rocks, GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("rock_mix"));
-        if (RocksConfig.graniteRock) BiomeModifications.addFeature(rocks, GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("granite_rock"));
-        if (RocksConfig.dioriteRock) BiomeModifications.addFeature(rocks, GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("diorite_rock"));
-        if (RocksConfig.andesiteRock) BiomeModifications.addFeature(rocks, GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("andesite_rock"));
+        BiomeCondition rocksCondition = BiomeCondition.builder()
+                .rejectTag(BiomeTags.IS_NETHER)
+                .rejectTag(BiomeTags.HAS_END_CITY)
+                .rejectTag(BiomeTags.IS_BEACH)
+                .rejectTag(BiomeTags.HAS_DESERT_PYRAMID)
+                .rejectTag(BiomeTags.IS_BADLANDS)
+                .rejectTag(BiomeTags.HAS_IGLOO)
+                .rejectTag(BiomeTags.IS_OCEAN)
+                .build();
+        addTopLayerFeature(RocksConfig.rock, "rock", rocksCondition);
+        addTopLayerFeature(RocksConfig.rockMix, "rock_mix", rocksCondition);
+        addTopLayerFeature(RocksConfig.graniteRock, "granite_rock", rocksCondition);
+        addTopLayerFeature(RocksConfig.dioriteRock, "diorite_rock", rocksCondition);
+        addTopLayerFeature(RocksConfig.andesiteRock, "andesite_rock", rocksCondition);
 
-        Predicate<BiomeSelectionContext> sand_rocks = (ctx -> isNotExcluded(ctx) && ctx.hasTag(BiomeTags.IS_BEACH) || ctx.hasTag(BiomeTags.HAS_DESERT_PYRAMID) || ctx.hasTag(BiomeTags.IS_BADLANDS) || ctx.getBiomeKey().identifier().toString().contains("terrestria:lush_desert"));
-        if (RocksConfig.sandRock) BiomeModifications.addFeature(sand_rocks, GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("sand_rock"));
+        addTopLayerFeature(RocksConfig.sandRock, "sand_rock", BiomeCondition.builder().acceptTag(BiomeTags.IS_BEACH).acceptTag(BiomeTags.IS_BADLANDS).acceptTag(BiomeTags.HAS_DESERT_PYRAMID).acceptBiomeRegex(".*desert.*").build());
+        addTopLayerFeature(RocksConfig.redSandRock, "red_sand_rock", BiomeCondition.builder().acceptTag(BiomeTags.IS_BADLANDS).acceptTag(BiomeTags.HAS_DESERT_PYRAMID).build());
 
-        Predicate<BiomeSelectionContext> red_sand_rocks = (ctx -> isNotExcluded(ctx) && ctx.hasTag(BiomeTags.IS_BADLANDS) || ctx.hasTag(BiomeTags.HAS_DESERT_PYRAMID) || ctx.getBiomeKey().identifier().toString().contains("terrestria:lush_desert"));
+        addTopLayerFeature(RocksConfig.iceRock, "ice_rock", BiomeCondition.builder().acceptTag(BiomeTags.HAS_IGLOO).acceptPredicate(biome -> biome.getBaseTemperature() < 0.15F).build());
 
-        if (RocksConfig.redSandRock) BiomeModifications.addFeature(red_sand_rocks, GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("red_sand_rock"));
-
-        Predicate<BiomeSelectionContext> ice_rocks = (ctx -> isNotExcluded(ctx) && ctx.hasTag(BiomeTags.HAS_IGLOO) || ctx.getBiome().getBaseTemperature() < 0.15F);
-        if (RocksConfig.iceRock) BiomeModifications.addFeature(ice_rocks, GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("ice_rock"));
-
-        if (RocksConfig.endStoneRock) BiomeModifications.addFeature(ctx -> isNotExcluded(ctx) && ctx.getBiomeKey().identifier().toString().contains("the_end"), GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("end_stone_rock"));
+        addTopLayerFeature(RocksConfig.gravelRock, "gravel_rock", BiomeCondition.builder().acceptBiome(Biomes.WINDSWEPT_GRAVELLY_HILLS).acceptBiome(Biomes.STONY_SHORE).acceptTag(BiomeTags.IS_MOUNTAIN).build());
+        addTopLayerFeature(RocksConfig.endStoneRock, "end_stone_rock", BiomeCondition.builder().acceptBiome(Biomes.THE_END).build());
 
         // Sticks
-        Predicate<BiomeSelectionContext> oak_sticks = (ctx -> {
-            String name = ctx.getBiomeKey().identifier().toString();
-        return  isNotExcluded(ctx) && name.contains("minecraft:forest") || name.contains("minecraft:wooded_hills") || name.contains("oak") ||
-                name.contains("minecraft:wooded_mountains") || name.contains("minecraft:plains") ||
-                name.contains("minecraft:flower_forest") || name.contains("minecraft:wooded_badlands_plateau") ||
-                name.contains("minecraft:modified_wooded_badlands_plateau") || ctx.hasTag(BiomeTags.HAS_SWAMP_HUT);});
-        if (RocksConfig.oakStick) BiomeModifications.addFeature(oak_sticks, GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("oak_stick"));
+        addTopLayerFeature(RocksConfig.oakStick, "oak_stick", BiomeCondition.builder()
+                .acceptBiome(Biomes.FOREST)
+                .acceptBiome(Biomes.WINDSWEPT_HILLS)
+                .acceptBiome(Biomes.PLAINS)
+                .acceptBiome(Biomes.FLOWER_FOREST)
+                .acceptBiome(Biomes.WOODED_BADLANDS)
+                .acceptBiome(Biomes.SWAMP)
+                .acceptBiomeRegex("^(?!.*pale|.*dark).*oak.*")
+                .build()
+        );
 
-        Predicate<BiomeSelectionContext> birch_sticks = (ctx -> {
-            String name = ctx.getBiomeKey().identifier().toString();
-            return isNotExcluded(ctx) && name.contains("minecraft:forest") || name.contains("birch") || name.contains("minecraft:flower_forest");});
-        if (RocksConfig.birchStick) BiomeModifications.addFeature(birch_sticks, GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("birch_stick"));
+        addTopLayerFeature(RocksConfig.birchStick, "birch_stick", BiomeCondition.builder().acceptBiome(Biomes.FOREST).acceptBiome(Biomes.FLOWER_FOREST).acceptBiomeRegex(".*birch.*").build());
 
-        Predicate<BiomeSelectionContext> spruce_sticks = (ctx -> {
-            String name = ctx.getBiomeKey().identifier().toString();
-        return isNotExcluded(ctx) && name.contains("minecraft:wooded_mountains") || ctx.hasTag(BiomeTags.IS_TAIGA);});
-        if (RocksConfig.spruceStick) BiomeModifications.addFeature(spruce_sticks, GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("spruce_stick"));
-        if (RocksConfig.pinecone) BiomeModifications.addFeature(spruce_sticks, GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("pinecone"));
+        addTopLayerFeature(RocksConfig.spruceStick, "spruce_stick", BiomeCondition.builder().acceptTag(BiomeTags.IS_TAIGA).acceptBiome(Biomes.WINDSWEPT_HILLS).acceptBiomeRegex(".*spruce.*").build());
+        addTopLayerFeature(RocksConfig.pinecone, "pinecone", BiomeCondition.builder().acceptTag(BiomeTags.IS_TAIGA).acceptBiome(Biomes.WINDSWEPT_HILLS).acceptBiomeRegex(".*spruce.*").build());
 
-        if (RocksConfig.acaciaStick) BiomeModifications.addFeature(ctx -> isNotExcluded(ctx) && ctx.hasTag(BiomeTags.HAS_VILLAGE_SAVANNA), GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("acacia_stick"));
+        addTopLayerFeature(RocksConfig.acaciaStick, "acacia_stick", BiomeCondition.builder().acceptTag(BiomeTags.HAS_VILLAGE_SAVANNA).build());
+        addTopLayerFeature(RocksConfig.jungleStick, "jungle_stick", BiomeCondition.builder().acceptTag(BiomeTags.IS_JUNGLE).build());
+        addTopLayerFeature(RocksConfig.bambooStick, "bamboo_stick", BiomeCondition.builder().acceptTag(BiomeTags.IS_JUNGLE).build());
+        addTopLayerFeature(RocksConfig.paleOakStick, "pale_oak_stick", BiomeCondition.builder().acceptBiome(Biomes.PALE_GARDEN).build());
 
-        if (RocksConfig.jungleStick) BiomeModifications.addFeature(ctx -> isNotExcluded(ctx) && ctx.hasTag(BiomeTags.IS_JUNGLE), GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("jungle_stick"));
-        if (RocksConfig.bambooStick) BiomeModifications.addFeature(ctx -> isNotExcluded(ctx) && ctx.hasTag(BiomeTags.IS_JUNGLE), GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("bamboo_stick"));
-        if (RocksConfig.paleOakStick) BiomeModifications.addFeature(ctx -> isNotExcluded(ctx) && ctx.getBiomeKey().equals(Biomes.PALE_GARDEN), GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("pale_oak_stick"));
-
-        Predicate<BiomeSelectionContext> dark_oak_sticks = (ctx -> {
-            String name = ctx.getBiomeKey().identifier().toString();
-            return isNotExcluded(ctx) && name.contains("minecraft:dark_forest") || name.contains("minecraft:dark_forest_hills") ||
-                name.contains("minecraft:dark_forest_mountains");});
-        if (RocksConfig.darkOakStick) BiomeModifications.addFeature(dark_oak_sticks, GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("dark_oak_stick"));
-        Predicate<BiomeSelectionContext> mangrove_sticks = (ctx -> {
-            String name = ctx.getBiomeKey().identifier().toString();
-            return isNotExcluded(ctx) && name.contains("minecraft:mangrove_swamp");});
-        if (RocksConfig.mangroveStick) BiomeModifications.addFeature(mangrove_sticks, GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("mangrove_stick"));
-        Predicate<BiomeSelectionContext> cherry_sticks = (ctx -> {
-            String name = ctx.getBiomeKey().identifier().toString();
-            return isNotExcluded(ctx) && name.contains("minecraft:cherry_grove");});
-        if (RocksConfig.cherryStick) BiomeModifications.addFeature(cherry_sticks, GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("cherry_stick"));
+        addTopLayerFeature(RocksConfig.darkOakStick, "dark_oak_stick", BiomeCondition.builder().acceptBiome(Biomes.DARK_FOREST).build());
+        addTopLayerFeature(RocksConfig.mangroveStick, "mangrove_stick", BiomeCondition.builder().acceptBiome(Biomes.MANGROVE_SWAMP).build());
+        addTopLayerFeature(RocksConfig.cherryStick, "cherry_stick", BiomeCondition.builder().acceptBiome(Biomes.CHERRY_GROVE).build());
 
         // Misc
-        Predicate<BiomeSelectionContext> beach = (ctx -> {
-            String name = ctx.getBiomeKey().identifier().toString();
-            return isNotExcluded(ctx) && ctx.hasTag(BiomeTags.IS_BEACH) && !name.contains("snow");});
-        if (RocksConfig.seashell) BiomeModifications.addFeature(beach, GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("seashell"));
-        if (RocksConfig.starfish) BiomeModifications.addFeature(beach, GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("starfish"));
+        addTopLayerFeature(RocksConfig.seashell, "seashell", BiomeCondition.builder().acceptTag(BiomeTags.IS_BEACH).rejectBiomeRegex(".*snow.*").build());
+        addTopLayerFeature(RocksConfig.starfish, "starfish", BiomeCondition.builder().acceptTag(BiomeTags.IS_BEACH).rejectBiomeRegex(".*snow.*").build());
 
-        if (RocksConfig.underwaterStarfish) BiomeModifications.addFeature(ctx -> isNotExcluded(ctx) && ctx.hasTag(BiomeTags.IS_OCEAN) && !ctx.getBiomeKey().toString().contains("cold"), GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("underwater_starfish"));
-        if (RocksConfig.underwaterSeashell) BiomeModifications.addFeature(ctx -> isNotExcluded(ctx) && ctx.hasTag(BiomeTags.IS_OCEAN), GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("underwater_seashell"));
+        addTopLayerFeature(RocksConfig.underwaterSeashell, "underwater_seashell", BiomeCondition.builder().acceptTag(BiomeTags.IS_OCEAN).build());
+        addTopLayerFeature(RocksConfig.underwaterStarfish, "underwater_starfish", BiomeCondition.builder().acceptTag(BiomeTags.IS_OCEAN).rejectBiomeRegex(".*cold.*").build());
 
-        if (RocksConfig.netherrackRock) BiomeModifications.addFeature(ctx -> isNotExcluded(ctx) && ctx.hasTag(BiomeTags.IS_NETHER), GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("netherrack_rock"));
-        if (RocksConfig.soulSoilRock) BiomeModifications.addFeature(ctx -> isNotExcluded(ctx) && ctx.hasTag(BiomeTags.IS_NETHER), GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("soul_soil_rock"));
-        if (RocksConfig.gravelRock) BiomeModifications.addFeature(ctx -> isNotExcluded(ctx) && ctx.hasTag(BiomeTags.IS_NETHER), GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("nether_gravel_rock"));
-        if (RocksConfig.netherGeyser) BiomeModifications.addFeature(ctx -> isNotExcluded(ctx) && ctx.hasTag(BiomeTags.IS_NETHER), GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("nether_geyser"));
-        if (RocksConfig.warpedStick) BiomeModifications.addFeature(ctx -> isNotExcluded(ctx) && ctx.hasTag(BiomeTags.IS_NETHER), GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("warped_stick"));
-        if (RocksConfig.crimsonStick) BiomeModifications.addFeature(ctx -> isNotExcluded(ctx) && ctx.hasTag(BiomeTags.IS_NETHER), GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("crimson_stick"));
+        addTopLayerFeature(RocksConfig.netherrackRock, "netherrack_rock", BiomeCondition.builder().acceptTag(BiomeTags.IS_NETHER).build());
+        addTopLayerFeature(RocksConfig.soulSoilRock, "soul_soil_rock", BiomeCondition.builder().acceptTag(BiomeTags.IS_NETHER).build());
+        addTopLayerFeature(RocksConfig.gravelRock, "nether_gravel_rock", BiomeCondition.builder().acceptTag(BiomeTags.IS_NETHER).build());
 
-        if (RocksConfig.gravelRock) BiomeModifications.addFeature(ctx -> isNotExcluded(ctx) && !ctx.hasTag(BiomeTags.IS_NETHER), GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("gravel_rock"));
+        addTopLayerFeature(RocksConfig.netherGeyser, "nether_geyser", BiomeCondition.builder().acceptTag(BiomeTags.IS_NETHER).build());
+        addTopLayerFeature(RocksConfig.warpedStick, "warped_stick", BiomeCondition.builder().acceptTag(BiomeTags.IS_NETHER).build());
+        addTopLayerFeature(RocksConfig.crimsonStick, "crimson_stick", BiomeCondition.builder().acceptTag(BiomeTags.IS_NETHER).build());
 
-        if (RocksConfig.geyser) BiomeModifications.addFeature(ctx -> isNotExcluded(ctx) && ctx.hasTag(BiomeTags.HAS_IGLOO) || ctx.getBiomeKey().toString().contains("snowy"), GenerationStep.Decoration.TOP_LAYER_MODIFICATION, getKey("snowy_geyser"));
+        addTopLayerFeature(RocksConfig.geyser, "snowy_geyser", BiomeCondition.builder().acceptTag(BiomeTags.HAS_IGLOO).acceptBiomeRegex(".*snowy.*").build());
     }
-    public static ResourceKey<PlacedFeature> getKey(String name) {
+
+    public static ResourceKey<PlacedFeature> getFeatureKey(String name) {
         return ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(RocksMain.MOD_ID, name));
     }
+
+    public static boolean isExcluded(BiomeSelectionContext ctx) {
+        return RocksConfig.biomeExclusions.contains(ctx.getBiomeKey().identifier().toString());
+    }
+
+    public static void addTopLayerFeature(boolean config, String name, @Nullable BiomeCondition biomeCondition) {
+        if (config) {
+            BiomeModifications.addFeature(
+                    ctx -> {
+                        if (isExcluded(ctx)) return false;
+                        if (biomeCondition == null) return true;
+                        if (biomeCondition.invalidTags().stream().anyMatch(ctx::hasTag)) return false;
+                        if (biomeCondition.invalidRegexes().stream().anyMatch(r -> ctx.getBiomeKey().identifier().toString().matches(r))) return false;
+                        boolean shouldAdd = false;
+                        shouldAdd |= biomeCondition.validIds().contains(ctx.getBiomeKey().identifier().toString());
+                        shouldAdd |= biomeCondition.validRegexes().stream().anyMatch(r -> ctx.getBiomeKey().identifier().toString().matches(r));
+                        shouldAdd |= biomeCondition.validTags().stream().anyMatch(ctx::hasTag);
+                        shouldAdd |= biomeCondition.validPredicates().stream().anyMatch(p -> p.test(ctx.getBiome()));
+                        return shouldAdd;
+                    },
+                    GenerationStep.Decoration.TOP_LAYER_MODIFICATION,
+                    getFeatureKey(name));
+        }
+    }
+
+
 }

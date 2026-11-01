@@ -1,0 +1,63 @@
+package eu.midnightdust.motschen.rocks.util;
+
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.biome.Biome;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Predicate;
+
+public record BiomeCondition(Set<String> validIds, Set<String> validRegexes, Set<TagKey<Biome>> validTags, Set<Predicate<Biome>> validPredicates, Set<String> invalidRegexes, Set<TagKey<Biome>> invalidTags) {
+    public static BiomeConditionBuilder builder() {
+        return new BiomeConditionBuilder();
+    }
+
+    public static class BiomeConditionBuilder {
+        private final Set<String> validIds = new HashSet<>();
+        private final Set<String> validRegexes = new HashSet<>();
+        private final Set<TagKey<Biome>> validTags = new HashSet<>();
+        private final Set<Predicate<Biome>> validPredicates = new HashSet<>();
+        private final Set<TagKey<Biome>> invalidTags = new HashSet<>();
+        private final Set<String> invalidRegexes = new HashSet<>();
+
+        public BiomeConditionBuilder acceptBiome(String biomeId) {
+            validIds.add(biomeId);
+            return this;
+        }
+
+        public BiomeConditionBuilder acceptBiome(ResourceKey<Biome> biomeId) {
+            validIds.add(biomeId.identifier().toString());
+            return this;
+        }
+
+        public BiomeConditionBuilder acceptBiomeRegex(String biomeRegex) {
+            validRegexes.add(biomeRegex);
+            return this;
+        }
+
+        public BiomeConditionBuilder acceptTag(TagKey<Biome> biomeTag) {
+            validTags.add(biomeTag);
+            return this;
+        }
+
+        public BiomeConditionBuilder acceptPredicate(Predicate<Biome> predicate) {
+            validPredicates.add(predicate);
+            return this;
+        }
+
+        public BiomeConditionBuilder rejectBiomeRegex(String biomeRegex) {
+            invalidRegexes.add(biomeRegex);
+            return this;
+        }
+
+        public BiomeConditionBuilder rejectTag(TagKey<Biome> biomeTag) {
+            invalidTags.add(biomeTag);
+            return this;
+        }
+
+        public BiomeCondition build() {
+            return new BiomeCondition(validIds, validRegexes, validTags, validPredicates, invalidRegexes, invalidTags);
+        }
+    }
+}
