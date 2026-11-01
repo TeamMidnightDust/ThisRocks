@@ -32,9 +32,9 @@ public class NetherGeyserBlockEntity extends BlockEntity {
                 world.setBlockAndUpdate(pos, state.setValue(NetherGeyser.ACTIVE, true));
 
                 if (RocksConfig.netherGeyserDamage && world instanceof ServerLevel serverWorld) {
-                    player.hurtServer(serverWorld, world.damageSources().onFire(), 1);
+                    player.hurtServer(serverWorld, world.damageSources().onFire(), 0.5f);
                     if (player2 != null) {
-                        player2.hurtServer(serverWorld, world.damageSources().onFire(), 4);
+                        player2.setRemainingFireTicks(40);
                     }
                 }
                 blockEntity.countdown = 1000;

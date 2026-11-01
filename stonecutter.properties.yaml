@@ -25,8 +25,8 @@ publish:
 "26.2":
   mod.mc_releases:
     - "26.2"
-  mod.fabric_mc_range: ">=26.2"
-  mod.neoforge_mc_range: "[26.2)"
+  mod.fabric_mc_range: ">=26.2 <26.3"
+  mod.neoforge_mc_range: "[26.2, 26.3)"
 "26.3":
   mod.mc_releases:
     - "26.3"
