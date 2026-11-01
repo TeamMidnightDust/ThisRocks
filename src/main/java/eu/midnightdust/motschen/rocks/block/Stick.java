@@ -36,7 +36,7 @@ public class Stick extends Block {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public Stick(Identifier blockId) {
-        super(BlockBehaviour.Properties.ofFullCopy(Blocks.POPPY).setId(ResourceKey.create(Registries.BLOCK, blockId)).noOcclusion().dynamicShape().sound(SoundType.WOOD));
+        super(BlockBehaviour.Properties.ofFullCopy(Blocks.POPPY).setId(ResourceKey.create(Registries.BLOCK, blockId)).noOcclusion().dynamicShape().sound(SoundType.WOOD).ignitedByLava());
         this.registerDefaultState(this.stateDefinition.any().setValue(STICK_VARIATION, StickVariation.SMALL).setValue(WATERLOGGED, false));
     }
 

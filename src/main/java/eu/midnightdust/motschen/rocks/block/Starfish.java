@@ -45,7 +45,7 @@ public class Starfish extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public Starfish(Identifier blockId) {
-        super(BlockBehaviour.Properties.ofFullCopy(Blocks.POPPY).setId(ResourceKey.create(Registries.BLOCK, blockId)).noOcclusion().dynamicShape().sound(SoundType.CORAL_BLOCK));
+        super(BlockBehaviour.Properties.ofFullCopy(Blocks.POPPY).setId(ResourceKey.create(Registries.BLOCK, blockId)).noOcclusion().dynamicShape().sound(SoundType.CORAL_BLOCK).ignitedByLava());
         this.registerDefaultState(this.stateDefinition.any().setValue(STARFISH_VARIATION, StarfishVariation.RED).setValue(WATERLOGGED, false));
     }
 

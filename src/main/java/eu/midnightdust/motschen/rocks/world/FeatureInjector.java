@@ -35,7 +35,7 @@ public class FeatureInjector {
         addTopLayerFeature(RocksConfig.sandRock, "sand_rock", BiomeCondition.builder().acceptTag(BiomeTags.IS_BEACH).acceptTag(BiomeTags.IS_BADLANDS).acceptTag(BiomeTags.HAS_DESERT_PYRAMID).acceptBiomeRegex(".*desert.*").build());
         addTopLayerFeature(RocksConfig.redSandRock, "red_sand_rock", BiomeCondition.builder().acceptTag(BiomeTags.IS_BADLANDS).acceptTag(BiomeTags.HAS_DESERT_PYRAMID).build());
 
-        addTopLayerFeature(RocksConfig.iceRock, "ice_rock", BiomeCondition.builder().acceptTag(BiomeTags.HAS_IGLOO).acceptPredicate(biome -> biome.getBaseTemperature() < 0.15F).build());
+        addTopLayerFeature(RocksConfig.iceRock, "ice_rock", BiomeCondition.builder().acceptTag(BiomeTags.HAS_IGLOO).acceptBiome(Biomes.ICE_SPIKES).acceptPredicate(biome -> biome.getBaseTemperature() < 0.15F).build());
 
         addTopLayerFeature(RocksConfig.gravelRock, "gravel_rock", BiomeCondition.builder().acceptBiome(Biomes.WINDSWEPT_GRAVELLY_HILLS).acceptBiome(Biomes.STONY_SHORE).acceptTag(BiomeTags.IS_MOUNTAIN).build());
         addTopLayerFeature(RocksConfig.endStoneRock, "end_stone_rock", BiomeCondition.builder().acceptBiome(Biomes.THE_END).build());
@@ -50,12 +50,11 @@ public class FeatureInjector {
                 .acceptBiome(Biomes.SWAMP)
                 .acceptBiome(Biomes.RIVER)
                 .acceptBiomeRegex("^(?!.*pale|.*dark).*oak.*")
-                .build()
-        );
+                .build());
 
         addTopLayerFeature(RocksConfig.birchStick, "birch_stick", BiomeCondition.builder().acceptBiome(Biomes.FOREST).acceptBiome(Biomes.FLOWER_FOREST).acceptBiomeRegex(".*birch.*").build());
 
-        addTopLayerFeature(RocksConfig.spruceStick, "spruce_stick", BiomeCondition.builder().acceptTag(BiomeTags.IS_TAIGA).acceptBiome(Biomes.WINDSWEPT_HILLS).acceptBiomeRegex(".*spruce.*").build());
+        addTopLayerFeature(RocksConfig.spruceStick, "spruce_stick", BiomeCondition.builder().acceptTag(BiomeTags.IS_TAIGA).acceptBiome(Biomes.WINDSWEPT_HILLS).acceptBiome(Identifier.withDefaultNamespace("dappled_forest")).acceptBiomeRegex(".*spruce.*").build());
         addTopLayerFeature(RocksConfig.pinecone, "pinecone", BiomeCondition.builder().acceptTag(BiomeTags.IS_TAIGA).acceptBiome(Biomes.WINDSWEPT_HILLS).acceptBiomeRegex(".*spruce.*").build());
 
         addTopLayerFeature(RocksConfig.acaciaStick, "acacia_stick", BiomeCondition.builder().acceptTag(BiomeTags.HAS_VILLAGE_SAVANNA).build());
@@ -105,7 +104,7 @@ public class FeatureInjector {
                         if (biomeCondition.invalidRegexes().stream().anyMatch(r -> ctx.getBiomeKey().identifier().toString().matches(r))) return false;
                         if (biomeCondition.includeByDefault()) return true;
                         boolean shouldAdd = false;
-                        shouldAdd |= biomeCondition.validIds().contains(ctx.getBiomeKey().identifier().toString());
+                        shouldAdd |= biomeCondition.validIds().contains(ctx.getBiomeKey().identifier());
                         shouldAdd |= biomeCondition.validRegexes().stream().anyMatch(r -> ctx.getBiomeKey().identifier().toString().matches(r));
                         shouldAdd |= biomeCondition.validTags().stream().anyMatch(ctx::hasTag);
                         shouldAdd |= biomeCondition.validPredicates().stream().anyMatch(p -> p.test(ctx.getBiome()));

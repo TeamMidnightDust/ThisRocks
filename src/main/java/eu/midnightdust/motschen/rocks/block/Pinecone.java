@@ -23,7 +23,7 @@ public class Pinecone extends Block {
     private static final VoxelShape SHAPE;
 
     public Pinecone(Identifier blockId) {
-        super(BlockBehaviour.Properties.ofFullCopy(Blocks.POPPY).setId(ResourceKey.create(Registries.BLOCK, blockId)).noOcclusion().dynamicShape().sound(SoundType.WOOD));
+        super(BlockBehaviour.Properties.ofFullCopy(Blocks.POPPY).setId(ResourceKey.create(Registries.BLOCK, blockId)).noOcclusion().dynamicShape().sound(SoundType.WOOD).ignitedByLava());
         this.registerDefaultState(this.stateDefinition.any());
     }
 

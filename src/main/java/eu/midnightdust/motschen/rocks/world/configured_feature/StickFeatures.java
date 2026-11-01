@@ -19,13 +19,8 @@ import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConf
 import net.minecraft.world.level.levelgen.feature.SimpleBlockFeature;
 //? }
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
-import net.minecraft.world.level.levelgen.placement.BiomeFilter;
-import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
-import net.minecraft.world.level.levelgen.placement.CountPlacement;
-import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.levelgen.placement.PlacementModifier;
-import net.minecraft.world.level.levelgen.placement.RarityFilter;
+import net.minecraft.world.level.levelgen.placement.*;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,14 +39,12 @@ public class StickFeatures {
     public static List<PlacementModifier> getModifiers(int count, int rarity, Block... groundBlocks) {
         return List.of(CountPlacement.of(count), RarityFilter.onAverageOnceEvery(rarity),
                 InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome(),
-                BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0),
-                        List.of(groundBlocks)))));
+                BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0), List.of(groundBlocks)))));
     }
     public static List<PlacementModifier> getNetherModifiers(int count, int rarity, Block... groundBlocks) {
-        return List.of(CountPlacement.of(count), RarityFilter.onAverageOnceEvery(rarity),
-                InSquarePlacement.spread(), PlacementUtils.FULL_RANGE, BiomeFilter.biome(),
-                BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0),
-                        List.of(groundBlocks)))));
+        return List.of(CountOnEveryLayerPlacement.of(6), BiomeFilter.biome(),
+                BlockPredicateFilter.forPredicate(BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0), List.of(groundBlocks))),
+                CountPlacement.of(count), RarityFilter.onAverageOnceEvery(rarity), BlockPredicateFilter.forPredicate(BlockPredicate.ONLY_IN_AIR_PREDICATE));
     }
 
     public static void init() {
@@ -83,10 +76,12 @@ public class StickFeatures {
     public static void initPlaced(BootstrapContext<PlacedFeature> context) {
         for (StickType type : StickType.values()) {
             PlacedFeature STICK_PLACED_FEATURE = switch (type) {
-                case CRIMSON -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getNetherModifiers(90, 1, Blocks.CRIMSON_NYLIUM));
-                case WARPED -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getNetherModifiers(90, 1, Blocks.WARPED_NYLIUM));
+                case CRIMSON -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getNetherModifiers(9, 1, Blocks.CRIMSON_NYLIUM));
+                case WARPED -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getNetherModifiers(9, 1, Blocks.WARPED_NYLIUM));
                 case PALE_OAK -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getModifiers(20, 1, Blocks.GRASS_BLOCK, Blocks.PALE_MOSS_BLOCK));
                 case SPRUCE -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getModifiers(3, 1, Blocks.GRASS_BLOCK, Blocks.SNOW_BLOCK, Blocks.PODZOL));
+                //? if >= 26.3
+                case POPLAR -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getModifiers(10, 1, Blocks.GRASS_BLOCK));
                 default -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getModifiers(3, 1, Blocks.GRASS_BLOCK, Blocks.MUD, Blocks.PODZOL));
             };
             register(context, type.getName() + "_stick", STICK_PLACED_FEATURE);

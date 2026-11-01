@@ -6,9 +6,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
-import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.Feature;
 //? if <=26.2 {
@@ -17,7 +15,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConf
 *///? } else {
 import net.minecraft.world.level.levelgen.feature.SimpleBlockFeature;
 //? }
-import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
+import net.minecraft.world.level.levelgen.feature.stateproviders.SimpleStateProvider;
 import net.minecraft.world.level.levelgen.placement.BiomeFilter;
 import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
 import net.minecraft.world.level.levelgen.placement.CountPlacement;
@@ -34,7 +32,8 @@ public class NetherFeatures {
     *///? } else {
     public static Feature NETHER_GEYSER_FEATURE = new SimpleBlockFeature(
     //? }
-                    new WeightedStateProvider(WeightedList.<BlockState>builder().add(RocksMain.NetherGeyser.defaultBlockState(), 1)) /*? if <=26.2 {*//*)*//*?}*/
+                    //~ if >= 26.3 'SimpleStateProvider.simple' -> 'new SimpleStateProvider'
+                    new SimpleStateProvider(RocksMain.NetherGeyser.defaultBlockState()) /*? if <=26.2 {*//*)*//*?}*/
     );
 
     public static PlacedFeature NETHER_GEYSER_PLACED_FEATURE = new PlacedFeature(Holder.direct(NETHER_GEYSER_FEATURE),

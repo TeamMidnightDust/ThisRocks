@@ -41,7 +41,7 @@ public class OverworldGeyser extends BaseEntityBlock implements EntityBlock {
     public static final BooleanProperty SNOWY = BlockStateProperties.SNOWY;
 
     public OverworldGeyser(Identifier blockId) {
-        super(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).setId(ResourceKey.create(Registries.BLOCK, blockId)).strength(10).noCollision().dynamicShape().noOcclusion().sound(SoundType.STONE));
+        super(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).setId(ResourceKey.create(Registries.BLOCK, blockId)).strength(10).noCollision().dynamicShape().noOcclusion().sound(SoundType.STONE).ignitedByLava());
         this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, false).setValue(SNOWY, false));
     }
 

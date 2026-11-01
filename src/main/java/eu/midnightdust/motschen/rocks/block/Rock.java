@@ -34,7 +34,7 @@ public class Rock extends Block {
     private static final EnumProperty<RockVariation> ROCK_VARIATION = RocksMain.ROCK_VARIATION;
 
     public Rock(Identifier blockId) {
-        super(BlockBehaviour.Properties.ofFullCopy(Blocks.POPPY).setId(ResourceKey.create(Registries.BLOCK, blockId)).noOcclusion().dynamicShape().sound(SoundType.STONE));
+        super(BlockBehaviour.Properties.ofFullCopy(Blocks.POPPY).setId(ResourceKey.create(Registries.BLOCK, blockId)).noOcclusion().dynamicShape().sound(SoundType.STONE).ignitedByLava());
         this.registerDefaultState(this.stateDefinition.any().setValue(ROCK_VARIATION, RockVariation.TINY));
     }
 

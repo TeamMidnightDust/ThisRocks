@@ -20,13 +20,8 @@ import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConf
 import net.minecraft.world.level.levelgen.feature.SimpleBlockFeature;
 //? }
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
-import net.minecraft.world.level.levelgen.placement.BiomeFilter;
-import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
-import net.minecraft.world.level.levelgen.placement.CountPlacement;
-import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.levelgen.placement.PlacementModifier;
-import net.minecraft.world.level.levelgen.placement.RarityFilter;
+import net.minecraft.world.level.levelgen.placement.*;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,9 +47,9 @@ public class RockFeatures {
                 BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.not(BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0), List.of(groundBlocks))))));
     }
     public static List<PlacementModifier> getNetherModifiers(int count, int rarity, Block... groundBlocks) {
-        return List.of(CountPlacement.of(count), RarityFilter.onAverageOnceEvery(rarity),
-                InSquarePlacement.spread(), PlacementUtils.FULL_RANGE, BiomeFilter.biome(),
-                BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0), List.of(groundBlocks)))));
+        return List.of(CountOnEveryLayerPlacement.of(6), BiomeFilter.biome(),
+                BlockPredicateFilter.forPredicate(BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0), List.of(groundBlocks))),
+                CountPlacement.of(count), RarityFilter.onAverageOnceEvery(rarity), BlockPredicateFilter.forPredicate(BlockPredicate.ONLY_IN_AIR_PREDICATE));
     }
     public static List<PlacementModifier> getEndModifiers(int count, int rarity, Block... groundBlocks) {
         return List.of(CountPlacement.of(count), RarityFilter.onAverageOnceEvery(rarity),
@@ -89,8 +84,8 @@ public class RockFeatures {
                     .add(rocksByType.get(RockType.GRAVEL).defaultBlockState().setValue(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build())/*? if <=26.2 {*//*)*//*?}*/
     );
 
-    public static PlacedFeature ROCK_MIX_PLACED_FEATURE = new PlacedFeature(Holder.direct(ROCK_MIX_FEATURE), getModifiersInvertedGroundCheck(3, 1, Blocks.ICE, Blocks.PACKED_ICE, Blocks.SAND, Blocks.RED_SAND, Blocks.END_STONE));
-    public static PlacedFeature NETHER_GRAVEL_ROCK_PLACED_FEATURE = new PlacedFeature(Holder.direct(NETHER_GRAVEL_ROCK_FEATURE), getNetherModifiers(30, 1, Blocks.GRAVEL));
+    public static PlacedFeature ROCK_MIX_PLACED_FEATURE = new PlacedFeature(Holder.direct(ROCK_MIX_FEATURE), getModifiersInvertedGroundCheck(3, 3, Blocks.ICE, Blocks.PACKED_ICE, Blocks.SAND, Blocks.RED_SAND, Blocks.END_STONE));
+    public static PlacedFeature NETHER_GRAVEL_ROCK_PLACED_FEATURE = new PlacedFeature(Holder.direct(NETHER_GRAVEL_ROCK_FEATURE), getNetherModifiers(3, 1, Blocks.GRAVEL));
 
     public static void init() {
         for (RockType type : RockType.values()) {
@@ -129,13 +124,13 @@ public class RockFeatures {
 
         for (RockType type : RockType.values()) {
             PlacedFeature ROCK_PLACED_FEATURE = switch (type) {
-                case STONE -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getModifiersInvertedGroundCheck(3, 1, Blocks.ICE, Blocks.PACKED_ICE, Blocks.SAND, Blocks.RED_SAND, Blocks.END_STONE));
+                case STONE -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getModifiersInvertedGroundCheck(2, 1, Blocks.ICE, Blocks.PACKED_ICE, Blocks.SAND, Blocks.RED_SAND, Blocks.END_STONE));
                 case SANDSTONE -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getModifiers(3, 1, Blocks.SAND, Blocks.SANDSTONE));
                 case RED_SANDSTONE -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getModifiers(7, 1, Blocks.RED_SAND, Blocks.RED_SANDSTONE));
                 case ICE -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getModifiers(3, 5, Blocks.ICE, Blocks.PACKED_ICE, Blocks.BLUE_ICE));
 
-                case NETHERRACK -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getNetherModifiers(90, 1, Blocks.NETHERRACK, Blocks.WARPED_NYLIUM, Blocks.CRIMSON_NYLIUM));
-                case SOUL_SOIL -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getNetherModifiers(60, 1, Blocks.SOUL_SOIL, Blocks.SOUL_SAND));
+                case NETHERRACK -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getNetherModifiers(5, 1, Blocks.NETHERRACK, Blocks.WARPED_NYLIUM, Blocks.CRIMSON_NYLIUM));
+                case SOUL_SOIL -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getNetherModifiers(6, 1, Blocks.SOUL_SOIL, Blocks.SOUL_SAND));
 
                 case END_STONE -> new PlacedFeature(Holder.direct(CONFIGURED_FEATURES.get(type)), getEndModifiers(3, 1, type.getStoneBlock()));
 
