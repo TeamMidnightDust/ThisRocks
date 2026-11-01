@@ -19,15 +19,22 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.CopyBlockState;
 import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableCondition;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+//? if <=26.2 {
+/*import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+ *///? } else {
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
+//? }
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
 public class LootTables {
     //~ if >= 26.1 'FabricBlockLootTableProvider' -> 'FabricBlockLootSubProvider'
     public static class BlockLootTables extends FabricBlockLootSubProvider {
+        private final CompletableFuture<HolderLookup.Provider> registryLookup;
+
         public BlockLootTables(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, registryLookup);
+            this.registryLookup = registryLookup;
         }
 
         @Override
@@ -44,14 +51,15 @@ public class LootTables {
             Arrays.stream(properties).forEach(lootFunction::copy);
 
             add(block, LootTable.lootTable().withPool(this.applyExplosionCondition(block,
-                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(block)
+                    //~ if >= 26.3 'ConstantValue' -> 'ContextIntProviders'
+                    LootPool.lootPool().setRolls(ContextIntProviders.exactly(1)).add(LootItem.lootTableItem(block)
                             .apply(lootFunction)))));
         }
         public void addSilkTouchDrop(Block block, Item alternative) {
             add(block, this.createSilkTouchDispatchTable(block, LootItem.lootTableItem(alternative)));
         }
         public void addSilkTouchOrRareDrop(Block block, Item alternative, float... chances) {
-            HolderLookup.RegistryLookup<Enchantment> impl = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
+            HolderLookup.RegistryLookup<Enchantment> impl = this.registryLookup.join().lookupOrThrow(Registries.ENCHANTMENT);
             add(block, this.createSilkTouchDispatchTable(block, LootItem.lootTableItem(alternative).when(BonusLevelTableCondition.bonusLevelFlatChance(impl.getOrThrow(Enchantments.FORTUNE), chances))));
         }
     }

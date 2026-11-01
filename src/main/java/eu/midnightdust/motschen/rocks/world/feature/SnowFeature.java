@@ -1,24 +1,30 @@
 package eu.midnightdust.motschen.rocks.world.feature;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+//? if <=26.2 {
+/*import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.configurations.ProbabilityFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 
 public class SnowFeature extends Feature<ProbabilityFeatureConfiguration> {
-    WeightedStateProvider weightedBlockStateProvider1;
+    WeightedStateProvider provider;
 
     public SnowFeature(Codec<ProbabilityFeatureConfiguration> codec, WeightedStateProvider weightedBlockStateProvider) {
         super(codec);
-        weightedBlockStateProvider1 = weightedBlockStateProvider;
+        provider = weightedBlockStateProvider;
     }
 
     @Override
@@ -26,6 +32,24 @@ public class SnowFeature extends Feature<ProbabilityFeatureConfiguration> {
         RandomSource random = context.random();
         WorldGenLevel structureWorldAccess = context.level();
         BlockPos blockPos = context.origin();
+*///?} else {
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
+
+public record SnowFeature(float probability, Holder<BlockStateProvider> provider) implements Feature {
+    public static final MapCodec<SnowFeature> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
+                    Codec.floatRange(0.0F, 1.0F).fieldOf("probability").forGetter(SnowFeature::probability),
+                    BlockStateProvider.CODEC.fieldOf("block").forGetter(SnowFeature::provider)
+            ).apply(i, SnowFeature::new)
+    );
+
+    @Override
+    public MapCodec<? extends Feature> codec() {
+        return CODEC;
+    }
+
+    @Override
+    public boolean place(WorldGenLevel structureWorldAccess, ChunkGenerator chunkGenerator, RandomSource random, BlockPos blockPos) {
+//?}
         boolean bl = false;
         int i = random.nextInt(8) - random.nextInt(8);
         int j = random.nextInt(8) - random.nextInt(8);
@@ -35,7 +59,7 @@ public class SnowFeature extends Feature<ProbabilityFeatureConfiguration> {
 
         if (structureWorldAccess.getBlockState(blockPos2).is(Blocks.SNOW) && chance == 1) {
 
-            BlockState blockState = weightedBlockStateProvider1.getState(/*? if >= 26.1 {*/ structureWorldAccess,/*?}*/ random, blockPos);
+            BlockState blockState = this.provider/*? if >= 26.3 {*/.value()/*?}*/.getState(/*? if >= 26.1 {*/ structureWorldAccess,/*?}*/ random,blockPos);
 
             if (blockState.canSurvive(structureWorldAccess, blockPos2)) {
                 structureWorldAccess.setBlock(blockPos2, blockState, 1);

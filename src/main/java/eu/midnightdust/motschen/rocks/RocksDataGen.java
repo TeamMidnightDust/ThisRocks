@@ -12,6 +12,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import java.util.concurrent.CompletableFuture;
+//~ if >= 26.3 'Registries.CONFIGURED_FEATURE' -> 'Registries.FEATURE' {
 
 public class RocksDataGen implements DataGeneratorEntrypoint {
     @Override
@@ -34,14 +35,14 @@ public class RocksDataGen implements DataGeneratorEntrypoint {
     @Override
     public void buildRegistry(RegistrySetBuilder registryBuilder) {
         RockFeatures.init();
-        registryBuilder.add(Registries.CONFIGURED_FEATURE, RockFeatures::initConfigured);
+        registryBuilder.add(Registries.FEATURE, RockFeatures::initConfigured);
         registryBuilder.add(Registries.PLACED_FEATURE, RockFeatures::initPlaced);
         StickFeatures.init();
-        registryBuilder.add(Registries.CONFIGURED_FEATURE, StickFeatures::initConfigured);
+        registryBuilder.add(Registries.FEATURE, StickFeatures::initConfigured);
         registryBuilder.add(Registries.PLACED_FEATURE, StickFeatures::initPlaced);
-        registryBuilder.add(Registries.CONFIGURED_FEATURE, NetherFeatures::initConfigured);
+        registryBuilder.add(Registries.FEATURE, NetherFeatures::initConfigured);
         registryBuilder.add(Registries.PLACED_FEATURE, NetherFeatures::initPlaced);
-        registryBuilder.add(Registries.CONFIGURED_FEATURE, MiscFeatures::initConfigured);
+        registryBuilder.add(Registries.FEATURE, MiscFeatures::initConfigured);
         registryBuilder.add(Registries.PLACED_FEATURE, MiscFeatures::initPlaced);
 
     }
@@ -53,7 +54,7 @@ public class RocksDataGen implements DataGeneratorEntrypoint {
 
         @Override
         protected void configure(HolderLookup.Provider registries, Entries entries) {
-            entries.addAll(registries.lookupOrThrow(Registries.CONFIGURED_FEATURE));
+            entries.addAll(registries.lookupOrThrow(Registries.FEATURE));
             entries.addAll(registries.lookupOrThrow(Registries.PLACED_FEATURE));
         }
 
@@ -63,3 +64,4 @@ public class RocksDataGen implements DataGeneratorEntrypoint {
         }
     }
 }
+//~ }

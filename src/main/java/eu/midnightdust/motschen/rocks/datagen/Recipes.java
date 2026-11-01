@@ -4,6 +4,7 @@ package eu.midnightdust.motschen.rocks.datagen;
 import eu.midnightdust.motschen.rocks.RocksMain;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -11,19 +12,24 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.crafting.Recipe;
+
 import java.util.concurrent.CompletableFuture;
 
 public class Recipes extends FabricRecipeProvider {
-    public Recipes(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture);
-    }
     @Override
     public String getName() {
         return "Recipes";
     }
 
-    @Override
+    public Recipes(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+        super(output, registriesFuture);
+    }
+
+    //? if <=26.2 {
+    /*@Override
     protected RecipeProvider createRecipeProvider(HolderLookup.Provider registries, RecipeOutput recipeExporter) {
         return new RocksRecipeGenerator(registries, recipeExporter);
     }
@@ -32,6 +38,19 @@ public class Recipes extends FabricRecipeProvider {
         protected RocksRecipeGenerator(HolderLookup.Provider registries, RecipeOutput exporter) {
             super(registries, exporter);
         }
+    *///? } else {
+    @Override
+    protected RecipeProvider createRecipeProvider(HolderLookup.Provider registries, BootstrapContext<Recipe<?>> recipes, BootstrapContext<Advancement> advancements) {
+        return new RocksRecipeGenerator(registries, recipes, advancements);
+    }
+    public static class RocksRecipeGenerator extends RecipeProvider {
+        private final HolderLookup.Provider registries;
+
+        protected RocksRecipeGenerator(HolderLookup.Provider registries, BootstrapContext<Recipe<?>> recipeOutput, BootstrapContext<Advancement> advancementOutput) {
+            super(recipeOutput, advancementOutput);
+            this.registries = registries;
+        }
+    //? }
 
         @Override
         public void buildRecipes() {

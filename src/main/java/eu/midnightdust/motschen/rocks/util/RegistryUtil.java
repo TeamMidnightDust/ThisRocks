@@ -15,7 +15,11 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+//? if >=26.3 {
+import net.minecraft.world.level.levelgen.feature.Feature;
+//?} else {
+/*import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+*///? }
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,9 +47,16 @@ public class RegistryUtil {
             RocksCreativeTab.addItem(starfish, DataComponentPatch.builder().set(DataComponents.BLOCK_STATE, BlockItemStateProperties.EMPTY.with(STARFISH_VARIATION, variation)).build());
         }
     }
-    public static void register(BootstrapContext<@NotNull ConfiguredFeature<?, ?>> context, String name, ConfiguredFeature<?, ?> feature) {
+    //? if >=26.3 {
+    public static void register(BootstrapContext<@NotNull Feature> context, String name, Feature feature) {
+        context.register(ResourceKey.create(Registries.FEATURE, Identifier.fromNamespaceAndPath(RocksMain.MOD_ID, name)), feature);
+    }
+    //?} else {
+    /*public static void register(BootstrapContext<@NotNull ConfiguredFeature<?, ?>> context, String name, ConfiguredFeature<?, ?> feature) {
         context.register(ResourceKey.create(Registries.CONFIGURED_FEATURE, Identifier.fromNamespaceAndPath(RocksMain.MOD_ID, name)), feature);
     }
+     *///? }
+
     public static void register(BootstrapContext<@NotNull PlacedFeature> context, String name, PlacedFeature feature) {
         context.register(ResourceKey.create(Registries.PLACED_FEATURE, Identifier.fromNamespaceAndPath(RocksMain.MOD_ID, name)), feature);
     }

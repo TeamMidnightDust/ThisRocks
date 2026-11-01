@@ -20,7 +20,6 @@ plugins {
     // Sometimes it is needed to make Gradle run at all, so it doesn't hurt to have
     // (https://github.com/gradle/foojay-toolchains)
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
-
 }
 
 stonecutter {
@@ -43,7 +42,8 @@ stonecutter {
         match("1.21.11", "fabric")
         match("26.1", "fabric")
         match("26.2", "fabric")
-        vcsVersion = "26.2-fabric"
+        match("26.3", "fabric")
+        vcsVersion = "26.3-fabric"
     }
 }
 

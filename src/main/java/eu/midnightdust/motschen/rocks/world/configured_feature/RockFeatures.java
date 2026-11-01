@@ -12,9 +12,13 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+//? if <=26.2 {
+/*import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
+*///? } else {
+import net.minecraft.world.level.levelgen.feature.SimpleBlockFeature;
+//? }
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.placement.BiomeFilter;
 import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
@@ -31,29 +35,38 @@ import static eu.midnightdust.motschen.rocks.RocksMain.*;
 import static eu.midnightdust.motschen.rocks.util.RegistryUtil.register;
 
 public class RockFeatures {
-    private static final Map<RockType, ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = new HashMap<>();
+    //? if <=26.2 {
+    /*private static final Map<RockType, ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = new HashMap<>();
+     *///? } else {
+    private static final Map<RockType, Feature> CONFIGURED_FEATURES = new HashMap<>();
+    //? }
 
     public static List<PlacementModifier> getModifiers(int count, int rarity, Block... groundBlocks) {
         return List.of(CountPlacement.of(count), RarityFilter.onAverageOnceEvery(rarity),
                 InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome(),
-                BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0), groundBlocks))));
+                BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0), List.of(groundBlocks)))));
     }
     public static List<PlacementModifier> getModifiersInvertedGroundCheck(int count, int rarity, Block... groundBlocks) {
         return List.of(CountPlacement.of(count), RarityFilter.onAverageOnceEvery(rarity),
                 InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome(),
-                BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.not(BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0), groundBlocks)))));
+                BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.not(BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0), List.of(groundBlocks))))));
     }
     public static List<PlacementModifier> getNetherModifiers(int count, int rarity, Block... groundBlocks) {
         return List.of(CountPlacement.of(count), RarityFilter.onAverageOnceEvery(rarity),
                 InSquarePlacement.spread(), PlacementUtils.FULL_RANGE, BiomeFilter.biome(),
-                BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0), groundBlocks))));
+                BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0), List.of(groundBlocks)))));
     }
     public static List<PlacementModifier> getEndModifiers(int count, int rarity, Block... groundBlocks) {
         return List.of(CountPlacement.of(count), RarityFilter.onAverageOnceEvery(rarity),
                 InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome(),
-                BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0), groundBlocks))));
+                BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0), List.of(groundBlocks)))));
     }
-    public static ConfiguredFeature<?, ?> ROCK_MIX_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
+
+    //? if <=26.2 {
+    /*public static ConfiguredFeature<?, ?> ROCK_MIX_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
+     *///? } else {
+    public static Feature ROCK_MIX_FEATURE = new SimpleBlockFeature(
+    //? }
             new WeightedStateProvider(WeightedList.<BlockState>builder()
                     .add(rocksByType.get(RockType.GRANITE).defaultBlockState().setValue(ROCK_VARIATION,RockVariation.TINY), 10).add(rocksByType.get(RockType.GRANITE).defaultBlockState().setValue(ROCK_VARIATION,RockVariation.SMALL), 7)
                     .add(rocksByType.get(RockType.GRANITE).defaultBlockState().setValue(ROCK_VARIATION,RockVariation.MEDIUM), 5).add(rocksByType.get(RockType.GRANITE).defaultBlockState().setValue(ROCK_VARIATION,RockVariation.LARGE), 1)
@@ -61,14 +74,19 @@ public class RockFeatures {
                     .add(rocksByType.get(RockType.DIORITE).defaultBlockState().setValue(ROCK_VARIATION,RockVariation.MEDIUM), 5).add(rocksByType.get(RockType.DIORITE).defaultBlockState().setValue(ROCK_VARIATION,RockVariation.LARGE), 1)
                     .add(rocksByType.get(RockType.ANDESITE).defaultBlockState().setValue(ROCK_VARIATION,RockVariation.TINY), 10).add(rocksByType.get(RockType.ANDESITE).defaultBlockState().setValue(ROCK_VARIATION,RockVariation.SMALL), 7)
                     .add(rocksByType.get(RockType.ANDESITE).defaultBlockState().setValue(ROCK_VARIATION,RockVariation.MEDIUM), 5).add(rocksByType.get(RockType.ANDESITE).defaultBlockState().setValue(ROCK_VARIATION,RockVariation.LARGE), 1)
-                    .build()))
+                    .build()) /*? if <=26.2 {*//*)*//*?}*/
     );
-    public static ConfiguredFeature<?, ?> NETHER_GRAVEL_ROCK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
+
+    //? if <=26.2 {
+    /*public static ConfiguredFeature<?, ?> NETHER_GRAVEL_ROCK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
+     *///? } else {
+    public static Feature NETHER_GRAVEL_ROCK_FEATURE = new SimpleBlockFeature(
+    //? }
             new WeightedStateProvider(WeightedList.<BlockState>builder()
                     .add(rocksByType.get(RockType.GRAVEL).defaultBlockState().setValue(RocksMain.ROCK_VARIATION, RockVariation.TINY), 10)
                     .add(rocksByType.get(RockType.GRAVEL).defaultBlockState().setValue(RocksMain.ROCK_VARIATION,RockVariation.SMALL), 7)
                     .add(rocksByType.get(RockType.GRAVEL).defaultBlockState().setValue(RocksMain.ROCK_VARIATION,RockVariation.MEDIUM), 5)
-                    .add(rocksByType.get(RockType.GRAVEL).defaultBlockState().setValue(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build()))
+                    .add(rocksByType.get(RockType.GRAVEL).defaultBlockState().setValue(RocksMain.ROCK_VARIATION,RockVariation.LARGE), 1).build())/*? if <=26.2 {*//*)*//*?}*/
     );
 
     public static PlacedFeature ROCK_MIX_PLACED_FEATURE = new PlacedFeature(Holder.direct(ROCK_MIX_FEATURE), getModifiersInvertedGroundCheck(3, 1, Blocks.ICE, Blocks.PACKED_ICE, Blocks.SAND, Blocks.RED_SAND, Blocks.END_STONE));
@@ -76,19 +94,27 @@ public class RockFeatures {
 
     public static void init() {
         for (RockType type : RockType.values()) {
-            ConfiguredFeature<?, ?> ROCK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
+            //? if <=26.2 {
+            /*ConfiguredFeature<?, ?> ROCK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
+             *///? } else {
+            Feature ROCK_FEATURE = new SimpleBlockFeature(
+            //? }
                     new WeightedStateProvider(WeightedList.<BlockState>builder()
                             .add(rocksByType.get(type).defaultBlockState().setValue(ROCK_VARIATION, RockVariation.TINY), 10)
                             .add(rocksByType.get(type).defaultBlockState().setValue(ROCK_VARIATION, RockVariation.SMALL), 7)
                             .add(rocksByType.get(type).defaultBlockState().setValue(ROCK_VARIATION, RockVariation.MEDIUM), 5)
                             .add(rocksByType.get(type).defaultBlockState().setValue(ROCK_VARIATION, RockVariation.LARGE), 1)
-                            .build()))
+                            .build())/*? if <=26.2 {*//*)*//*?}*/
             );
             CONFIGURED_FEATURES.put(type, ROCK_FEATURE);
         }
     }
 
-    public static void initConfigured(BootstrapContext<ConfiguredFeature<?, ?>> context) {
+    //? if <=26.2 {
+    /*public static void initConfigured(BootstrapContext<ConfiguredFeature<?, ?>> context) {
+     *///? } else {
+    public static void initConfigured(BootstrapContext<Feature> context) {
+        //? }
         register(context, "rock_mix", ROCK_MIX_FEATURE);
         register(context, "nether_gravel_rock", NETHER_GRAVEL_ROCK_FEATURE);
 

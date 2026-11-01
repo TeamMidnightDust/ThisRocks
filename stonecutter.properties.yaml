@@ -27,16 +27,21 @@ publish:
     - "26.2"
   mod.fabric_mc_range: ">=26.2"
   mod.neoforge_mc_range: "[26.2)"
+"26.3":
+  mod.mc_releases:
+    - "26.3"
+  mod.fabric_mc_range: ">=26.3"
+  mod.neoforge_mc_range: "[26.3)"
 
 # Dependencies
 deps:
-  midnightlib: 1.9.3 # https://www.midnightdust.eu/wiki/midnightlib/#gradleproperties
+  midnightlib: 1.10.0 # https://www.midnightdust.eu/wiki/midnightlib/#gradleproperties
 
 loomx.loom_version: "1.17-SNAPSHOT"
 
 # Loader-specific dependencies
 fabric:deps: # https://fabricmc.net/develop/
-  fabric_loader: 0.19.3
+  fabric_loader: 0.19.5
   "1.21.11":
     fabric_api: 0.141.6+1.21.11
     polymer: 0.15.2+1.21.11 # https://github.com/Patbox/polymer/releases
@@ -49,3 +54,7 @@ fabric:deps: # https://fabricmc.net/develop/
     fabric_api: 0.157.0+26.2
     polymer: 0.17.3+26.2 # https://github.com/Patbox/polymer/releases
     factorytools: 0.11.2+26.2 # https://github.com/Patbox/FactoryTools/releases
+  "26.3":
+    fabric_api: 0.162.0+26.3
+    polymer: 0.18.6+26.3 # https://github.com/Patbox/polymer/releases
+    factorytools: 0.12.1+26.3 # https://github.com/Patbox/FactoryTools/releases

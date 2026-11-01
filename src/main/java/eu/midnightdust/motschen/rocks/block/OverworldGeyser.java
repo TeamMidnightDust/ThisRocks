@@ -45,10 +45,12 @@ public class OverworldGeyser extends BaseEntityBlock implements EntityBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, false).setValue(SNOWY, false));
     }
 
-    @Override
+    //? if <=26.2 {
+    /*@Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return null;
     }
+    *///?}
 
     @Override
     public RenderShape getRenderShape(BlockState state) {
