@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
 
-public record BiomeCondition(Set<String> validIds, Set<String> validRegexes, Set<TagKey<Biome>> validTags, Set<Predicate<Biome>> validPredicates, Set<String> invalidRegexes, Set<TagKey<Biome>> invalidTags) {
+public record BiomeCondition(boolean includeByDefault, Set<String> validIds, Set<String> validRegexes, Set<TagKey<Biome>> validTags, Set<Predicate<Biome>> validPredicates, Set<String> invalidRegexes, Set<TagKey<Biome>> invalidTags) {
     public static BiomeConditionBuilder builder() {
         return new BiomeConditionBuilder();
     }
@@ -57,7 +57,8 @@ public record BiomeCondition(Set<String> validIds, Set<String> validRegexes, Set
         }
 
         public BiomeCondition build() {
-            return new BiomeCondition(validIds, validRegexes, validTags, validPredicates, invalidRegexes, invalidTags);
+            boolean includeByDefault = validIds.isEmpty() && validRegexes.isEmpty() && validTags.isEmpty() && validPredicates.isEmpty();
+            return new BiomeCondition(includeByDefault, validIds, validRegexes, validTags, validPredicates, invalidRegexes, invalidTags);
         }
     }
 }

@@ -102,6 +102,7 @@ public class FeatureInjector {
                         if (biomeCondition == null) return true;
                         if (biomeCondition.invalidTags().stream().anyMatch(ctx::hasTag)) return false;
                         if (biomeCondition.invalidRegexes().stream().anyMatch(r -> ctx.getBiomeKey().identifier().toString().matches(r))) return false;
+                        if (biomeCondition.includeByDefault()) return true;
                         boolean shouldAdd = false;
                         shouldAdd |= biomeCondition.validIds().contains(ctx.getBiomeKey().identifier().toString());
                         shouldAdd |= biomeCondition.validRegexes().stream().anyMatch(r -> ctx.getBiomeKey().identifier().toString().matches(r));
