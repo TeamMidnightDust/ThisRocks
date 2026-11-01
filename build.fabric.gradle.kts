@@ -151,6 +151,7 @@ publishMods {
         compatibleVersions.forEach(minecraftVersions::add)
         requires("midnightlib")
         requires("fabric-api")
+        optional("polymer")
 
         environment = SERVER_ONLY_CLIENT_OPTIONAL
     }
@@ -161,6 +162,7 @@ publishMods {
         compatibleVersions.forEach(minecraftVersions::add)
         requires("midnightlib")
         requires("fabric-api")
+        optional("polymer")
 
         client.set(true)
         server.set(true)
