@@ -11,9 +11,13 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+//? if <=26.2 {
+/*import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
+*///? } else {
+import net.minecraft.world.level.levelgen.feature.SimpleBlockFeature;
+//? }
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.placement.BiomeFilter;
 import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
@@ -31,34 +35,46 @@ import static eu.midnightdust.motschen.rocks.RocksMain.sticksByType;
 import static eu.midnightdust.motschen.rocks.util.RegistryUtil.register;
 
 public class StickFeatures {
-    private static final Map<StickType, ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = new HashMap<>();
+    //? if <=26.2 {
+    /*private static final Map<StickType, ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = new HashMap<>();
+     *///? } else {
+    private static final Map<StickType, Feature> CONFIGURED_FEATURES = new HashMap<>();
+    //? }
 
     public static List<PlacementModifier> getModifiers(int count, int rarity, Block... groundBlocks) {
         return List.of(CountPlacement.of(count), RarityFilter.onAverageOnceEvery(rarity),
                 InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome(),
                 BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0),
-                        groundBlocks))));
+                        List.of(groundBlocks)))));
     }
     public static List<PlacementModifier> getNetherModifiers(int count, int rarity, Block... groundBlocks) {
         return List.of(CountPlacement.of(count), RarityFilter.onAverageOnceEvery(rarity),
                 InSquarePlacement.spread(), PlacementUtils.FULL_RANGE, BiomeFilter.biome(),
                 BlockPredicateFilter.forPredicate(BlockPredicate.allOf(BlockPredicate.ONLY_IN_AIR_PREDICATE, BlockPredicate.matchesBlocks(new Vec3i(0, -1, 0),
-                        groundBlocks))));
+                        List.of(groundBlocks)))));
     }
 
     public static void init() {
         for (StickType type : StickType.values()) {
-            ConfiguredFeature<?, ?> STICK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
+            //? if <=26.2 {
+            /*ConfiguredFeature<?, ?> STICK_FEATURE = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
+             *///? } else {
+            Feature STICK_FEATURE = new SimpleBlockFeature(
+            //? }
                     new WeightedStateProvider(WeightedList.<BlockState>builder()
                             .add(sticksByType.get(type).defaultBlockState().setValue(STICK_VARIATION, StickVariation.SMALL), 7)
                             .add(sticksByType.get(type).defaultBlockState().setValue(STICK_VARIATION, StickVariation.MEDIUM), 5)
-                            .add(sticksByType.get(type).defaultBlockState().setValue(STICK_VARIATION, StickVariation.LARGE), 1).build()))
+                            .add(sticksByType.get(type).defaultBlockState().setValue(STICK_VARIATION, StickVariation.LARGE), 1).build())/*? if <=26.2 {*//*)*//*?}*/
             );
             CONFIGURED_FEATURES.put(type, STICK_FEATURE);
         }
     }
 
-    public static void initConfigured(BootstrapContext<ConfiguredFeature<?, ?>> context) {
+    //? if <=26.2 {
+    /*public static void initConfigured(BootstrapContext<ConfiguredFeature<?, ?>> context) {
+     *///? } else {
+    public static void initConfigured(BootstrapContext<Feature> context) {
+        //? }
         for (StickType type : StickType.values()) {
             register(context, type.getName()+"_stick", CONFIGURED_FEATURES.get(type));
         }
